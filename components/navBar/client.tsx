@@ -138,7 +138,7 @@ function NavBarClient(props: { session: Session | null }) {
           </Badge>
         </div>
       </div>
-      <div hidden={!openSearch}>
+      <div className="md:!hidden" hidden={!openSearch}>
         <Suspense
           fallback={
             <Search
