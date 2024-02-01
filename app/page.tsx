@@ -6,6 +6,7 @@ import carousel1 from "@/public/images/carousel1.jpg";
 import carousel2 from "@/public/images/carousel2.jpg";
 import carousel3 from "@/public/images/carousel3.jpg";
 import Link from "next/link";
+import React from "react";
 
 type MenuItem = Required<MenuProps>["items"][number];
 function getItem(
@@ -54,31 +55,31 @@ export default function Home() {
   const news = [
     {
       link: "/news/1",
-      title: "消息"
+      title: "消息1"
     },
     {
-      link: "/news/1",
-      title: "消息"
+      link: "/news/2",
+      title: "消息2"
     },
     {
-      link: "/news/1",
-      title: "消息"
+      link: "/news/3",
+      title: "消息3"
     },
     {
-      link: "/news/1",
-      title: "消息"
+      link: "/news/4",
+      title: "消息4"
     },
     {
-      link: "/news/1",
-      title: "消息"
+      link: "/news/5",
+      title: "消息5"
     },
     {
-      link: "/news/1",
-      title: "消息"
+      link: "/news/6",
+      title: "消息6"
     },
     {
-      link: "/news/1",
-      title: "消息"
+      link: "/news/7",
+      title: "消息7"
     },
   ]
 
@@ -112,12 +113,12 @@ export default function Home() {
           </div>
           {
             news.map((newsItem) => (
-              <>
+              <React.Fragment  key={`news-${newsItem.link}`}>
                 <hr />
                 <div>
                   <Link href={newsItem.link}>{newsItem.title}</Link>
                 </div>
-              </>
+              </React.Fragment>
             ))
           }
         </div>

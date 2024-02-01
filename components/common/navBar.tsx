@@ -5,6 +5,8 @@ import {
   SearchOutlined,
   FormOutlined,
   MenuOutlined,
+  StarOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import { Input, Button, Badge, Drawer } from "antd";
 import { useState } from "react";
@@ -20,26 +22,29 @@ function NavBar() {
     <>
       <Drawer
         placement="left"
-        width="100"
+        width="80"
         closable={true}
         onClose={() => setOpenDrawer(false)}
         open={openDrawer}
         styles={{ body: { padding: "10px" } }}
+        className="[&>div>a]:flex [&>div>a]:flex-col [&>div>a]:items-center [&>div>a]:justify-center [&>div>a]:text-black [&>div>a]:aspect-square"
       >
-        <div>
-          <Button
-            type="text"
-            icon={<UserOutlined style={{ color: "black" }} />}
-            size={"large"}
-          />
+        <Link href="/login">
+          <UserOutlined style={{ color: "black" }} />
           <div>登入</div>
-        </div>
-
-        <Button
-          type="text"
-          icon={<SearchOutlined style={{ color: "black" }} />}
-          size={"large"}
-        />
+        </Link>
+        <Link href="/search">
+          <SearchOutlined style={{ color: "black" }} />
+          <div>搜索</div>
+        </Link>
+        <Link href="/">
+          <StarOutlined style={{ color: "black" }} />
+          <div>首頁</div>
+        </Link>
+        <Link href="/setting">
+          <SettingOutlined style={{ color: "black" }} />
+          <div>設置</div>
+        </Link>
       </Drawer>
       <div className="h-[56px] md:h-24 w-full gap-8 px-4 py-3 flex items-center justify-between md:justify-around bg-zinc-100 md:bg-transparent">
         <div className="h-full flex gap-4">
