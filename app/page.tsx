@@ -1,99 +1,58 @@
 "use client";
-import { Carousel, Menu, MenuProps } from "antd";
-import { MailTwoTone, MailOutlined } from "@ant-design/icons";
+import { Carousel, FloatButton } from "antd";
+import { MailOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import carousel1 from "@/public/images/carousel1.jpg";
 import carousel2 from "@/public/images/carousel2.jpg";
 import carousel3 from "@/public/images/carousel3.jpg";
 import Link from "next/link";
 import React from "react";
-
-type MenuItem = Required<MenuProps>["items"][number];
-function getItem(
-  label: React.ReactNode,
-  key?: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-  type?: "group"
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  } as MenuItem;
-}
+import SideMenu from "@/components/common/sideMenu";
+import { SmallItemCard, ItemCardVertical } from "@/components/common/itemCard";
 
 export default function Home() {
-  const items: MenuItem[] = [
-    getItem("新品選購", "Sub0", <MailTwoTone />),
-
-    getItem("限時優惠", "Sub1", <MailTwoTone />, [
-      getItem(<Link href={"/category/1"}>滑鼠限時優惠</Link>),
-      getItem(<Link href={"/category/2"}>鍵盤限時優惠</Link>),
-      getItem(<Link href={"/category/3"}>耳機限時優惠</Link>),
-    ]),
-
-    getItem("電腦組件", "Sub2", <MailTwoTone />, [
-      getItem("處理器", "item0"),
-      getItem("主機板", "item1"),
-      getItem("記憶體", "item2"),
-      getItem("顯示卡", "item3"),
-      getItem("HDD機械硬盤", "item4"),
-      getItem("SSD固態硬碟", "item5"),
-      getItem("水冷散熱器", "item6"),
-      getItem("風冷散熱器", "item7"),
-      getItem("電源/火牛", "item8"),
-      getItem("機箱", "item9"),
-      getItem("作業系統/軟件", "item10"),
-      getItem("準系統", "item11"),
-      getItem("線材及工具", "item12"),
-    ]),
-  ];
-
   const news = [
     {
       link: "/news/1",
-      title: "消息1"
+      title: "消息1",
     },
     {
       link: "/news/2",
-      title: "消息2"
+      title: "消息2",
     },
     {
       link: "/news/3",
-      title: "消息3"
+      title: "消息3",
     },
     {
       link: "/news/4",
-      title: "消息4"
+      title: "消息4",
     },
     {
       link: "/news/5",
-      title: "消息5"
+      title: "消息5",
     },
-    {
-      link: "/news/6",
-      title: "消息6"
-    },
-    {
-      link: "/news/7",
-      title: "消息7"
-    },
-  ]
+  ];
+
+  const items: Item[] = [];
+  for (let i = 0; i < 10; i++)
+    items.push({
+      id: "1",
+      name: "Donald Fong",
+      image: "/logo.png",
+      markedPrice: 145,
+      sellingPrice: 123,
+      quantity: 1,
+    });
 
   return (
     <main className="flex flex-col md:mt-4">
-      <div className="md:grid md:grid-cols-12 gap-1">
-        <div className="hidden md:block col-start-3 col-span-2">
-          <Menu
-            mode="vertical"
-            items={items}
-            className="border border-solid border-zinc-200"
-          />
+      <FloatButton icon={<QuestionCircleOutlined />} type="primary" />
+      <div className="md:grid md:grid-cols-10 gap-2">
+        <div className="hidden md:block md:col-start-2 col-span-2">
+          <SideMenu />
         </div>
-        <div className="col-start-5 col-span-4">
+        <div className="col-start-4 md:col-span-4">
           <Carousel autoplay>
             <div className="w-full h-auto">
               <Image src={carousel1} alt="Image" />
@@ -106,21 +65,26 @@ export default function Home() {
             </div>
           </Carousel>
         </div>
-        <div className="hidden md:flex col-start-9 col-span-2 flex-col border border-zinc-200 [&>div]:p-2 [&>hr]:w-[90%] [&>hr]:self-center">
+        <div className="flex md:col-start-8 col-span-2 flex-col border border-zinc-200 [&>div]:p-2 [&>hr]:w-[90%] [&>hr]:self-center">
           <div className="text-xl font-black">
             最新消息
             <MailOutlined className="ml-1" />
           </div>
-          {
-            news.map((newsItem) => (
-              <React.Fragment  key={`news-${newsItem.link}`}>
-                <hr />
-                <div>
-                  <Link href={newsItem.link}>{newsItem.title}</Link>
-                </div>
-              </React.Fragment>
-            ))
-          }
+          {news.map((newsItem) => (
+            <React.Fragment key={`news-${newsItem.link}`}>
+              <hr />
+              <div>
+                <Link href={newsItem.link}>{newsItem.title}</Link>
+              </div>
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col items-center">
+        <div className="md:w-[80%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
+          {items.map((item, index) => (
+            <ItemCardVertical item={item} key={`item${index}-${item.id}`} />
+          ))}
         </div>
       </div>
     </main>

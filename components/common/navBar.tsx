@@ -13,13 +13,37 @@ import { useState } from "react";
 import logo from "@/public/logo.png";
 import Image from "next/image";
 import Link from "next/link";
+import { SmallItemCard } from "./itemCard";
+import { useCart } from "@/providers/CartProvider";
+import useBigScreen from "@/utils/hooks/windowSize";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const { Search } = Input;
 
 function NavBar() {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [openCart, setOpenCart] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
+  const isBigScreen = useBigScreen();
+  const cartContext = useCart();
+  const router = useRouter();
+  const params = useSearchParams();
+
   return (
     <>
+      <Drawer
+        title="購物車"
+        placement="right"
+        width={isBigScreen ? "400" : "200"}
+        closable={true}
+        onClose={() => setOpenCart(false)}
+        open={openCart}
+        styles={{ body: { padding: "10px" } }}
+      >
+        {cartContext?.cart.map((item) => (
+          <SmallItemCard item={item} key={item.id} />
+        ))}
+      </Drawer>
       <Drawer
         placement="left"
         width="80"
@@ -46,7 +70,7 @@ function NavBar() {
           <div>設置</div>
         </Link>
       </Drawer>
-      <div className="h-[56px] md:h-24 w-full gap-8 px-4 py-3 flex items-center justify-between md:justify-around bg-zinc-100 md:bg-transparent">
+      <div className="z-0 h-[56px] md:h-24 w-full gap-8 px-4 py-3 flex items-center justify-between md:justify-around bg-zinc-100 md:bg-transparent">
         <div className="h-full flex gap-4">
           <Button
             type="text"
@@ -61,9 +85,13 @@ function NavBar() {
         </div>
         <Search
           placeholder="Search"
+          defaultValue={params.get("keyword") ?? ""}
           enterButton
           size="large"
           loading={false}
+          onSearch={(data) => {
+            if (data.length > 0) router.push(`/search?keyword=${data}`);
+          }}
           className="max-w-[40%] !hidden md:!block"
         />
         <div className="flex gap-4">
@@ -72,6 +100,7 @@ function NavBar() {
             icon={<SearchOutlined style={{ color: "black" }} />}
             size={"large"}
             className="md:!hidden"
+            onClick={() => setOpenSearch(!openSearch)}
           />
           <Badge count={1}>
             <Button
@@ -79,9 +108,21 @@ function NavBar() {
               icon={<ShoppingCartOutlined />}
               size={"large"}
               className="md:!bg-green-500 md:hover:!bg-green-600 md:active:!bg-green-600 md:!text-white"
+              onClick={() => setOpenCart(true)}
             />
           </Badge>
         </div>
+      </div>
+      <div hidden={!openSearch}>
+        <Search
+          placeholder="Search"
+          defaultValue={params.get("keyword") ?? ""}
+          allowClear
+          size="large"
+          onSearch={(data) => {
+            if (data.length > 0) router.push(`/search?keyword=${data}`);
+          }}
+        />
       </div>
       <div className="h-[3rem] w-full mt-4 bg-zinc-700 gap-4 px-4 hidden md:flex items-center justify-around">
         <div className="flex h-full [&>a]:flex [&>a]:h-full [&>a]:items-center [&>a]:px-6">

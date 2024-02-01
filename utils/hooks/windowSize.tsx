@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 
-function useBigWindow() {
+function useBigScreen() {
   const [width, setWidth] = useState(769);
   const breakpoint = 768;
   useEffect(() => {
@@ -15,4 +15,4 @@ function useBigWindow() {
   return width > breakpoint;
 }
 
-export default useBigWindow;
+export default useBigScreen;
