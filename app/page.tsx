@@ -8,7 +8,7 @@ import carousel3 from "@/public/images/carousel3.jpg";
 import Link from "next/link";
 import React from "react";
 import SideMenu from "@/components/common/sideMenu";
-import { SmallItemCard, ItemCardVertical } from "@/components/common/itemCard";
+import { ItemCardVertical } from "@/components/common/itemCard";
 
 export default function Home() {
   const news = [

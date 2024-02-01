@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import NavBar from "@/components/common/navBar";
+import NavBar from "@/components/navBar/server";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import "./globals.css";
 
