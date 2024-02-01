@@ -9,7 +9,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { Input, Button, Badge, Drawer } from "antd";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import logo from "@/public/logo.png";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,6 +20,24 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 const { Search } = Input;
 
+function SearchBar(params: { className?: string }) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  return (
+    <Search
+      placeholder="Search"
+      defaultValue={searchParams.get("keyword") ?? ""}
+      enterButton
+      size="large"
+      loading={false}
+      onSearch={(data) => {
+        if (data.length > 0) router.push(`/search?keyword=${data}`);
+      }}
+      className={params.className}
+    />
+  );
+}
+
 function NavBar() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openCart, setOpenCart] = useState(false);
@@ -27,7 +45,6 @@ function NavBar() {
   const isBigScreen = useBigScreen();
   const cartContext = useCart();
   const router = useRouter();
-  const params = useSearchParams();
 
   return (
     <>
@@ -83,17 +100,23 @@ function NavBar() {
             <Image src={logo} alt="ERP Shop" className="h-full w-auto" />
           </Link>
         </div>
-        <Search
-          placeholder="Search"
-          defaultValue={params.get("keyword") ?? ""}
-          enterButton
-          size="large"
-          loading={false}
-          onSearch={(data) => {
-            if (data.length > 0) router.push(`/search?keyword=${data}`);
-          }}
-          className="max-w-[40%] !hidden md:!block"
-        />
+        <Suspense
+          fallback={
+            <Search
+              placeholder="Search"
+              enterButton
+              size="large"
+              loading={false}
+              onSearch={(data) => {
+                if (data.length > 0) router.push(`/search?keyword=${data}`);
+              }}
+              className="max-w-[40%] !hidden md:!block"
+            />
+          }
+        >
+          <SearchBar className="max-w-[40%] !hidden md:!block" />
+        </Suspense>
+
         <div className="flex gap-4">
           <Button
             type="text"
@@ -114,15 +137,21 @@ function NavBar() {
         </div>
       </div>
       <div hidden={!openSearch}>
-        <Search
-          placeholder="Search"
-          defaultValue={params.get("keyword") ?? ""}
-          allowClear
-          size="large"
-          onSearch={(data) => {
-            if (data.length > 0) router.push(`/search?keyword=${data}`);
-          }}
-        />
+        <Suspense
+          fallback={
+            <Search
+              placeholder="Search"
+              enterButton
+              size="large"
+              loading={false}
+              onSearch={(data) => {
+                if (data.length > 0) router.push(`/search?keyword=${data}`);
+              }}
+            />
+          }
+        >
+          <SearchBar />
+        </Suspense>
       </div>
       <div className="h-[3rem] w-full mt-4 bg-zinc-700 gap-4 px-4 hidden md:flex items-center justify-around">
         <div className="flex h-full [&>a]:flex [&>a]:h-full [&>a]:items-center [&>a]:px-6">

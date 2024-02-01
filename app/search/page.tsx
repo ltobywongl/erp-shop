@@ -1,5 +1,5 @@
 import SideMenu from "@/components/common/sideMenu";
-import { HomeOutlined, UserOutlined } from "@ant-design/icons";
+import { HomeOutlined } from "@ant-design/icons";
 import { BreadcrumbItemType } from "antd/es/breadcrumb/Breadcrumb";
 import { Breadcrumb } from "antd";
 import { ItemCardVertical } from "@/components/common/itemCard";
