@@ -157,7 +157,7 @@ function NavBarClient(props: { session: Session | null }) {
       </div>
       <div className="h-[3rem] w-full mt-4 bg-zinc-700 gap-4 px-4 hidden md:flex items-center justify-around">
         <div className="flex h-full [&>a]:flex [&>a]:h-full [&>a]:items-center [&>a]:px-6">
-          <Link passHref={true} href="/" className="bg-red-500 text-white">
+          <Link href="/" className="bg-red-500 text-white">
             首頁
           </Link>
           <Link href="/category/0" className="text-zinc-200">
