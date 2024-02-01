@@ -1,7 +1,7 @@
 export default function NotFound() {
   return (
-    <main className="flex flex-col items-center">
+    <h1 className="text-center text-xl text-bold mt-8">
       冇呢個網址!
-    </main>
+    </h1>
   );
 }
