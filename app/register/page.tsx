@@ -1,13 +1,13 @@
 "use client";
 
 import { useForm, SubmitHandler } from "react-hook-form";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "antd";
 
 type Inputs = {
   email: string;
+  name: string;
   password: string;
 };
 
@@ -19,24 +19,26 @@ export default function Login() {
   } = useForm<Inputs>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
   const router = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
-    const res = await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      redirect: false,
-      callbackUrl: "/",
+    const res = await fetch("/api/register", {
+      method: "POST",
+      body: JSON.stringify({
+        email: data.email,
+        name: data.name,
+        password: data.password,
+      }),
     });
     setLoading(false);
-    if (res?.error) {
+    if (!res?.ok) {
+      const response = await res?.json();
+      setMessage(response.message);
       setError(true);
     } else {
-      if (res?.url) {
-        await router.push(res.url);
-        router.refresh();
-      }
+      await router.push("/login");
     }
   };
 
@@ -56,13 +58,19 @@ export default function Login() {
             required: true,
             pattern: {
               value: /\S+@\S+\.\S+/,
-              message: "Entered value does not match email format",
+              message: "Please input an email",
             },
           })}
         />
-        {errors.email && (
-          <div className="text-red-500 text-sm">{errors.email.message}</div>
-        )}
+        {errors.email && <div className="text-red-500 text-sm">{errors.email.message}</div>}
+        名稱
+        <input
+          className="mb-1 p-1 rounded-sm border border-solid"
+          {...register("name", {
+            required: true,
+          })}
+        />
+        {errors.name && <div className="text-red-500 text-sm">{errors.name.message}</div>}
         密碼
         <input
           className="p-1 rounded-sm border border-solid"
@@ -71,18 +79,17 @@ export default function Login() {
             required: true,
           })}
         />
-        {errors.password && (
-          <div className="text-red-500 text-sm">{errors.password.message}</div>
-        )}
+        {errors.password && <div className="text-red-500 text-sm">{errors.password.message}</div>}
         <Button
           className="mt-4"
           loading={loading}
           type="primary"
           htmlType="submit"
         >
-          登入
+          註冊
         </Button>
-        {error && <div className="text-red-500">Invalid email/password</div>}
+        {error && <div className="text-red-500 text-sm">Register Failed</div>}
+        {error && <div className="text-red-500 text-sm">{message}</div>}
       </form>
     </div>
   );

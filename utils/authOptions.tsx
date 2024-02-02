@@ -6,21 +6,29 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "username" },
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "example@example.com",
+        },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
         if (!credentials) return null;
-        return {
-          id: credentials.username,
-          name: credentials.username,
-          email: "tohongwong@gmail.com",
-        };
-        // const user = await res.json();
-        // if (res.ok && user) {
-        //   return user;
-        // }
-        // return null;
+        const res = await fetch(`${process.env.NEXTAUTH_URL || "http://localhost:3000"}/api/login`, {
+          method: "POST",
+          body: JSON.stringify({
+            email: credentials.email,
+            password: credentials.password,
+          }),
+        });
+        const loginResponse = await res.json();
+        console.log(loginResponse);
+        if (res.ok && loginResponse.user) {
+          return loginResponse.user;
+        }
+
+        return null;
       },
     }),
   ],
@@ -38,7 +46,6 @@ export const authOptions: NextAuthOptions = {
       session.user.id = token.user.id;
       session.user.name = token.user.name;
       session.user.email = token.user.email;
-      session.user.role = token.user.role;
       delete session.user.image;
       return session;
     },
