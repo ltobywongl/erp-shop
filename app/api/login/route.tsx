@@ -7,7 +7,6 @@ const prisma = new PrismaClient();
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
     const body: UserLogin = await req.json();
-    console.log(body);
 
     if (!body.email || !body.password)
       return NextResponse.json(
@@ -20,8 +19,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
         email: body.email,
       },
     });
-
-    console.log(loginUser);
 
     if (!loginUser)
       return NextResponse.json(

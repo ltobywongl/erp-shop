@@ -23,7 +23,6 @@ export const authOptions: NextAuthOptions = {
           }),
         });
         const loginResponse = await res.json();
-        console.log(loginResponse);
         if (res.ok && loginResponse.user) {
           return loginResponse.user;
         }
