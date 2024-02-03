@@ -1,6 +1,8 @@
+"use client";
 import { toPrice } from "@/utils/string";
 import Image from "next/image";
 import Link from "next/link";
+import { Badge } from "antd";
 
 function SmallItemCard(props: { item: Item }) {
   const item = props.item;
@@ -19,7 +21,10 @@ function SmallItemCard(props: { item: Item }) {
 
 function ItemCardVertical(props: { item: Item }) {
   const item = props.item;
-  return (
+  const showRibbon: boolean =
+    item.markedPrice !== undefined && item.sellingPrice !== item.markedPrice;
+
+  const main = (
     <div className="flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
       <Link href={`/item/${item.id}`} className="w-[20%] md:w-full">
         <Image
@@ -43,7 +48,8 @@ function ItemCardVertical(props: { item: Item }) {
           <span className="font-bold md:font-normal ml-1 md:ml-0">
             {toPrice(item.sellingPrice)}
           </span>
-          {item.markedPrice && item.sellingPrice !== item.markedPrice ? (
+          {item.markedPrice !== undefined &&
+          item.sellingPrice !== item.markedPrice ? (
             <span className="hidden md:inline text-zinc-500 line-through ml-1 text-xs">
               ${toPrice(item.markedPrice)}
             </span>
@@ -52,6 +58,18 @@ function ItemCardVertical(props: { item: Item }) {
       </div>
     </div>
   );
+
+  if (showRibbon && item.markedPrice !== undefined) {
+    const percentageDiff = Math.round(
+      (100 * (item.sellingPrice - item.markedPrice)) / item.markedPrice
+    ).toString();
+    return (
+      <Badge.Ribbon text={`${percentageDiff}%`} color="red">
+        {main}
+      </Badge.Ribbon>
+    );
+  }
+  return main;
 }
 
 export { SmallItemCard, ItemCardVertical };

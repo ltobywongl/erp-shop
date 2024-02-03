@@ -19,10 +19,10 @@ function Page() {
   for (let i = 0; i < 10; i++)
     items.push({
       id: "1",
-      name: "Donald Fong",
+      name: "28吋 IPS 4K 144Hz 電競顯示器",
       image: "/logo.png",
-      markedPrice: 145,
-      sellingPrice: 123,
+      markedPrice: 1234 + Math.round(Math.random() * 500),
+      sellingPrice: 1234,
       quantity: 1,
     });
 

@@ -7,6 +7,7 @@ import {
   MenuOutlined,
   StarOutlined,
   SettingOutlined,
+  WalletOutlined,
 } from "@ant-design/icons";
 import { Input, Button, Badge, Drawer } from "antd";
 import { Suspense, useState } from "react";
@@ -72,10 +73,24 @@ function NavBarClient(props: { session: Session | null }) {
         styles={{ body: { padding: "10px" } }}
         className="[&>div>a]:flex [&>div>a]:flex-col [&>div>a]:items-center [&>div>a]:justify-center [&>div>a]:text-black [&>div>a]:aspect-square"
       >
-        <Link href="/login">
-          <UserOutlined style={{ color: "black" }} />
-          <div>登入</div>
-        </Link>
+        {props.session ? (
+          <>
+            <Link href="/top-up">
+            <WalletOutlined style={{ color: "black" }} />
+              <div>充值</div>
+            </Link>
+            <div className="flex flex-col items-center justify-center aspect-square">
+              <UserOutlined style={{ color: "black" }} />
+              <button onClick={() => signOut()}>登出</button>
+            </div>
+          </>
+        ) : (
+          <Link href="/login">
+            <UserOutlined style={{ color: "black" }} />
+            <div>登入</div>
+          </Link>
+        )}
+
         <Link href="/search">
           <SearchOutlined style={{ color: "black" }} />
           <div>搜索</div>
@@ -170,10 +185,13 @@ function NavBarClient(props: { session: Session | null }) {
         <div className="flex h-full [&>a]:flex [&>a]:h-full [&>a]:items-center [&>a]:px-6">
           {props.session ? (
             <>
-              <div className="text-zinc-200 flex h-full items-center px-6">
+              <Link
+                href={"/top-up"}
+                className="text-zinc-200 flex h-full items-center px-6"
+              >
                 <UserOutlined className="mr-1" />
                 {props.session.user?.name}
-              </div>
+              </Link>
               <button
                 onClick={() => signOut()}
                 className="text-zinc-200 flex h-full items-center px-6"
