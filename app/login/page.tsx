@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "antd";
+import Link from "next/link";
 
 type Inputs = {
   email: string;
@@ -74,6 +75,7 @@ export default function Login() {
         {errors.password && (
           <div className="text-red-500 text-sm">{errors.password.message}</div>
         )}
+        <Link href="/register" className="mt-1 w-fit text-blue-800 underline">註冊</Link>
         <Button
           className="mt-4"
           loading={loading}
