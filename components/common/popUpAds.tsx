@@ -18,7 +18,7 @@ function PopUpAds() {
       footer={null}
       onCancel={() => setModalOpen(false)}
     >
-      <Image src={poster} alt="" />
+      <Image src={poster} alt="" priority={true} />
     </Modal>
   );
 }

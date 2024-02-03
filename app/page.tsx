@@ -1,4 +1,3 @@
-"use client";
 import { Carousel, FloatButton } from "antd";
 import { MailOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import Image from "next/image";
