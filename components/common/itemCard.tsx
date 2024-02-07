@@ -10,7 +10,7 @@ function SmallItemCard(props: { item: Item }) {
     <div className="flex gap-2">
       <Image src={item.image} alt="" height={50} width={50} />
       <div className="flex flex-col">
-        <Link href={`/item/${item.id}`} className="text-zinc-800">
+        <Link href={`#item-${item.id}`} className="text-zinc-800">
           {item.name}
         </Link>
         <div>{item.sellingPrice}</div>
@@ -26,7 +26,7 @@ function ItemCardVertical(props: { item: Item }) {
 
   const main = (
     <div className="flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
-      <Link href={`/item/${item.id}`} className="w-[20%] md:w-full">
+      <Link href={`#item-${item.id}`} className="w-[20%] md:w-full">
         <Image
           src={item.image}
           alt=""
@@ -37,7 +37,7 @@ function ItemCardVertical(props: { item: Item }) {
       </Link>
       <div className="flex flex-col items-center justify-center ml-4 md:ml-0">
         <Link
-          href={`/item/${item.id}`}
+          href={`#item-${item.id}`}
           className="w-full md:text-center text-zinc-800 font-normal md:font-semibold"
         >
           {item.name}

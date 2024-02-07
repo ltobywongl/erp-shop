@@ -99,7 +99,7 @@ function NavBarClient(props: { session: Session | null }) {
           <StarOutlined style={{ color: "black" }} />
           <div>首頁</div>
         </Link>
-        <Link href="/setting">
+        <Link href="#setting">
           <SettingOutlined style={{ color: "black" }} />
           <div>設置</div>
         </Link>
@@ -175,10 +175,10 @@ function NavBarClient(props: { session: Session | null }) {
           <Link href="/" className="bg-red-500 text-white">
             首頁
           </Link>
-          <Link href="/category/0" className="text-zinc-200">
+          <Link href="#category/0" className="text-zinc-200">
             新品預訂
           </Link>
-          <Link href="/category/4" className="text-zinc-200">
+          <Link href="#category/4" className="text-zinc-200">
             電競裝備
           </Link>
         </div>

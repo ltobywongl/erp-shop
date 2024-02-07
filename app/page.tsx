@@ -13,23 +13,23 @@ import PopUpAds from "@/components/common/popUpAds";
 export default function Home() {
   const news = [
     {
-      link: "/news/1",
+      link: "#news",
       title: "消息1",
     },
     {
-      link: "/news/2",
+      link: "#news",
       title: "消息2",
     },
     {
-      link: "/news/3",
+      link: "#news",
       title: "消息3",
     },
     {
-      link: "/news/4",
+      link: "#news",
       title: "消息4",
     },
     {
-      link: "/news/5",
+      link: "#news",
       title: "消息5",
     },
   ];
