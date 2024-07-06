@@ -1,7 +1,7 @@
 "use client"
 import React from "react";
 import { Menu, MenuProps } from "antd";
-import { MailTwoTone, MailOutlined, StarFilled, PercentageOutlined, ClusterOutlined } from "@ant-design/icons";
+import { StarFilled, PercentageOutlined, ClusterOutlined } from "@ant-design/icons";
 import Link from "next/link";
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -31,9 +31,9 @@ function SideMenu() {
     ),
 
     getItem("限時優惠", "Sub1", <PercentageOutlined style={{ color: "red", fontSize: '20px' }} />, [
-      getItem(<Link href={"/category/1"}>滑鼠限時優惠</Link>, "Sub1-item0"),
-      getItem(<Link href={"/category/2"}>鍵盤限時優惠</Link>, "Sub1-item1"),
-      getItem(<Link href={"/category/3"}>耳機限時優惠</Link>, "Sub1-item2"),
+      getItem(<Link href={"category/1"}>滑鼠限時優惠</Link>, "Sub1-item0"),
+      getItem(<Link href={"category/2"}>鍵盤限時優惠</Link>, "Sub1-item1"),
+      getItem(<Link href={"category/3"}>耳機限時優惠</Link>, "Sub1-item2"),
     ]),
 
     getItem("電腦組件", "Sub2", <ClusterOutlined style={{ color: "yellowgreen", fontSize: '20px' }} />, [
@@ -83,13 +83,29 @@ function SideMenu() {
       getItem("準系統", "Sub4-item11"),
       getItem("線材及工具", "Sub4-item12"),
     ]),
+
+    getItem("電腦組件", "Sub5", <ClusterOutlined style={{ color: "yellowgreen", fontSize: '20px' }} />, [
+      getItem("處理器", "Sub4-item0"),
+      getItem("主機板", "Sub4-item1"),
+      getItem("記憶體", "Sub4-item2"),
+      getItem("顯示卡", "Sub4-item3"),
+      getItem("HDD機械硬盤", "Sub4-item4"),
+      getItem("SSD固態硬碟", "Sub4-item5"),
+      getItem("水冷散熱器", "Sub4-item6"),
+      getItem("風冷散熱器", "Sub4-item7"),
+      getItem("電源/火牛", "Sub4-item8"),
+      getItem("機箱", "Sub4-item9"),
+      getItem("作業系統/軟件", "Sub4-item10"),
+      getItem("準系統", "Sub4-item11"),
+      getItem("線材及工具", "Sub4-item12"),
+    ]),
   ];
 
   return (
     <Menu
       mode="vertical"
       items={items}
-      className="border border-solid border-zinc-200 [&>li]:!flex [&>li]:!items-center"
+      className="border border-solid border-zinc-200 [&>li]:!flex [&>li]:!items-center flex-1"
     />
   );
 }

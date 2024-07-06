@@ -50,7 +50,7 @@ export default function Home() {
       <PopUpAds />
       <FloatButton icon={<QuestionCircleOutlined />} type="primary" />
       <div className="md:grid md:grid-cols-10 gap-2">
-        <div className="hidden md:block md:col-start-2 col-span-2">
+        <div className="hidden md:flex md:flex-col md:col-start-2 col-span-2">
           <SideMenu />
         </div>
         <div className="col-start-4 md:col-span-4">
@@ -71,8 +71,8 @@ export default function Home() {
             最新消息
             <MailOutlined className="ml-1" />
           </div>
-          {news.map((newsItem) => (
-            <React.Fragment key={`news-${newsItem.link}`}>
+          {news.map((newsItem, index) => (
+            <React.Fragment key={`news-${index}`}>
               <hr />
               <div>
                 <Link href={newsItem.link}>{newsItem.title}</Link>
