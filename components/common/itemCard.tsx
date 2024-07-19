@@ -6,34 +6,70 @@ import { Badge } from "antd";
 import { CouponCategory } from "@prisma/client";
 import { useState } from "react";
 import LoadingSpinner from "@/components/common/spinner";
+import { useCart } from "@/utils/cartProvider";
 
-function SmallItemCard(props: { item: Item }) {
+function SmallItemCard(props: { item: Item; className?: string }) {
+  const { addQuantity, reduceQuantity } = useCart();
   const item = props.item;
   return (
-    <div className="flex gap-2">
-      <Image src={item.image} alt="" height={50} width={50} />
+    <div className={`flex gap-2 ${props.className}`}>
+      <Image
+        className="object-contain hidden md:block"
+        src={item.image}
+        alt={`product-${item.id}`}
+        height={50}
+        width={50}
+      />
       <div className="flex flex-col">
-        <Link href={`#item-${item.id}`} className="text-zinc-800">
+        <Link
+          href={`/product/${item.id}`}
+          className="text-zinc-800 md:text-lg break-all"
+        >
           {item.name}
         </Link>
-        <div>{item.sellingPrice}</div>
+        <div>
+          <span className="text-base text-red-400">${item.sellingPrice}</span>
+          {item.markedPrice ? (
+            <span className="line-through text-xs text-zinc-400 ml-1">
+              ${item.markedPrice}
+            </span>
+          ) : null}
+        </div>
+        <div className="flex flex-row">
+          <button
+            className="border bg-red-500 text-white text-lg font-medium px-2 py-1 rounded"
+            onClick={() => reduceQuantity(item)}
+          >
+            -
+          </button>
+          <span className="border px-2 py-1 w-10 text-center content-center hide-arrow">
+            {item.quantity}
+          </span>
+          <button
+            className="border bg-green-500 text-white text-lg font-medium px-2 py-1 rounded"
+            onClick={() => addQuantity(item)}
+          >
+            +
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
 function ItemCardVertical(props: { item: Item }) {
+  const { addToCart } = useCart();
   const item = props.item;
   const showRibbon: boolean =
     item.markedPrice !== undefined && item.sellingPrice !== item.markedPrice;
 
   const main = (
     <div className="flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
-      <Link href={`#item-${item.id}`} className="w-[20%] md:w-full">
+      <Link href={`/product/${item.id}`} className="w-[20%] md:w-full">
         {item.image ? (
           <Image
             src={item.image}
-            alt=""
+            alt={`product-${item.id}`}
             height={400}
             width={400}
             className="aspect-square object-contain !max-h-20 md:!max-h-52"
@@ -41,7 +77,7 @@ function ItemCardVertical(props: { item: Item }) {
         ) : (
           <Image
             src={"/images/fallback.png"}
-            alt=""
+            alt={`product-${item.id}`}
             height={400}
             width={400}
             className="aspect-square object-contain !max-h-20 md:!max-h-52"
@@ -67,6 +103,14 @@ function ItemCardVertical(props: { item: Item }) {
               ${toPrice(item.markedPrice)}
             </span>
           ) : null}
+        </div>
+        <div className="w-full md:text-center">
+          <button
+            className="bg-green-500 text-white text-sm rounded-md font-medium py-1 px-2"
+            onClick={() => addToCart(item)}
+          >
+            加至購物車
+          </button>
         </div>
       </div>
     </div>

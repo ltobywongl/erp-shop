@@ -15,7 +15,7 @@ import logo from "@/public/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { SmallItemCard } from "@/components/common/itemCard";
-import { useCart } from "@/providers/CartProvider";
+import { useCart } from "@/utils/cartProvider";
 import useBigScreen from "@/utils/hooks/windowSize";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Session } from "next-auth";
@@ -54,19 +54,32 @@ function NavBarClient(props: { session: Session | null }) {
       <Drawer
         title="購物車"
         placement="right"
-        width={isBigScreen ? "400" : "200"}
+        width={isBigScreen ? 400 : 220}
         closable={true}
         onClose={() => setOpenCart(false)}
         open={openCart}
         styles={{ body: { padding: "10px" } }}
       >
-        {cartContext?.cart.map((item) => (
-          <SmallItemCard item={item} key={item.id} />
-        ))}
+        <div className="h-5/6 overflow-y-scroll custom-scrollbar border-y">
+          {cartContext?.cart.map((item) => (
+            <SmallItemCard
+              item={item}
+              key={item.id}
+              className="border-b py-2"
+            />
+          ))}
+        </div>
+        <Link
+          href={"/checkout"}
+          className="block w-full text-center mt-2 rounded bg-green-500 py-1 text-white font-bold"
+          onClick={() => setOpenCart(false)}
+        >
+          前往結帳
+        </Link>
       </Drawer>
       <Drawer
         placement="left"
-        width="80"
+        width={80}
         closable={true}
         onClose={() => setOpenDrawer(false)}
         open={openDrawer}
@@ -76,7 +89,7 @@ function NavBarClient(props: { session: Session | null }) {
         {props.session ? (
           <>
             <Link href="/top-up">
-            <WalletOutlined style={{ color: "black" }} />
+              <WalletOutlined style={{ color: "black" }} />
               <div>充值</div>
             </Link>
             <div className="flex flex-col items-center justify-center aspect-square">
@@ -142,7 +155,7 @@ function NavBarClient(props: { session: Session | null }) {
             className="md:!hidden"
             onClick={() => setOpenSearch(!openSearch)}
           />
-          <Badge count={1}>
+          <Badge count={cartContext.cart.length}>
             <Button
               type="text"
               icon={<ShoppingCartOutlined />}
