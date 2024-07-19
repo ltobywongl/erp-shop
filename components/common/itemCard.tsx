@@ -3,6 +3,9 @@ import { toPrice } from "@/utils/string";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "antd";
+import { CouponCategory } from "@prisma/client";
+import { useState } from "react";
+import LoadingSpinner from "@/components/common/spinner";
 
 function SmallItemCard(props: { item: Item }) {
   const item = props.item;
@@ -27,13 +30,23 @@ function ItemCardVertical(props: { item: Item }) {
   const main = (
     <div className="flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
       <Link href={`#item-${item.id}`} className="w-[20%] md:w-full">
-        <Image
-          src={item.image}
-          alt=""
-          height={400}
-          width={400}
-          className="aspect-square object-contain !max-h-20 md:!max-h-52"
-        />
+        {item.image ? (
+          <Image
+            src={item.image}
+            alt=""
+            height={400}
+            width={400}
+            className="aspect-square object-contain !max-h-20 md:!max-h-52"
+          />
+        ) : (
+          <Image
+            src={"/images/fallback.png"}
+            alt=""
+            height={400}
+            width={400}
+            className="aspect-square object-contain !max-h-20 md:!max-h-52"
+          />
+        )}
       </Link>
       <div className="flex flex-col items-center justify-center ml-4 md:ml-0">
         <Link
@@ -72,4 +85,47 @@ function ItemCardVertical(props: { item: Item }) {
   return main;
 }
 
-export { SmallItemCard, ItemCardVertical };
+function ItemCardPoint(props: { item: Partial<CouponCategory> }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const item = props.item;
+
+  async function handleRedeem() {
+    setIsLoading(true);
+    const res = await fetch("/api/coupons/redeem", {
+      method: "POST",
+      body: JSON.stringify({
+        id: item.id,
+      }),
+    });
+    setIsLoading(false);
+
+    if (res.ok) {
+      alert("已換領禮卷");
+    } else {
+      alert("換領失敗,請確定你的積分足夠並重試");
+    }
+  }
+
+  return (
+    <div className="flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
+      <div className="w-[25%] md:w-full border-4 border-double text-xl md:text-2xl text-center font-semibold md:font-bold bg-gradient-radial from-yellow-200 to-yellow-500 p-1 md:p-4 shadow-sm">
+        ${item.value}
+      </div>
+      <div className="flex flex-col items-center justify-center ml-4 md:ml-0">
+        <div className="w-full md:text-center text-red-400">
+          <span className="font-bold ml-1 md:ml-0">{item.point}</span>
+          <span>積分</span>
+        </div>
+        <button
+          className="bg-green-400 text-white rounded-sm py-1 px-3"
+          onClick={() => handleRedeem()}
+          disabled={isLoading}
+        >
+          {isLoading ? <LoadingSpinner /> : "兌換"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export { SmallItemCard, ItemCardVertical, ItemCardPoint };

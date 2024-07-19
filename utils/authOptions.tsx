@@ -1,5 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import prisma from "@/utils/prisma";
+import * as bcrypt from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -14,17 +16,35 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        if (!credentials) return null;
-        const res = await fetch(`${process.env.NEXTAUTH_URL || "http://localhost:3000"}/api/login`, {
-          method: "POST",
-          body: JSON.stringify({
+        if (!credentials?.email || !credentials.password) return null;
+
+        const loginUser = await prisma.user.findFirst({
+          select: {
+            id: true,
+            email: true,
+            username: true,
+            password: true,
+            role: true,
+          },
+          where: {
             email: credentials.email,
-            password: credentials.password,
-          }),
+          },
         });
-        const loginResponse = await res.json();
-        if (res.ok && loginResponse.user) {
-          return loginResponse.user;
+
+        if (!loginUser) return null;
+
+        const passwordCorrect = await bcrypt.compare(
+          credentials.password,
+          loginUser.password
+        );
+
+        if (passwordCorrect) {
+          return {
+            id: loginUser.id,
+            email: loginUser.email,
+            name: loginUser.username,
+            role: loginUser.role,
+          };
         }
 
         return null;
@@ -45,6 +65,7 @@ export const authOptions: NextAuthOptions = {
       session.user.id = token.user.id;
       session.user.name = token.user.name;
       session.user.email = token.user.email;
+      session.user.role = token.user.role;
       delete session.user.image;
       return session;
     },

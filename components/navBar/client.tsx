@@ -175,11 +175,8 @@ function NavBarClient(props: { session: Session | null }) {
           <Link href="/" className="bg-red-500 text-white">
             首頁
           </Link>
-          <Link href="#category/0" className="text-zinc-200">
-            新品預訂
-          </Link>
-          <Link href="#category/4" className="text-zinc-200">
-            電競裝備
+          <Link href="/point-shop" className="text-zinc-200">
+            積分商城
           </Link>
         </div>
         <div className="flex h-full [&>a]:flex [&>a]:h-full [&>a]:items-center [&>a]:px-6">

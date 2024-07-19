@@ -1,39 +1,13 @@
-import { Carousel, FloatButton } from "antd";
-import { MailOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { FloatButton } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import carousel1 from "@/public/images/carousel1.jpg";
-import carousel2 from "@/public/images/carousel2.jpg";
-import carousel3 from "@/public/images/carousel3.jpg";
-import Link from "next/link";
 import React from "react";
 import SideMenu from "@/components/common/sideMenu";
 import { ItemCardVertical } from "@/components/common/itemCard";
 import PopUpAds from "@/components/common/popUpAds";
 
 export default function Home() {
-  const news = [
-    {
-      link: "#news",
-      title: "消息1",
-    },
-    {
-      link: "#news",
-      title: "消息2",
-    },
-    {
-      link: "#news",
-      title: "消息3",
-    },
-    {
-      link: "#news",
-      title: "消息4",
-    },
-    {
-      link: "#news",
-      title: "消息5",
-    },
-  ];
-
   const items: Item[] = [];
   for (let i = 0; i < 10; i++)
     items.push({
@@ -50,35 +24,11 @@ export default function Home() {
       <PopUpAds />
       <FloatButton icon={<QuestionCircleOutlined />} type="primary" />
       <div className="md:grid md:grid-cols-10 gap-2">
-        <div className="hidden md:flex md:flex-col md:col-start-2 col-span-2">
+        <div className="hidden md:flex md:flex-col md:col-start-2 col-span-3">
           <SideMenu />
         </div>
-        <div className="col-start-4 md:col-span-4">
-          <Carousel autoplay>
-            <div className="w-full h-auto">
-              <Image src={carousel1} alt="Image" />
-            </div>
-            <div>
-              <Image src={carousel2} alt="Image" />
-            </div>
-            <div>
-              <Image src={carousel3} alt="Image" />
-            </div>
-          </Carousel>
-        </div>
-        <div className="flex md:col-start-8 col-span-2 flex-col border border-zinc-200 [&>div]:p-2 [&>hr]:w-[90%] [&>hr]:self-center">
-          <div className="text-xl font-black">
-            最新消息
-            <MailOutlined className="ml-1" />
-          </div>
-          {news.map((newsItem, index) => (
-            <React.Fragment key={`news-${index}`}>
-              <hr />
-              <div>
-                <Link href={newsItem.link}>{newsItem.title}</Link>
-              </div>
-            </React.Fragment>
-          ))}
+        <div className="col-start-4 md:col-span-5">
+          <Image src={carousel1} alt="Image" />
         </div>
       </div>
       <div className="flex flex-col items-center">

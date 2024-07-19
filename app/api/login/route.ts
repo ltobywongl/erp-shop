@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/utils/prisma";
 import * as bcrypt from "bcrypt";
-
-const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
@@ -14,7 +12,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
         { status: 400 }
       );
 
-    const loginUser = await prisma.user.findUnique({
+    const loginUser = await prisma.user.findFirst({
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        password: true,
+      },
       where: {
         email: body.email,
       },
@@ -37,7 +41,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         user: {
           id: loginUser.id,
           email: loginUser.email,
-          name: loginUser.name,
+          name: loginUser.username,
         },
       });
     else
