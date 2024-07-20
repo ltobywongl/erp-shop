@@ -34,9 +34,11 @@ function SmallItemCard(props: { item: Item; className?: string }) {
               ${item.markedPrice}
             </span>
           ) : null}
-          <span className="text-red-500 ml-1 text-xs">
-            ({item.couponPoint}積分)
-          </span>
+          {item.couponPoint !== undefined && (
+            <span className="text-red-500 ml-1 text-xs">
+              ({item.couponPoint * item.quantity}積分)
+            </span>
+          )}
         </div>
         <div className="flex flex-row">
           <button

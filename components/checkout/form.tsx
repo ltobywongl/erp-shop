@@ -14,9 +14,9 @@ export default function CheckoutForm({ balance }: { balance: number }) {
   const { totalPrice, totalQuantity, totalPoint } = cartContext?.cart.reduce(
     (acc, item) => {
       return {
-        totalPrice: acc.totalPrice + item.sellingPrice,
+        totalPrice: acc.totalPrice + item.sellingPrice * item.quantity,
         totalQuantity: acc.totalQuantity + item.quantity,
-        totalPoint: acc.totalPoint + (item.couponPoint ?? 0),
+        totalPoint: acc.totalPoint + (item.couponPoint ?? 0) * item.quantity,
       };
     },
     { totalPrice: 0, totalQuantity: 0, totalPoint: 0 }
