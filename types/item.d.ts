@@ -4,5 +4,6 @@ type Item = {
   image: string;
   markedPrice?: number;
   sellingPrice: number;
-  quantity?: number;
+  couponPoint?: number;
+  quantity: number;
 };

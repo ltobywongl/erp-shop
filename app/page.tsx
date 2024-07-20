@@ -17,6 +17,7 @@ export default function Home() {
       markedPrice: 1234 + Math.round(Math.random() * 500),
       sellingPrice: 1234,
       quantity: 1,
+      couponPoint: 1,
     });
 
   return (

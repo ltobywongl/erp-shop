@@ -31,6 +31,7 @@ export async function GET(request: NextRequest) {
       image: true,
       price: true,
       discount: true,
+      couponPoint: true,
       category: {
         select: {
           discount: true,

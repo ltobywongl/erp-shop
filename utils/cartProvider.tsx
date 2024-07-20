@@ -4,7 +4,6 @@ import React, {
   createContext,
   useState,
   useEffect,
-  useCallback,
 } from "react";
 
 const cartContext = createContext<{
@@ -25,19 +24,21 @@ const cartContext = createContext<{
 
 const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<Item[]>([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const cartData = JSON.parse(localStorage.getItem("cart") ?? "[]");
     if (cartData) {
       setCart(cartData);
+      setLoaded(true);
     }
   }, []);
 
   useEffect(() => {
-    if (cart.length > 0) {
+    if (typeof window !== "undefined" && loaded) {
       localStorage.setItem("cart", JSON.stringify(cart));
     }
-  }, [cart]);
+  }, [cart, loaded]);
 
   const addQuantity = (item: Item) => {
     setCart((c) => {
@@ -56,11 +57,14 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setCart((c) => {
       const existingItem = c.find((i) => i.id === item.id);
       if (existingItem) {
-        return c.map((i) =>
+        if (existingItem.quantity === 1) {
+          return [...c].filter((i) => i.id !== item.id);
+        }
+        return [...c].map((i) =>
           i.id === item.id ? { ...i, quantity: (i.quantity || 1) - 1 } : i
         );
       } else {
-        return [...c, { ...item, quantity: 1 }];
+        return [...c];
       }
     });
   };

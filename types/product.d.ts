@@ -4,6 +4,7 @@ type CategoryListProduct = {
   image: string;
   price: number;
   discount: number;
+  couponPoint: number;
   category: {
     discount: number;
   };

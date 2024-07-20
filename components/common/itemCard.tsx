@@ -34,6 +34,9 @@ function SmallItemCard(props: { item: Item; className?: string }) {
               ${item.markedPrice}
             </span>
           ) : null}
+          <span className="text-red-500 ml-1 text-xs">
+            ({item.couponPoint}積分)
+          </span>
         </div>
         <div className="flex flex-row">
           <button
@@ -103,6 +106,9 @@ function ItemCardVertical(props: { item: Item }) {
               ${toPrice(item.markedPrice)}
             </span>
           ) : null}
+          <span className="text-red-500 ml-1 text-xs">
+            ({item.couponPoint}積分)
+          </span>
         </div>
         <div className="w-full md:text-center">
           <button
