@@ -1,7 +1,6 @@
 import { FloatButton } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import Image from "next/image";
-import carousel1 from "@/public/images/carousel1.jpg";
 import React from "react";
 import SideMenu from "@/components/common/sideMenu";
 import { ItemCardVertical } from "@/components/common/itemCard";
@@ -37,13 +36,23 @@ export default async function Home() {
   return (
     <main className="flex flex-col md:mt-4">
       <PopUpAds />
-      <FloatButton icon={<QuestionCircleOutlined />} type="primary" href="/about" />
+      <FloatButton
+        icon={<QuestionCircleOutlined />}
+        type="primary"
+        href="/about"
+      />
       <div className="md:grid md:grid-cols-10 gap-2">
         <div className="hidden md:flex md:flex-col md:col-start-2 col-span-3">
           <SideMenu />
         </div>
         <div className="col-start-4 md:col-span-5">
-          <Image src={carousel1} alt="Image" />
+          <Image
+            src="https://erp-shop-public.s3.ap-northeast-1.amazonaws.com/images/banner.jpg"
+            className="w-full h-auto object-cover"
+            width={600}
+            height={600}
+            alt="Image"
+          />
         </div>
       </div>
       <div className="flex flex-col items-center mt-2">
@@ -51,17 +60,20 @@ export default async function Home() {
         <hr className="my-1 w-full md:w-4/5" />
         <div className="md:w-[80%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
           {items.map((item, index) => (
-            <ItemCardVertical item={{
-              id: item.id,
-              name: item.name,
-              image: item.image ?? "",
-              markedPrice: item.price,
-              sellingPrice:
-                item.price - item.discount - item.category.discount,
-              quantity: 1,
-              stock: item.stock,
-              couponPoint: item.couponPoint,
-            }} key={`item${index}-${item.id}`} />
+            <ItemCardVertical
+              item={{
+                id: item.id,
+                name: item.name,
+                image: item.image ?? "",
+                markedPrice: item.price,
+                sellingPrice:
+                  item.price - item.discount - item.category.discount,
+                quantity: 1,
+                stock: item.stock,
+                couponPoint: item.couponPoint,
+              }}
+              key={`item${index}-${item.id}`}
+            />
           ))}
         </div>
       </div>

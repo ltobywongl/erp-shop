@@ -1,7 +1,6 @@
 "use client";
 import Modal from "antd/es/modal";
 import { useEffect, useState } from "react";
-import poster from "@/public/images/poster.jpg";
 import Image from "next/image";
 
 function PopUpAds() {
@@ -18,7 +17,7 @@ function PopUpAds() {
       footer={null}
       onCancel={() => setModalOpen(false)}
     >
-      <Image src={poster} alt="" priority={true} />
+      <Image src="https://erp-shop-public.s3.ap-northeast-1.amazonaws.com/images/popup.jpg" width={600} height={600} alt="" priority={true} />
     </Modal>
   );
 }

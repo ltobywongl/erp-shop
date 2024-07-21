@@ -1,4 +1,16 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    images: {
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "erp-shop-public.s3.ap-northeast-1.amazonaws.com",
+          port: "",
+          pathname: "*/**",
+        },
+      ],
+      minimumCacheTTL: 5,
+    },
+  };
 
 export default nextConfig;
