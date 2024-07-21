@@ -45,6 +45,7 @@ export default function CheckoutForm({
     if (!response.ok) {
       setError(data.error);
     } else {
+      cartContext.setcart([]);
       router.push("/");
     }
     setIsLoading(false);
@@ -80,7 +81,6 @@ export default function CheckoutForm({
               name="coupon"
               className="block w-full border border-[#d9d9d9] px-3 py-1 rounded"
               onChange={(e) => handleCoupon(e)}
-              required
             >
               <option value="">不使用優惠卷</option>
               {coupons?.map((coupon) => {

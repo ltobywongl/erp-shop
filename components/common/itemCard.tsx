@@ -7,6 +7,7 @@ import { CouponCategory } from "@prisma/client";
 import { useState } from "react";
 import LoadingSpinner from "@/components/common/spinner";
 import { useCart } from "@/utils/cartProvider";
+import { useRouter } from "next/navigation";
 
 function SmallItemCard(props: { item: Item; className?: string }) {
   const { addQuantity, reduceQuantity } = useCart();
@@ -113,7 +114,9 @@ function ItemCardVertical(props: { item: Item }) {
             ({item.couponPoint}積分)
           </span>
         </div>
-        <div className="w-full md:text-center text-xs text-zinc-500">剩餘{item.stock}件商品</div>
+        <div className="w-full md:text-center text-xs text-zinc-500">
+          剩餘{item.stock}件商品
+        </div>
         <div className="w-full md:text-center">
           <button
             className="bg-green-500 text-white text-sm rounded-md font-medium py-1 px-2"
@@ -140,6 +143,7 @@ function ItemCardVertical(props: { item: Item }) {
 }
 
 function ItemCardPoint(props: { item: Partial<CouponCategory> }) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const item = props.item;
 
@@ -158,6 +162,7 @@ function ItemCardPoint(props: { item: Partial<CouponCategory> }) {
     } else {
       alert("換領失敗,請確定你的積分足夠並重試");
     }
+    router.refresh();
   }
 
   return (
@@ -182,4 +187,27 @@ function ItemCardPoint(props: { item: Partial<CouponCategory> }) {
   );
 }
 
-export { SmallItemCard, ItemCardVertical, ItemCardPoint };
+function ItemCardPointReadOnly(props: { item: Partial<CouponCategory> }) {
+  const item = props.item;
+
+  return (
+    <div className="flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
+      <div className="w-[25%] md:w-full border-4 border-double text-xl md:text-2xl text-center font-semibold md:font-bold bg-gradient-radial from-yellow-200 to-yellow-500 p-1 md:p-4 shadow-sm">
+        ${item.value}
+      </div>
+      <div className="flex flex-col items-center justify-center ml-4 md:ml-0">
+        <div className="w-full md:text-center text-red-400">
+          <span className="font-bold ml-1 md:ml-0">{item.point}</span>
+          <span>積分</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export {
+  SmallItemCard,
+  ItemCardVertical,
+  ItemCardPoint,
+  ItemCardPointReadOnly,
+};

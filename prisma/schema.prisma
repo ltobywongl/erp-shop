@@ -56,7 +56,7 @@ model CouponCategory {
   id          String    @id @db.VarChar(36)
   name        String?   @db.VarChar(20)
   description String?   @db.VarChar(255)
-  imagePath   String?   @db.VarChar(255)
+  imagePath   String?   @map("image_path") @db.VarChar(255)
   point       Int
   value       Float
   active      Boolean   @default(false)
@@ -81,9 +81,11 @@ model Enquiry {
 
 model OrderItem {
   id        String   @id @db.VarChar(36)
+  orderId   String   @map("order_id") @db.VarChar(36)
   productId String   @map("product_id") @db.VarChar(36)
   quantity  Int
   createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "order_items_orders_FK")
   product   Product  @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "order_items_products_FK")
 
   @@index([productId], map: "order_items_products_FK")
@@ -91,19 +93,20 @@ model OrderItem {
 }
 
 model Order {
-  id              String    @id @db.VarChar(36)
-  userId          String    @map("user_id") @db.VarChar(36)
-  totalPrice      Float     @map("total_price")
-  couponId        String?   @map("coupon_id") @db.VarChar(36)
-  paymentId       String?   @map("payment_path") @db.VarChar(36)
-  receiverName    String?   @map("receiver_name") @db.VarChar(100)
-  receiverAddress String?   @map("receiver_address") @db.VarChar(255)
-  approved        Boolean   @default(false)
-  createdAt       DateTime  @default(now()) @map("created_at") @db.DateTime(0)
-  deletedAt       DateTime? @map("deleted_at") @db.DateTime(0)
-  user            User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_users_FK")
-  coupon          Coupon?   @relation(fields: [couponId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_coupons_FK")
-  topup           Topup?    @relation(fields: [paymentId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_topups_FK")
+  id              String      @id @db.VarChar(36)
+  userId          String      @map("user_id") @db.VarChar(36)
+  totalPrice      Float       @map("total_price")
+  couponId        String?     @map("coupon_id") @db.VarChar(36)
+  paymentId       String?     @map("payment_id") @db.VarChar(36)
+  receiverName    String?     @map("receiver_name") @db.VarChar(100)
+  receiverAddress String?     @map("receiver_address") @db.VarChar(255)
+  approved        Boolean     @default(false)
+  createdAt       DateTime    @default(now()) @map("created_at") @db.DateTime(0)
+  deletedAt       DateTime?   @map("deleted_at") @db.DateTime(0)
+  user            User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_users_FK")
+  coupon          Coupon?     @relation(fields: [couponId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_coupons_FK")
+  topup           Topup?      @relation(fields: [paymentId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_topups_FK")
+  orderItem       OrderItem[]
 
   @@index([userId], map: "orders_users_FK")
   @@map("orders")

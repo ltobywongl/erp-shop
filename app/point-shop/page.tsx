@@ -23,13 +23,18 @@ async function Page() {
     })) as Partial<CouponCategory>[];
 
     const user = await prisma.user.findUnique({
+      select: {
+        couponPoints: true,
+      },
       where: {
         id: session.user.id,
       },
     });
     return (
       <div className="m-3 md:m-6">
-        <div className="p-2 md:p-3 border w-fit font-bold">現有積分: {user?.couponPoints ?? 0}</div>
+        <div className="p-2 md:p-3 border w-fit font-bold">
+          現有積分: {user?.couponPoints ?? 0}
+        </div>
         <PointShopPage point={user?.couponPoints} items={items} />
       </div>
     );

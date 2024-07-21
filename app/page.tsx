@@ -37,7 +37,7 @@ export default async function Home() {
   return (
     <main className="flex flex-col md:mt-4">
       <PopUpAds />
-      <FloatButton icon={<QuestionCircleOutlined />} type="primary" />
+      <FloatButton icon={<QuestionCircleOutlined />} type="primary" href="/about" />
       <div className="md:grid md:grid-cols-10 gap-2">
         <div className="hidden md:flex md:flex-col md:col-start-2 col-span-3">
           <SideMenu />
