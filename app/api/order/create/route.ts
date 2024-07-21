@@ -1,6 +1,7 @@
 import { authOptions } from "@/utils/authOptions";
 import { errorResponse, successResponse } from "@/utils/httpResponse";
 import prisma from "@/utils/prisma";
+import { uploadBlob } from "@/utils/s3";
 import { getServerSession } from "next-auth/next";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuid } from "uuid";
@@ -129,24 +130,16 @@ export async function POST(request: NextRequest) {
     ) {
       return errorResponse("餘額不足", 400);
     }
-
-    console.log(needToTopup, {
-      id: uuid(),
-      userId: user.id,
-      totalPrice: totalPrice,
-      couponId: formData.coupon == "" ? null : formData.coupon?.toString(),
-      paymentId: "paymentId",
-      receiverName: formData.name as string,
-      receiverAddress: formData.address as string,
-    });
-
+    const file = formData.transfer as File;
+    
     await prisma.$transaction(async (tx) => {
       if (needToTopup) {
-        //TODO: upload transfer to s3 & create payment
         const fileUUID = uuid();
         const paymentId = uuid();
         const orderId = uuid();
-        const path = `/orders/payments/${user.id}/${fileUUID}`;
+        const path = `orders/payments/${user.id}/${fileUUID}`;
+
+        await uploadBlob("erp-shop-private", path, file, file.type);
 
         await tx.topup.create({
           data: {

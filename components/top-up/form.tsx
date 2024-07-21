@@ -1,12 +1,8 @@
 "use client";
-import { Button, Form, Input, InputNumber, Table, Modal, Result } from "antd";
+import { Table, Modal, Result, message } from "antd";
 import Link from "next/link";
-import { useState } from "react";
-
-type FieldType = {
-  name: string;
-  amount: number;
-};
+import { FormEvent, useState } from "react";
+import LoadingSpinner from "../common/spinner";
 
 const dataSource = [
   {
@@ -40,13 +36,22 @@ function TopUpForm() {
   const [loading, setLoading] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const onFinish = (values: FieldType) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      console.log("Success:", values);
+    const formData = new FormData(e.currentTarget);
+    const res = await fetch("/api/topup", {
+      method: "POST",
+      body: formData,
+    });
+    if (res.ok) {
+      (document?.getElementById("topUpForm") as HTMLFormElement)?.reset();
       setModalOpen(true);
-    }, 1000);
+      setLoading(false);
+    } else {
+      message.error("發生錯誤");
+      setLoading(false);
+    }
   };
 
   return (
@@ -73,13 +78,7 @@ function TopUpForm() {
         />
       </Modal>
 
-      <Form
-        name="topUpForm"
-        initialValues={{ remember: true, amount: 100 }}
-        onFinish={onFinish}
-        autoComplete="off"
-        layout="vertical"
-      >
+      <form id="topUpForm" onSubmit={(e) => handleSubmit(e)}>
         <h1 className="text-xl font-bold">賬號充值</h1>
         <Table
           showHeader={false}
@@ -88,33 +87,52 @@ function TopUpForm() {
           columns={columns}
         />
         <h2 className="text-xl font-bold mt-4">提交充值記錄</h2>
-        <div className="mt-2">
-          <Form.Item<FieldType>
-            label="充值面額"
-            name="amount"
-            rules={[{ required: true, message: "輸入數值" }]}
-          >
-            <InputNumber addonBefore="$" min={1} size="large" />
-          </Form.Item>
+        <div className="flex flex-col gap-2 mt-2">
+          <div>
+            <label htmlFor="amount">充值面額</label>
+            <input
+              className="block w-full border px-3 py-1"
+              id="amount"
+              name="amount"
+              type="number"
+              step={0.01}
+              min={1}
+              placeholder="輸入數值"
+              required
+            />
+          </div>
 
-          <Form.Item<FieldType>
-            label="姓名 (需與轉賬記錄相同)"
-            name="name"
-            rules={[{ required: true, message: "輸入姓名" }]}
-          >
-            <Input size="large" />
-          </Form.Item>
+          <div>
+            <label htmlFor="name">姓名 (需與轉賬記錄相同)</label>
+            <input
+              className="block w-full border px-3 py-1"
+              id="name"
+              name="name"
+              type="text"
+              placeholder="輸入姓名"
+              required
+            />
+          </div>
 
-          <Button
-            type="primary"
-            htmlType="submit"
-            size="large"
-            loading={loading}
+          <div>
+            <label htmlFor="transfer">轉賬證明</label>
+            <input
+              className="block w-full border px-3 py-1"
+              id="transfer"
+              name="transfer"
+              type="file"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="flex w-full justify-center gap-1 px-3 py-1 rounded bg-blue-500 text-white"
           >
-            提交
-          </Button>
+            {loading && <LoadingSpinner />}提交
+          </button>
         </div>
-      </Form>
+      </form>
     </>
   );
 }

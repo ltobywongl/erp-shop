@@ -12,6 +12,9 @@
   "dependencies": {
     "@ant-design/icons": "^5.3.0",
     "@ant-design/nextjs-registry": "^1.0.0",
+    "@aws-sdk/client-s3": "^3.616.0",
+    "@aws-sdk/lib-storage": "^3.616.0",
+    "@aws-sdk/s3-request-presigner": "^3.616.0",
     "@prisma/client": "^5.9.1",
     "antd": "^5.19.1",
     "bcrypt": "^5.1.1",
