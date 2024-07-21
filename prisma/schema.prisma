@@ -20,7 +20,7 @@ model User {
   deletedAt    DateTime? @map("deleted_at") @db.DateTime(0)
   coupons      Coupon[]
   orders       Order[]
-  topups       topups[]
+  topups       Topup[]
 
   @@map("users")
 }
@@ -33,6 +33,7 @@ model Coupon {
   usedAt           DateTime?      @map("used_at") @db.DateTime(0)
   couponCategory   CouponCategory @relation(fields: [couponCategoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "coupons_coupon_categories_FK")
   user             User           @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "coupons_users_FK")
+  Order            Order[]
 
   @@index([couponCategoryId], map: "coupons_coupon_categories_FK")
   @@index([userId], map: "coupons_users_FK")
@@ -55,7 +56,7 @@ model CouponCategory {
   name        String?   @db.VarChar(20)
   description String?   @db.VarChar(255)
   point       Int
-  value       Decimal   @db.Decimal(15, 2)
+  value       Float
   active      Boolean   @default(false)
   createdAt   DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
@@ -89,11 +90,15 @@ model Order {
   id              String    @id @db.VarChar(36)
   userId          String    @map("user_id") @db.VarChar(36)
   totalPrice      Float     @map("total_price")
-  paymentPath     String?   @map("payment_path") @db.VarChar(255)
-  paymentApproved Boolean   @default(false) @map("payment_approved")
+  couponId        String?   @map("coupon_id") @db.VarChar(36)
+  paymentId       String?   @map("payment_path") @db.VarChar(36)
+  receiverName    String?   @map("receiver_name") @db.VarChar(100)
+  receiverAddress String?   @map("receiver_address") @db.VarChar(255)
   createdAt       DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   deletedAt       DateTime? @map("deleted_at") @db.DateTime(0)
   user            User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_users_FK")
+  coupon          Coupon?   @relation(fields: [couponId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_coupons_FK")
+  topup           Topup?    @relation(fields: [paymentId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_topups_FK")
 
   @@index([userId], map: "orders_users_FK")
   @@map("orders")
@@ -119,15 +124,17 @@ model Product {
   @@map("products")
 }
 
-model topups {
-  id         String   @id @db.VarChar(36)
-  user_id    String   @db.VarChar(36)
-  amount     Float
-  image_path String   @db.VarChar(100)
-  approved   Boolean  @default(false)
-  created_at DateTime @default(now()) @db.DateTime(0)
-  updated_at DateTime @default(now()) @db.DateTime(0)
-  users      User     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "topups_users_FK")
+model Topup {
+  id        String   @id @db.VarChar(36)
+  userId    String   @map("user_id") @db.VarChar(36)
+  amount    Float
+  imagePath String   @map("image_path") @db.VarChar(100)
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
+  users     User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "topups_users_FK")
+  Order     Order[]
 
-  @@index([user_id], map: "topups_users_FK")
+  @@index([userId], map: "topups_users_FK")
+  @@map("topups")
 }

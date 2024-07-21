@@ -8,3 +8,9 @@ type UserLogin = {
     email: string;
     password: string;
 }
+
+type UserChangePassword = {
+    email: string;
+    password: string;
+    newPassword: string;
+}

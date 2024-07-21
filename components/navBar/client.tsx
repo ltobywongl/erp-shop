@@ -7,7 +7,6 @@ import {
   MenuOutlined,
   StarOutlined,
   SettingOutlined,
-  WalletOutlined,
 } from "@ant-design/icons";
 import { Input, Button, Badge, Drawer } from "antd";
 import { Suspense, useState } from "react";
@@ -88,10 +87,6 @@ function NavBarClient(props: { session: Session | null }) {
       >
         {props.session ? (
           <>
-            <Link href="/top-up">
-              <WalletOutlined style={{ color: "black" }} />
-              <div>充值</div>
-            </Link>
             <div className="flex flex-col items-center justify-center aspect-square">
               <UserOutlined style={{ color: "black" }} />
               <button onClick={() => signOut()}>登出</button>
@@ -112,7 +107,7 @@ function NavBarClient(props: { session: Session | null }) {
           <StarOutlined style={{ color: "black" }} />
           <div>首頁</div>
         </Link>
-        <Link href="#setting">
+        <Link href="/settings">
           <SettingOutlined style={{ color: "black" }} />
           <div>設置</div>
         </Link>
@@ -196,7 +191,7 @@ function NavBarClient(props: { session: Session | null }) {
           {props.session ? (
             <>
               <Link
-                href={"/top-up"}
+                href={"/settings"}
                 className="text-zinc-200 flex h-full items-center px-6"
               >
                 <UserOutlined className="mr-1" />
