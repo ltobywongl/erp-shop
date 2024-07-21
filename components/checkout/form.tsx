@@ -57,7 +57,7 @@ export default function CheckoutForm({
   }
 
   return (
-    <div className="w-full md:w-4/5 flex flex-col md:flex-row gap-2">
+    <div className="w-full md:w-4/5 flex flex-col md:flex-row gap-2 py-2">
       <div className="border-b md:border-r md:border-b-0 px-2 w-full md:w-1/2">
         <h1 className="text-xl md:text-2xl font-bold">購物車</h1>
         <hr className="my-1" />
@@ -104,7 +104,7 @@ export default function CheckoutForm({
           <div>你的賬戶結餘: ${balance}</div>
           {balance < finalPrice ? (
             <div className="text-red-500">
-              請先充值或在提交訂單時附上轉賬記錄以完成你的購買
+              請先充值或在提交訂單時附上轉賬記錄以完成你的購買,最低轉賬額:${finalPrice - balance}
             </div>
           ) : (
             <div className="text-green-500">不需充值</div>
@@ -122,9 +122,10 @@ export default function CheckoutForm({
                 step={0.01}
                 id="transferAmount"
                 name="transferAmount"
+                min={finalPrice - balance}
                 required
               />
-              <label htmlFor="transfer">轉賬記錄</label>
+              <label htmlFor="transfer">轉賬記錄 (轉賬人姓名需與收件人姓名相同)</label>
               <Input type="file" id="transfer" name="transfer" required />
             </>
           )}

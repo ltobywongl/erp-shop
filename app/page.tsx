@@ -6,19 +6,33 @@ import React from "react";
 import SideMenu from "@/components/common/sideMenu";
 import { ItemCardVertical } from "@/components/common/itemCard";
 import PopUpAds from "@/components/common/popUpAds";
+import prisma from "@/utils/prisma";
 
-export default function Home() {
-  const items: Item[] = [];
-  for (let i = 0; i < 10; i++)
-    items.push({
-      id: "1",
-      name: "28吋 IPS 4K 144Hz 電競顯示器",
-      image: "/logo.png",
-      markedPrice: 1234 + Math.round(Math.random() * 500),
-      sellingPrice: 1234,
-      quantity: 1,
-      couponPoint: 1,
-    });
+export default async function Home() {
+  const items = await prisma.product.findMany({
+    select: {
+      id: true,
+      name: true,
+      image: true,
+      price: true,
+      discount: true,
+      couponPoint: true,
+      stock: true,
+      category: {
+        select: {
+          discount: true,
+        },
+      },
+    },
+    where: {
+      deletedAt: null,
+      stock: { gt: 0 },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 10,
+  });
 
   return (
     <main className="flex flex-col md:mt-4">
@@ -32,10 +46,22 @@ export default function Home() {
           <Image src={carousel1} alt="Image" />
         </div>
       </div>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center mt-2">
+        <div className="text-xl font-bold">最新商品</div>
+        <hr className="my-1 w-full md:w-4/5" />
         <div className="md:w-[80%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
           {items.map((item, index) => (
-            <ItemCardVertical item={item} key={`item${index}-${item.id}`} />
+            <ItemCardVertical item={{
+              id: item.id,
+              name: item.name,
+              image: item.image ?? "",
+              markedPrice: item.price,
+              sellingPrice:
+                item.price - item.discount - item.category.discount,
+              quantity: 1,
+              stock: item.stock,
+              couponPoint: item.couponPoint,
+            }} key={`item${index}-${item.id}`} />
           ))}
         </div>
       </div>

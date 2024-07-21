@@ -30,7 +30,7 @@ function SmallItemCard(props: { item: Item; className?: string }) {
         <div>
           <span className="text-base text-red-400">${item.sellingPrice}</span>
           {item.markedPrice ? (
-            <span className="line-through text-xs text-zinc-400 ml-1">
+            <span className="line-through text-xs text-zinc-500 ml-1">
               ${item.markedPrice}
             </span>
           ) : null}
@@ -40,6 +40,7 @@ function SmallItemCard(props: { item: Item; className?: string }) {
             </span>
           )}
         </div>
+        <div className="text-xs text-zinc-500">剩餘{item.stock}件商品</div>
         <div className="flex flex-row">
           <button
             className="border bg-red-500 text-white text-lg font-medium px-2 py-1 rounded"
@@ -63,7 +64,7 @@ function SmallItemCard(props: { item: Item; className?: string }) {
 }
 
 function ItemCardVertical(props: { item: Item }) {
-  const { addToCart } = useCart();
+  const { addQuantity } = useCart();
   const item = props.item;
   const showRibbon: boolean =
     item.markedPrice !== undefined && item.sellingPrice !== item.markedPrice;
@@ -112,10 +113,11 @@ function ItemCardVertical(props: { item: Item }) {
             ({item.couponPoint}積分)
           </span>
         </div>
+        <div className="w-full md:text-center text-xs text-zinc-500">剩餘{item.stock}件商品</div>
         <div className="w-full md:text-center">
           <button
             className="bg-green-500 text-white text-sm rounded-md font-medium py-1 px-2"
-            onClick={() => addToCart(item)}
+            onClick={() => addQuantity(item)}
           >
             加至購物車
           </button>

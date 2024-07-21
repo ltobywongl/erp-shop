@@ -29,31 +29,33 @@ function SideMenu() {
 
   const items: MenuItem[] = [
     getItem(
+      "推薦商品種類",
+      "Sub0",
+      <StarFilled style={{ color: "orange" }} />
+    ),
+
+    getItem(
       <Link href={"/category/a1d0af2f-974a-49f6-891e-67bfff3b34cd"}>
         電腦遊戲
       </Link>,
-      "Sub1",
-      <StarFilled style={{ color: "yellow", fontSize: "20px" }} />
+      "Sub1"
     ),
 
     getItem(
       <Link href={"/category/0000b75a-a990-4a54-944d-8f18ba82d37f"}>
         電腦組件
       </Link>,
-      "Sub2",
-      <PercentageOutlined style={{ color: "red", fontSize: "20px" }} />
+      "Sub2"
     ),
 
     getItem(
       <Link href={"/category/3d6ffe63-e2b5-4c14-8e45-bfb703b4948e"}>鍵盤</Link>,
-      "Sub3",
-      <ClusterOutlined style={{ color: "yellowgreen", fontSize: "20px" }} />
+      "Sub3"
     ),
 
     getItem(
       <Link href={"/category/3cad13a4-835b-403d-819d-ec72a6ca210c"}>滑鼠</Link>,
-      "Sub4",
-      <ClusterOutlined style={{ color: "yellowgreen", fontSize: "20px" }} />
+      "Sub4"
     ),
   ];
 

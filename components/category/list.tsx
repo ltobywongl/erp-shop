@@ -125,6 +125,7 @@ function CategoryListPage({ id }: { id: string }) {
                     sellingPrice:
                       item.price - item.discount - item.category.discount,
                     quantity: 1,
+                    stock: item.stock,
                     couponPoint: item.couponPoint,
                   }}
                   key={`item${index}-${item.id}`}

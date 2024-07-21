@@ -13,6 +13,7 @@ export async function GET(request: NextRequest) {
 
   const whereClause = {
     deletedAt: null,
+    stock: { gt: 0 },
     category: {
       id,
     },
@@ -32,6 +33,7 @@ export async function GET(request: NextRequest) {
       price: true,
       discount: true,
       couponPoint: true,
+      stock: true,
       category: {
         select: {
           discount: true,

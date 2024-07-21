@@ -7,6 +7,7 @@ import {
   MenuOutlined,
   StarOutlined,
   SettingOutlined,
+  AppstoreOutlined,
 } from "@ant-design/icons";
 import { Input, Button, Badge, Drawer } from "antd";
 import { Suspense, useState } from "react";
@@ -88,27 +89,30 @@ function NavBarClient(props: { session: Session | null }) {
         {props.session ? (
           <>
             <div className="flex flex-col items-center justify-center aspect-square">
-              <UserOutlined style={{ color: "black" }} />
+              <UserOutlined color="black" />
               <button onClick={() => signOut()}>登出</button>
             </div>
           </>
         ) : (
           <Link href="/login">
-            <UserOutlined style={{ color: "black" }} />
+            <UserOutlined color="black" />
             <div>登入</div>
           </Link>
         )}
-
-        <Link href="/search">
-          <SearchOutlined style={{ color: "black" }} />
-          <div>搜索</div>
-        </Link>
         <Link href="/">
-          <StarOutlined style={{ color: "black" }} />
+          <StarOutlined color="black" />
           <div>首頁</div>
         </Link>
+        <Link href="/search">
+          <SearchOutlined color="black" />
+          <div>搜索</div>
+        </Link>
+        <Link href="/categories" className="text-zinc-200">
+          <AppstoreOutlined color="black" />
+          <div>商品種類</div>
+        </Link>
         <Link href="/settings">
-          <SettingOutlined style={{ color: "black" }} />
+          <SettingOutlined color="black" />
           <div>設置</div>
         </Link>
       </Drawer>
@@ -116,7 +120,7 @@ function NavBarClient(props: { session: Session | null }) {
         <div className="h-full flex gap-4">
           <Button
             type="text"
-            icon={<MenuOutlined style={{ color: "black" }} />}
+            icon={<MenuOutlined color="black" />}
             size={"large"}
             onClick={() => setOpenDrawer(true)}
             className="md:!hidden"
@@ -185,6 +189,9 @@ function NavBarClient(props: { session: Session | null }) {
           </Link>
           <Link href="/point-shop" className="text-zinc-200">
             積分商城
+          </Link>
+          <Link href="/categories" className="text-zinc-200">
+            商品種類
           </Link>
         </div>
         <div className="flex h-full [&>a]:flex [&>a]:h-full [&>a]:items-center [&>a]:px-6">
