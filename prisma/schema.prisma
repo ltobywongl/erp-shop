@@ -21,6 +21,7 @@ model User {
   coupons      Coupon[]
   orders       Order[]
   topups       Topup[]
+  enquiries    Enquiry[]
 
   @@map("users")
 }
@@ -55,6 +56,7 @@ model CouponCategory {
   id          String    @id @db.VarChar(36)
   name        String?   @db.VarChar(20)
   description String?   @db.VarChar(255)
+  imagePath   String?   @db.VarChar(255)
   point       Int
   value       Float
   active      Boolean   @default(false)
@@ -68,9 +70,11 @@ model CouponCategory {
 
 model Enquiry {
   id        String   @id @db.VarChar(36)
+  email     String   @db.VarChar(100)
   content   String   @db.Text
-  userId    String   @map("user_id") @db.VarChar(36)
+  userId    String?  @map("user_id") @db.VarChar(36)
   createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  user      User?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "enquiries_users_FK")
 
   @@map("enquiries")
 }
@@ -94,6 +98,7 @@ model Order {
   paymentId       String?   @map("payment_path") @db.VarChar(36)
   receiverName    String?   @map("receiver_name") @db.VarChar(100)
   receiverAddress String?   @map("receiver_address") @db.VarChar(255)
+  approved        Boolean   @default(false)
   createdAt       DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   deletedAt       DateTime? @map("deleted_at") @db.DateTime(0)
   user            User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_users_FK")

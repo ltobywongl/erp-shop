@@ -8,6 +8,7 @@ import {
   StarOutlined,
   SettingOutlined,
   AppstoreOutlined,
+  InfoCircleOutlined,
 } from "@ant-design/icons";
 import { Input, Button, Badge, Drawer } from "antd";
 import { Suspense, useState } from "react";
@@ -115,6 +116,10 @@ function NavBarClient(props: { session: Session | null }) {
           <SettingOutlined color="black" />
           <div>設置</div>
         </Link>
+        <Link href="/about" className="text-zinc-200">
+          <InfoCircleOutlined color="black" />
+          <div>關於我們</div>
+        </Link>
       </Drawer>
       <div className="z-0 h-[56px] md:h-24 w-full gap-8 px-4 py-3 flex items-center justify-between md:justify-around bg-zinc-100 md:bg-transparent">
         <div className="h-full flex gap-4">
@@ -149,7 +154,7 @@ function NavBarClient(props: { session: Session | null }) {
         <div className="flex gap-4">
           <Button
             type="text"
-            icon={<SearchOutlined style={{ color: "black" }} />}
+            icon={<SearchOutlined color="black" />}
             size={"large"}
             className="md:!hidden"
             onClick={() => setOpenSearch(!openSearch)}
@@ -192,6 +197,9 @@ function NavBarClient(props: { session: Session | null }) {
           </Link>
           <Link href="/categories" className="text-zinc-200">
             商品種類
+          </Link>
+          <Link href="/about" className="text-zinc-200">
+            關於我們
           </Link>
         </div>
         <div className="flex h-full [&>a]:flex [&>a]:h-full [&>a]:items-center [&>a]:px-6">

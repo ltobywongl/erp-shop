@@ -1,4 +1,4 @@
-import { WalletOutlined, KeyOutlined } from "@ant-design/icons";
+import { WalletOutlined, KeyOutlined, ScheduleOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { authOptions } from "@/utils/authOptions";
 import prisma from "@/utils/prisma";
@@ -24,12 +24,18 @@ async function Page() {
 
   return (
     <div className="flex justify-center py-2">
-      <div className="w-4/5">
+      <div className="w-full md:w-4/5">
         <h1 className="text-xl font-bold">賬號設置</h1>
-        <div></div>
         <div>餘額: ${user.balance}</div>
         <hr />
-        <div className="md:flex justify-around">
+        <div>
+          <Link
+            className="flex justify-center gap-2 w-full border-b p-2 hover:bg-slate-50 text-center"
+            href="/coupons"
+          >
+            <ScheduleOutlined style={{ color: "black" }} />
+            <div>優惠卷</div>
+          </Link>
           <Link
             className="flex justify-center gap-2 w-full border-b p-2 hover:bg-slate-50 text-center"
             href="/top-up"
