@@ -23,7 +23,6 @@ async function Page({ params }: { params: { id: string } }) {
     where: {
       id: params.id,
       deletedAt: null,
-      stock: { gt: 0 },
     },
   });
 

@@ -35,7 +35,7 @@ function SearchBar(params: { className?: string }) {
       size="large"
       loading={false}
       onSearch={(data) => {
-        if (data.length > 0) router.push(`/search?keyword=${data}`);
+        if (data.length > 0) router.push(`/search/${data}`);
       }}
       className={params.className}
     />
@@ -112,6 +112,10 @@ function NavBarClient(props: { session: Session | null }) {
           <AppstoreOutlined color="black" />
           <div>商品種類</div>
         </Link>
+        <Link href="/booking" className="text-zinc-200">
+          <InfoCircleOutlined color="black" />
+          <div>預約系統</div>
+        </Link>
         <Link href="/settings">
           <SettingOutlined color="black" />
           <div>設置</div>
@@ -142,7 +146,7 @@ function NavBarClient(props: { session: Session | null }) {
               size="large"
               loading={false}
               onSearch={(data) => {
-                if (data.length > 0) router.push(`/search?keyword=${data}`);
+                if (data.length > 0) router.push(`/search/${data}`);
               }}
               className="max-w-[40%] !hidden md:!block"
             />
@@ -197,6 +201,9 @@ function NavBarClient(props: { session: Session | null }) {
           </Link>
           <Link href="/categories" className="text-zinc-200">
             商品種類
+          </Link>
+          <Link href="/booking" className="text-zinc-200">
+            預約系統
           </Link>
           <Link href="/about" className="text-zinc-200">
             關於我們

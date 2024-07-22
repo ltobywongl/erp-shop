@@ -30,6 +30,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     if (!user || !couponCategory) return errorResponse("Bad Request", 400);
 
+    if (couponCategory.stock < 1) {
+      return errorResponse("Out of stock", 400);
+    }
+
     if (user.couponPoints < couponCategory.point) {
       return errorResponse("Not enough points", 400);
     }
@@ -54,7 +58,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       }),
     ]);
 
-    return successResponse("Success", "Success")
+    return successResponse("Success", "Success");
   } catch (error: any) {
     console.log(error);
     return NextResponse.json({ success: false }, { status: 500 });

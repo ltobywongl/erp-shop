@@ -157,3 +157,13 @@ model WebsiteContent {
 
   @@map("website_contents")
 }
+
+model Booking {
+  id        String   @id @db.VarChar(36)
+  venue     String   @db.VarChar(100)
+  date      DateTime @db.DateTime(0)
+  time      DateTime @db.DateTime(0)
+  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+
+  @@map("bookings")
+}
