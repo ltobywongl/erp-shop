@@ -22,6 +22,7 @@ model User {
   orders       Order[]
   topups       Topup[]
   enquiries    Enquiry[]
+  Booking      Booking[]
 
   @@map("users")
 }
@@ -160,10 +161,12 @@ model WebsiteContent {
 
 model Booking {
   id        String   @id @db.VarChar(36)
+  userId    String   @map("user_id") @db.VarChar(36)
   venue     String   @db.VarChar(100)
   date      DateTime @db.DateTime(0)
   time      DateTime @db.DateTime(0)
   createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  users     User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "bookings_users_FK")
 
   @@map("bookings")
 }

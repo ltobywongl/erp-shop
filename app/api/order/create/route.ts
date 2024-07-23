@@ -1,4 +1,6 @@
 import { authOptions } from "@/utils/authOptions";
+import { sendMail } from "@/utils/email";
+import { confirmEmail } from "@/utils/emails/confirm";
 import { errorResponse, successResponse } from "@/utils/httpResponse";
 import prisma from "@/utils/prisma";
 import { uploadBlob } from "@/utils/s3";
@@ -17,6 +19,7 @@ export async function POST(request: NextRequest) {
     const user = await prisma.user.findUnique({
       select: {
         id: true,
+        email: true,
         balance: true,
       },
       where: {
@@ -131,12 +134,12 @@ export async function POST(request: NextRequest) {
       return errorResponse("餘額不足", 400);
     }
     const file = formData.transfer as File;
-    
+
+    const orderId = uuid();
     await prisma.$transaction(async (tx) => {
       if (needToTopup) {
         const fileUUID = uuid();
         const paymentId = uuid();
-        const orderId = uuid();
         const path = `orders/payments/${user.id}/${fileUUID}`;
 
         await uploadBlob("erp-shop-private", path, file, file.type);
@@ -150,6 +153,15 @@ export async function POST(request: NextRequest) {
           },
         });
 
+        await tx.user.update({
+          where: {
+            id: user.id,
+          },
+          data: {
+            balance: 0,
+          },
+        });
+
         await tx.order.create({
           data: {
             id: orderId,
@@ -158,6 +170,7 @@ export async function POST(request: NextRequest) {
             couponId:
               formData.coupon == "" ? null : formData.coupon?.toString(),
             paymentId: paymentId,
+            state: "TO_BE_PAID",
             receiverName: formData.name as string,
             receiverAddress: formData.address as string,
           },
@@ -191,8 +204,6 @@ export async function POST(request: NextRequest) {
 
         //TODO: add point & remove balance to user after approved topup
       } else {
-        const orderId = uuid();
-
         await tx.order.create({
           data: {
             id: orderId,
@@ -201,6 +212,7 @@ export async function POST(request: NextRequest) {
             couponId:
               formData.coupon == "" ? null : formData.coupon?.toString(),
             paymentId: null,
+            state: "TO_BE_CONFIRMED",
             receiverName: formData.name as string,
             receiverAddress: formData.address as string,
           },
@@ -247,6 +259,14 @@ export async function POST(request: NextRequest) {
         await Promise.all(data);
       }
     });
+
+    await sendMail(
+      "Order Confirmation",
+      user.email,
+      confirmEmail({
+        id: orderId,
+      })
+    );
 
     return successResponse("Success", "Success", 200);
   } catch (e: any) {

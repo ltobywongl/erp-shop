@@ -38,6 +38,13 @@ async function Page() {
           </Link>
           <Link
             className="flex justify-center gap-2 w-full border-b p-2 hover:bg-slate-50 text-center"
+            href="/booking-history"
+          >
+            <FieldTimeOutlined style={{ color: "black" }} />
+            <div>歷史預約</div>
+          </Link>
+          <Link
+            className="flex justify-center gap-2 w-full border-b p-2 hover:bg-slate-50 text-center"
             href="/coupons"
           >
             <ScheduleOutlined style={{ color: "black" }} />
