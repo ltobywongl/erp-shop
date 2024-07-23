@@ -2,9 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/utils/prisma";
 import { v4 as uuid } from "uuid";
 import moment from "moment";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/utils/authOptions";
+import { errorResponse } from "@/utils/httpResponse";
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user) {
+      return errorResponse("Unauthorized", 401);
+    }
+
     const body: {
       venue: string;
       date: string;
@@ -20,6 +29,7 @@ export async function POST(req: NextRequest) {
     await prisma.booking.create({
       data: {
         id: uuid(),
+        userId: session.user.id,
         venue: body.venue,
         date: moment.utc(body.date).toDate(),
         time: moment(body.date + " " + body.time).toDate(),
