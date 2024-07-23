@@ -94,7 +94,7 @@ function ItemCardVertical(props: { item: Item }) {
       </Link>
       <div className="flex flex-col items-center justify-center ml-4 md:ml-0">
         <Link
-          href={`#item-${item.id}`}
+          href={`/product/${item.id}`}
           className="w-full md:text-center text-zinc-800 font-normal md:font-semibold"
         >
           {item.name}
