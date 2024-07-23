@@ -13,6 +13,8 @@ async function Page() {
         id: true,
         name: true,
         description: true,
+        stock: true,
+        imagePath: true,
         point: true,
         value: true,
       },

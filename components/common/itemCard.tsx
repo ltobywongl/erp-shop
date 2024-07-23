@@ -8,6 +8,7 @@ import { useState } from "react";
 import LoadingSpinner from "@/components/common/spinner";
 import { useCart } from "@/utils/cartProvider";
 import { useRouter } from "next/navigation";
+import { pathToS3Url } from "@/utils/string";
 
 function SmallItemCard(props: { item: Item; className?: string }) {
   const { addQuantity, reduceQuantity } = useCart();
@@ -16,7 +17,7 @@ function SmallItemCard(props: { item: Item; className?: string }) {
     <div className={`flex gap-2 ${props.className}`}>
       <Image
         className="object-contain hidden md:block"
-        src={item.image}
+        src={pathToS3Url(item.image)}
         alt={`product-${item.id}`}
         height={50}
         width={50}
@@ -75,7 +76,7 @@ function ItemCardVertical(props: { item: Item }) {
       <Link href={`/product/${item.id}`} className="w-[20%] md:w-full">
         {item.image ? (
           <Image
-            src={item.image}
+            src={pathToS3Url(item.image)}
             alt={`product-${item.id}`}
             height={400}
             width={400}
@@ -166,10 +167,22 @@ function ItemCardPoint(props: { item: Partial<CouponCategory> }) {
   }
 
   return (
-    <div className="flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
-      <div className="w-[25%] md:w-full border-4 border-double text-xl md:text-2xl text-center font-semibold md:font-bold bg-gradient-radial from-yellow-200 to-yellow-500 p-1 md:p-4 shadow-sm">
-        <Link href={`/coupons/${item.id}`}>${item.value}</Link>
-      </div>
+    <div className="flex md:flex-col justify-between gap-2 p-2 md:border md:border-zinc-200">
+      <Link className="w-[25%] md:w-full" href={`/coupons/${item.id}`}>
+        {item.imagePath ? (
+          <Image
+            className="w-full"
+            src={pathToS3Url(item.imagePath)}
+            width={500}
+            height={500}
+            alt={`coupon-${item.id}`}
+          />
+        ) : (
+          <div className="border-4 border-double text-xl md:text-2xl text-center font-semibold md:font-bold bg-gradient-radial from-yellow-200 to-yellow-500 p-1 md:p-5 shadow-sm">
+            ${item.value}
+          </div>
+        )}
+      </Link>
       <div className="flex flex-col items-center justify-center ml-4 md:ml-0">
         <div className="w-full md:text-center text-red-400">
           <Link href={`/coupons/${item.id}`}>
@@ -177,10 +190,13 @@ function ItemCardPoint(props: { item: Partial<CouponCategory> }) {
             <span>積分</span>
           </Link>
         </div>
+        <div className="w-full md:text-center text-zinc-500">
+          剩餘{item.stock}件
+        </div>
         <button
-          className="bg-green-400 text-white rounded-sm py-1 px-3"
+          className="bg-green-500 hover:bg-green-400 text-white rounded-sm py-1 px-3"
           onClick={() => handleRedeem()}
-          disabled={isLoading}
+          disabled={isLoading || item.stock === 0}
         >
           {isLoading ? <LoadingSpinner /> : "兌換"}
         </button>
@@ -194,9 +210,19 @@ function ItemCardPointReadOnly(props: { item: Partial<CouponCategory> }) {
 
   return (
     <div className="flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
-      <div className="w-[25%] md:w-full border-4 border-double text-xl md:text-2xl text-center font-semibold md:font-bold bg-gradient-radial from-yellow-200 to-yellow-500 p-1 md:p-4 shadow-sm">
-        ${item.value}
-      </div>
+      {item.imagePath ? (
+        <Image
+          className="w-[25%] md:w-full"
+          src={pathToS3Url(item.imagePath)}
+          width={500}
+          height={500}
+          alt={`coupon-${item.id}`}
+        />
+      ) : (
+        <div className="w-[25%] md:w-full border-4 border-double text-xl md:text-2xl text-center font-semibold md:font-bold bg-gradient-radial from-yellow-200 to-yellow-500 p-1 md:p-5 shadow-sm">
+          ${item.value}
+        </div>
+      )}
       <div className="flex flex-col items-center justify-center ml-4 md:ml-0">
         <div className="w-full md:text-center text-red-400">
           <span className="font-bold ml-1 md:ml-0">{item.point}</span>
