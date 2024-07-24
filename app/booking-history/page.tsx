@@ -16,6 +16,7 @@ async function Page() {
       venue: true,
       date: true,
       time: true,
+      approved: true,
     },
     where: {
       userId: session.user.id,
@@ -33,6 +34,16 @@ async function Page() {
               <div>地點: {booking.venue}</div>
               <div>日期: {moment(booking.date).format("YYYY-MM-DD")}</div>
               <div>時間: {moment(booking.time).format("hh:mm:ss")}</div>
+              <div>
+                已確認:{" "}
+                <span
+                  className={
+                    booking.approved ? "text-green-500" : "text-red-500"
+                  }
+                >
+                  {booking.approved}
+                </span>
+              </div>
             </div>
           );
         })}
