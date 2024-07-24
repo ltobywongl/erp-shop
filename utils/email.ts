@@ -12,7 +12,6 @@ export async function sendMail(
     .send({
       from: "tohongwong@gmail.com",
       to: receiver,
-      bcc: "tohongwong@gmail.com",
       subject: subject,
       html: emailHtml,
     })
