@@ -1,4 +1,10 @@
-import { WalletOutlined, KeyOutlined, ScheduleOutlined, FieldTimeOutlined } from "@ant-design/icons";
+import {
+  WalletOutlined,
+  KeyOutlined,
+  ScheduleOutlined,
+  FieldTimeOutlined,
+  IdcardOutlined,
+} from "@ant-design/icons";
 import Link from "next/link";
 import { authOptions } from "@/utils/authOptions";
 import prisma from "@/utils/prisma";
@@ -29,6 +35,13 @@ async function Page() {
         <div>餘額: ${user.balance}</div>
         <hr />
         <div>
+          <Link
+            className="flex justify-center gap-2 w-full border-b p-2 hover:bg-slate-50 text-center"
+            href="/member-card"
+          >
+            <IdcardOutlined style={{ color: "black" }} />
+            <div>會員卡</div>
+          </Link>
           <Link
             className="flex justify-center gap-2 w-full border-b p-2 hover:bg-slate-50 text-center"
             href="/order-history"
