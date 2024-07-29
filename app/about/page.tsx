@@ -20,7 +20,7 @@ async function Page() {
       <div className="flex flex-col gap-8 w-4/5">
         <div>
           <div className="text-lg font-bold">關於我們</div>
-          <div>{about?.content}</div>
+          <pre>{about?.content}</pre>
         </div>
         <div>
           <div className="text-lg font-bold">聯絡我們</div>
