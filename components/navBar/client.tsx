@@ -12,7 +12,6 @@ import {
 } from "@ant-design/icons";
 import { Input, Button, Badge, Drawer } from "antd";
 import { Suspense, useState } from "react";
-import logo from "@/public/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { SmallItemCard } from "@/components/common/itemCard";
@@ -49,6 +48,7 @@ function NavBarClient(props: { session: Session | null }) {
   const isBigScreen = useBigScreen();
   const cartContext = useCart();
   const router = useRouter();
+  const timeStamp = new Date().getTime();
 
   return (
     <>
@@ -135,7 +135,7 @@ function NavBarClient(props: { session: Session | null }) {
             className="md:!hidden"
           />
           <Link href="/">
-            <Image src={logo} alt="ERP Shop" className="h-full w-auto" />
+            <Image src={`https://erp-shop-public.s3.ap-northeast-1.amazonaws.com/images/logo.jpg?timeStamp=${timeStamp}`} alt="ERP Shop" className="h-full w-auto max-h-16" />
           </Link>
         </div>
         <Suspense
