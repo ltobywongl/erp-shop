@@ -2,6 +2,8 @@ type UserRegister = {
     email: string;
     name: string;
     password: string;
+    age: number;
+    gender: string;
 }
 
 type UserLogin = {

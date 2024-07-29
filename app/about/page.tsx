@@ -27,7 +27,7 @@ async function Page() {
         </div>
         <div>
           <div className="text-lg font-bold">聯絡我們</div>
-          <div>Email: {about.find((c) => c.key === "email")?.content}</div>
+          <div>電郵: {about.find((c) => c.key === "email")?.content}</div>
           <div>聯絡地址: {about.find((c) => c.key === "address")?.content}</div>
           <div>聯絡電話: {about.find((c) => c.key === "tel")?.content}</div>
           <hr className="my-1" />

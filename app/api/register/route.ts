@@ -9,7 +9,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
   try {
     const body: UserRegister = await req.json();
 
-    if (!body.email || !body.name || !body.password || !/\S+@\S+\.\S+/.test(body.email))
+    if (
+      !body.email ||
+      !body.name ||
+      !body.password ||
+      !/\S+@\S+\.\S+/.test(body.email)
+    )
       return NextResponse.json({ success: false }, { status: 400 });
 
     const emailUser = await prisma.user.findUnique({
@@ -31,6 +36,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
         email: body.email,
         username: body.name,
         password: body.password,
+        age: body.age,
+        gender: body.gender,
       },
     });
 
