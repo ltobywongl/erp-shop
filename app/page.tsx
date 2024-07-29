@@ -32,6 +32,7 @@ export default async function Home() {
     },
     take: 10,
   });
+  const timeStamp = new Date().getTime();
 
   return (
     <main className="flex flex-col md:mt-4">
@@ -47,8 +48,8 @@ export default async function Home() {
         </div>
         <div className="col-start-4 md:col-span-5">
           <Image
-            src="https://erp-shop-public.s3.ap-northeast-1.amazonaws.com/images/banner.jpg"
-            className="w-full h-auto object-cover"
+            src={`https://erp-shop-public.s3.ap-northeast-1.amazonaws.com/images/banner.jpg?timeStamp=${timeStamp}`}
+            className="w-full h-auto max-h-96 object-contain"
             width={600}
             height={600}
             alt="Image"

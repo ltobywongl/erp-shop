@@ -8,6 +8,7 @@ function PopUpAds() {
   useEffect(() => {
     setModalOpen(true);
   }, []);
+  const timeStamp = new Date().getTime();
 
   return (
     <Modal
@@ -17,7 +18,7 @@ function PopUpAds() {
       footer={null}
       onCancel={() => setModalOpen(false)}
     >
-      <Image src="https://erp-shop-public.s3.ap-northeast-1.amazonaws.com/images/popup.jpg" width={600} height={600} alt="" priority={true} />
+      <Image src={`https://erp-shop-public.s3.ap-northeast-1.amazonaws.com/images/popup.jpg?timeStamp=${timeStamp}`} width={600} height={600} alt="" priority={true} />
     </Modal>
   );
 }

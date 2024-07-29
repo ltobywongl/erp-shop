@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "antd";
 import Link from "next/link";
+import { FacebookOutlined, GoogleOutlined } from "@ant-design/icons";
 
 type Inputs = {
   email: string;
@@ -42,7 +43,17 @@ export default function Login() {
   };
 
   return (
-    <div className="flex w-full h-[60%] items-center justify-center">
+    <div className="flex flex-col w-full h-[60%] items-center justify-center">
+      <div className="flex flex-col gap-2 w-[90%] md:w-96 mb-2 [&>button]:w-full">
+        <Button onClick={() => signIn("google", { callbackUrl: "/" })}>
+          Sign in with Google
+          <GoogleOutlined />
+        </Button>
+        <Button onClick={() => signIn("facebook", { callbackUrl: "/" })}>
+          Sign in with Facebook
+          <FacebookOutlined />
+        </Button>
+      </div>
       <form
         className="flex flex-col rounded-md w-[90%] md:w-96 p-6 bg-zinc-100 border border-solid"
         method="post"
@@ -75,7 +86,9 @@ export default function Login() {
         {errors.password && (
           <div className="text-red-500 text-sm">{errors.password.message}</div>
         )}
-        <Link href="/register" className="mt-1 w-fit text-blue-800 underline">註冊</Link>
+        <Link href="/register" className="mt-1 w-fit text-blue-800 underline">
+          註冊
+        </Link>
         <Button
           className="mt-4"
           loading={loading}
