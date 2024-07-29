@@ -8,22 +8,26 @@ datasource db {
 }
 
 model User {
-  id           String    @id @db.VarChar(36)
-  email        String    @unique(map: "users_unique_1") @db.VarChar(100)
-  username     String    @unique(map: "users_unique") @db.VarChar(32)
-  password     String    @db.VarChar(100)
-  role         String    @default("user") @db.VarChar(36)
-  balance      Float     @default(0.00)
-  couponPoints Int       @default(0) @map("coupon_points")
-  createdAt    DateTime  @default(now()) @map("created_at") @db.DateTime(0)
-  updatedAt    DateTime  @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
-  deletedAt    DateTime? @map("deleted_at") @db.DateTime(0)
+  id           String     @id @db.VarChar(36)
+  email        String     @unique(map: "users_unique_1") @db.VarChar(100)
+  username     String     @unique(map: "users_unique") @db.VarChar(32)
+  password     String     @db.VarChar(100)
+  age          Int?
+  gender       String     @db.VarChar(1)
+  role         String     @default("user") @db.VarChar(36)
+  balance      Float      @default(0.00)
+  couponPoints Int        @default(0) @map("coupon_points")
+  createdAt    DateTime   @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt    DateTime   @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
+  deletedAt    DateTime?  @map("deleted_at") @db.DateTime(0)
   coupons      Coupon[]
   orders       Order[]
   topups       Topup[]
   enquiries    Enquiry[]
   Booking      Booking[]
-  Task         Task[]
+  TaskAssigner Task[]     @relation(name: "assigner")
+  TaskAssignee Task[]     @relation(name: "assignee")
+  Activity     Activity[]
 
   @@map("users")
 }
@@ -174,29 +178,32 @@ model Booking {
 }
 
 model Activity {
-  id        String   @id @db.VarChar(36)
-  title     String   @db.VarChar(100)
-  attendant String?  @db.VarChar(1000)
-  start     DateTime @db.Time(0)
-  end       DateTime @db.Time(0)
-  date      String   @db.VarChar(20)
-  approved  Boolean  @default(false)
-  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  id         String   @id @db.VarChar(36)
+  creatorId  String   @map("creator_id") @db.VarChar(36)
+  title      String   @db.VarChar(100)
+  attendance Boolean  @default(false)
+  start      DateTime @db.Time(0)
+  end        DateTime @db.Time(0)
+  date       String   @db.VarChar(20)
+  approved   Boolean  @default(false)
+  createdAt  DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  creator    User     @relation(fields: [creatorId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "activities_users_FK")
 
   @@map("activities")
 }
 
 model Task {
   id           String    @id @db.VarChar(36)
-  assignee     String?   @db.VarChar(100)
+  assignerId   String?   @map("assigner_id") @db.VarChar(36)
   assigneeId   String?   @map("assignee_id") @db.VarChar(36)
-  assigner     String?   @db.VarChar(100)
   state        String    @default("TODO") @db.VarChar(20)
   title        String    @db.VarChar(100)
   description  String?   @db.VarChar(1000)
   deadline     DateTime? @db.DateTime(0)
   createdAt    DateTime  @default(now()) @map("created_at") @db.DateTime(0)
-  assigneeUser User?     @relation(fields: [assigneeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tasks_users_FK")
+  deletedAt    DateTime? @map("deleted_at") @db.DateTime(0)
+  assignerUser User?     @relation(name: "assigner", fields: [assignerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tasks_users_FK_1")
+  assigneeUser User?     @relation(name: "assignee", fields: [assigneeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tasks_users_FK")
 
   @@map("tasks")
 }
@@ -207,9 +214,21 @@ model Opportunity {
   priority          Int      @db.Int
   contactNo         String?  @map("contact_no") @db.VarChar(20)
   contactName       String?  @map("contact_name") @db.VarChar(100)
-  state             String   @default("TODO") @db.VarChar(20)
+  state             String   @default("OPEN") @db.VarChar(20)
   opportunityAmount Float?   @map("opportunity_amount")
   createdAt         DateTime @default(now()) @map("created_at") @db.DateTime(0)
 
   @@map("opportunities")
+}
+
+model Deal {
+  id          String   @id @db.VarChar(36)
+  title       String   @db.VarChar(100)
+  contactNo   String?  @map("contact_no") @db.VarChar(20)
+  contactName String?  @map("contact_name") @db.VarChar(100)
+  state       String   @default("OPEN") @db.VarChar(20)
+  dealAmount  Float?   @map("deal_amount")
+  createdAt   DateTime @default(now()) @map("created_at") @db.DateTime(0)
+
+  @@map("deals")
 }

@@ -6,12 +6,15 @@ import { getServerSession } from "next-auth";
 async function Page() {
   const session = await getServerSession(authOptions);
 
-  const about = await prisma.websiteContent.findUnique({
+  const about = await prisma.websiteContent.findMany({
     select: {
+      key: true,
       content: true,
     },
     where: {
-      key: "about-us",
+      key: {
+        in: ["about-us", "address", "email", "tel"],
+      },
     },
   });
 
@@ -20,11 +23,13 @@ async function Page() {
       <div className="flex flex-col gap-8 w-4/5">
         <div>
           <div className="text-lg font-bold">關於我們</div>
-          <pre>{about?.content}</pre>
+          <pre>{about.find((c) => c.key === "about-us")?.content}</pre>
         </div>
         <div>
           <div className="text-lg font-bold">聯絡我們</div>
-          <div>Email: abc@example.com</div>
+          <div>Email: {about.find((c) => c.key === "email")?.content}</div>
+          <div>聯絡地址: {about.find((c) => c.key === "address")?.content}</div>
+          <div>聯絡電話: {about.find((c) => c.key === "tel")?.content}</div>
           <hr className="my-1" />
           <div>或在此提交查詢:</div>
           <EnquiryForm userId={session?.user.id} />
