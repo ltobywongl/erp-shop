@@ -46,7 +46,7 @@ export default async function Home() {
         <div className="hidden md:flex md:flex-col md:col-start-2 col-span-3">
           <SideMenu />
         </div>
-        <div className="col-start-4 md:col-span-5">
+        <div className="col-start-4 md:col-span-5 bg-gray-100">
           <Image
             src={`https://erp-shop-public.s3.ap-northeast-1.amazonaws.com/images/banner.jpg?timeStamp=${timeStamp}`}
             className="w-full h-auto max-h-96 object-contain"

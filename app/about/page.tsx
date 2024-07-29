@@ -13,7 +13,7 @@ async function Page() {
     },
     where: {
       key: {
-        in: ["about-us", "address", "email", "tel"],
+        in: ["about-us", "address", "email", "tel", "terms"],
       },
     },
   });
@@ -36,12 +36,7 @@ async function Page() {
         </div>
         <div>
           <div className="text-lg font-bold">條款及細則</div>
-          <ol className="list-decimal">
-            <li>abc</li>
-            <li>abc</li>
-            <li>abc</li>
-            <li>abc</li>
-          </ol>
+          <pre>{about.find((c) => c.key === "terms")?.content}</pre>
         </div>
       </div>
     </div>
