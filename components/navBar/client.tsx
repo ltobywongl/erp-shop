@@ -135,7 +135,13 @@ function NavBarClient(props: { session: Session | null }) {
             className="md:!hidden"
           />
           <Link href="/">
-            <Image src={`https://erp-shop-public.s3.ap-northeast-1.amazonaws.com/images/icon.jpg?timeStamp=${timeStamp}`} alt="ERP Shop" className="h-full w-auto max-h-16" />
+            <Image
+              src={`https://erp-shop-public.s3.ap-northeast-1.amazonaws.com/images/icon.jpg?timeStamp=${timeStamp}`}
+              alt="ERP Shop"
+              className="h-full w-auto max-h-16"
+              width={200}
+              height={200}
+            />
           </Link>
         </div>
         <Suspense

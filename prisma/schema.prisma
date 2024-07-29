@@ -13,7 +13,7 @@ model User {
   username     String     @unique(map: "users_unique") @db.VarChar(32)
   password     String     @db.VarChar(100)
   age          Int?
-  gender       String     @db.VarChar(1)
+  gender       String?    @db.VarChar(1)
   role         String     @default("user") @db.VarChar(36)
   balance      Float      @default(0.00)
   couponPoints Int        @default(0) @map("coupon_points")

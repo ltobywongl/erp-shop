@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { toPrice } from "@/utils/string";
+import { pathToS3Url, toPrice } from "@/utils/string";
 import { useCart } from "@/utils/cartProvider";
 
 type DetailsItem = Item & {
@@ -19,7 +19,7 @@ function ProductDetails({ item }: { item: DetailsItem }) {
       <div className="w-full">
         {item.image ? (
           <Image
-            src={item.image}
+            src={pathToS3Url(item.image)}
             alt={`product-${item.id}`}
             height={400}
             width={400}

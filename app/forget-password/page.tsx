@@ -5,7 +5,6 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "antd";
-import Link from "next/link";
 import { FacebookOutlined, GoogleOutlined } from "@ant-design/icons";
 
 type Inputs = {
@@ -24,36 +23,27 @@ export default function Login() {
   const router = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    setLoading(true);
-    const res = await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      redirect: false,
-      callbackUrl: "/",
-    });
-    setLoading(false);
-    if (res?.error) {
-      setError(true);
-    } else {
-      if (res?.url) {
-        await router.push(res.url);
-        router.refresh();
-      }
-    }
+    // setLoading(true);
+    // const res = await signIn("credentials", {
+    //   email: data.email,
+    //   password: data.password,
+    //   redirect: false,
+    //   callbackUrl: "/",
+    // });
+    // setLoading(false);
+    // if (res?.error) {
+    //   setError(true);
+    // } else {
+    //   if (res?.url) {
+    //     await router.push(res.url);
+    //     router.refresh();
+    //   }
+    // }
   };
 
   return (
     <div className="flex flex-col w-full h-[60%] items-center justify-center">
-      <div className="flex flex-col gap-2 w-[90%] md:w-96 mb-2 [&>button]:w-full">
-        <Button onClick={() => signIn("google", { callbackUrl: "/" })}>
-          Sign in with Google
-          <GoogleOutlined />
-        </Button>
-        <Button onClick={() => signIn("facebook", { callbackUrl: "/" })}>
-          Sign in with Facebook
-          <FacebookOutlined />
-        </Button>
-      </div>
+      <div className="text-lg">重設密碼</div>
       <form
         className="flex flex-col rounded-md w-[90%] md:w-96 p-6 bg-zinc-100 border border-solid"
         method="post"
@@ -75,7 +65,7 @@ export default function Login() {
         {errors.email && (
           <div className="text-red-500 text-sm">{errors.email.message}</div>
         )}
-        密碼
+        新密碼
         <input
           className="p-1 rounded-sm border border-solid"
           type="password"
@@ -86,23 +76,18 @@ export default function Login() {
         {errors.password && (
           <div className="text-red-500 text-sm">{errors.password.message}</div>
         )}
-        <div className="mt-1 flex justify-between">
-          <Link href="/register" className="w-fit text-blue-800 underline">
-            註冊
-          </Link>
-          <Link href="/forget-password" className="w-fit text-blue-800 underline">
-            忘記密碼
-          </Link>
-        </div>
         <Button
           className="mt-4"
           loading={loading}
           type="primary"
           htmlType="submit"
         >
-          登入
+          確認
         </Button>
-        {error && <div className="text-red-500">Invalid email/password</div>}
+        <div className="text-sm text-gray-800 mt-1">
+          (請查看信箱並批准更改密碼要求)
+        </div>
+        {error && <div className="text-red-500">Something went wrong.</div>}
       </form>
     </div>
   );
