@@ -23,8 +23,11 @@ async function Page() {
       <div className="flex flex-col gap-8 w-4/5">
         <div>
           <div className="text-lg font-bold">關於我們</div>
-          <pre className="whitespace-break-spaces">{about.find((c) => c.key === "about-us")?.content}</pre>
+          <pre className="whitespace-break-spaces">
+            {about.find((c) => c.key === "about-us")?.content}
+          </pre>
         </div>
+        <hr className="my-2" />
         <div>
           <div className="text-lg font-bold">聯絡我們</div>
           <div>電郵: {about.find((c) => c.key === "email")?.content}</div>
@@ -34,9 +37,12 @@ async function Page() {
           <div>或在此提交查詢:</div>
           <EnquiryForm userId={session?.user.id} />
         </div>
+        <hr className="my-2" />
         <div>
           <div className="text-lg font-bold">條款及細則</div>
-          <pre className="whitespace-break-spaces">{about.find((c) => c.key === "terms")?.content}</pre>
+          <pre className="whitespace-break-spaces">
+            {about.find((c) => c.key === "terms")?.content}
+          </pre>
         </div>
       </div>
     </div>
