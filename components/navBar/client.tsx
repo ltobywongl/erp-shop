@@ -136,7 +136,7 @@ function NavBarClient(props: { session: Session | null }) {
           />
           <Link href="/">
             <Image
-              src={`https://erp-shop-public.s3.ap-northeast-1.amazonaws.com/images/icon.jpg?timeStamp=${timeStamp}`}
+              src={`https://publicen.s3.ap-northeast-1.amazonaws.com/images/icon.jpg?timeStamp=${timeStamp}`}
               alt="Shop"
               className="h-full w-auto max-h-16 object-contain"
               width={200}

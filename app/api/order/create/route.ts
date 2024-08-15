@@ -142,7 +142,7 @@ export async function POST(request: NextRequest) {
         const paymentId = uuid();
         const path = `orders/payments/${user.id}/${fileUUID}`;
 
-        await uploadBlob("erp-shop-private", path, file, file.type);
+        await uploadBlob("privateen", path, file, file.type);
 
         await tx.topup.create({
           data: {

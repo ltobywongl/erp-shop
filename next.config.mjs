@@ -4,7 +4,7 @@ const nextConfig = {
       remotePatterns: [
         {
           protocol: "https",
-          hostname: "erp-shop-public.s3.ap-northeast-1.amazonaws.com",
+          hostname: "publicen.s3.ap-northeast-1.amazonaws.com",
           port: "",
           pathname: "*/**",
         },
