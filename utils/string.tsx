@@ -10,5 +10,5 @@ export function insertAt(target: string, toInsert: string, position: number) {
 export function pathToS3Url(path: string) {
   if (path.startsWith("http") || path === "/images/fallback.png") return path;
   const timeStamp = new Date().getTime();
-  return `https://publicen.s3.ap-northeast-1.amazonaws.com/${path}?timeStamp=${timeStamp}`;
+  return `https://publicen.s3.ap-southeast-2.amazonaws.com/${path}?timeStamp=${timeStamp}`;
 }

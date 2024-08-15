@@ -18,7 +18,7 @@ function PopUpAds() {
       footer={null}
       onCancel={() => setModalOpen(false)}
     >
-      <Image src={`https://publicen.s3.ap-northeast-1.amazonaws.com/images/popup.jpg?timeStamp=${timeStamp}`} width={600} height={600} alt="" priority={true} />
+      <Image src={`https://publicen.s3.ap-southeast-2.amazonaws.com/images/popup.jpg?timeStamp=${timeStamp}`} width={600} height={600} alt="" priority={true} />
     </Modal>
   );
 }
