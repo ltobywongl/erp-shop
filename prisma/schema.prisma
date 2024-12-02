@@ -24,10 +24,6 @@ model User {
   orders       Order[]
   topups       Topup[]
   enquiries    Enquiry[]
-  Booking      Booking[]
-  TaskAssigner Task[]     @relation(name: "assigner")
-  TaskAssignee Task[]     @relation(name: "assignee")
-  Activity     Activity[]
 
   @@map("users")
 }
@@ -163,73 +159,4 @@ model WebsiteContent {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
 
   @@map("website_contents")
-}
-
-model Booking {
-  id        String   @id @db.VarChar(36)
-  userId    String   @map("user_id") @db.VarChar(36)
-  venue     String   @db.VarChar(100)
-  date      DateTime @db.DateTime(0)
-  time      DateTime @db.DateTime(0)
-  approved  Boolean  @default(false)
-  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
-  users     User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "bookings_users_FK")
-
-  @@map("bookings")
-}
-
-model Activity {
-  id         String   @id @db.VarChar(36)
-  creatorId  String   @map("creator_id") @db.VarChar(36)
-  title      String   @db.VarChar(100)
-  attendance Boolean  @default(false)
-  start      DateTime @db.Time(0)
-  end        DateTime @db.Time(0)
-  date       String   @db.VarChar(20)
-  approved   Boolean  @default(false)
-  createdAt  DateTime @default(now()) @map("created_at") @db.DateTime(0)
-  creator    User     @relation(fields: [creatorId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "activities_users_FK")
-
-  @@map("activities")
-}
-
-model Task {
-  id           String    @id @db.VarChar(36)
-  assignerId   String?   @map("assigner_id") @db.VarChar(36)
-  assigneeId   String?   @map("assignee_id") @db.VarChar(36)
-  state        String    @default("TODO") @db.VarChar(20)
-  title        String    @db.VarChar(100)
-  description  String?   @db.VarChar(1000)
-  deadline     DateTime? @db.DateTime(0)
-  createdAt    DateTime  @default(now()) @map("created_at") @db.DateTime(0)
-  deletedAt    DateTime? @map("deleted_at") @db.DateTime(0)
-  assignerUser User?     @relation(name: "assigner", fields: [assignerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tasks_users_FK_1")
-  assigneeUser User?     @relation(name: "assignee", fields: [assigneeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tasks_users_FK")
-
-  @@map("tasks")
-}
-
-model Opportunity {
-  id                String   @id @db.VarChar(36)
-  title             String   @db.VarChar(100)
-  priority          Int      @db.Int
-  contactNo         String?  @map("contact_no") @db.VarChar(20)
-  contactName       String?  @map("contact_name") @db.VarChar(100)
-  state             String   @default("OPEN") @db.VarChar(20)
-  opportunityAmount Float?   @map("opportunity_amount")
-  createdAt         DateTime @default(now()) @map("created_at") @db.DateTime(0)
-
-  @@map("opportunities")
-}
-
-model Deal {
-  id          String   @id @db.VarChar(36)
-  title       String   @db.VarChar(100)
-  contactNo   String?  @map("contact_no") @db.VarChar(20)
-  contactName String?  @map("contact_name") @db.VarChar(100)
-  state       String   @default("OPEN") @db.VarChar(20)
-  dealAmount  Float?   @map("deal_amount")
-  createdAt   DateTime @default(now()) @map("created_at") @db.DateTime(0)
-
-  @@map("deals")
 }
