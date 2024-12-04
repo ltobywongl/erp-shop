@@ -1,20 +1,8 @@
-/*
-  Warnings:
-
-  - You are about to drop the `user` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-DROP TABLE `user`;
-
 -- CreateTable
 CREATE TABLE `users` (
     `id` VARCHAR(36) NOT NULL,
     `email` VARCHAR(100) NOT NULL,
-    `username` VARCHAR(32) NOT NULL,
     `password` VARCHAR(100) NOT NULL,
-    `age` INTEGER NULL,
-    `gender` VARCHAR(1) NULL,
     `role` VARCHAR(36) NOT NULL DEFAULT 'user',
     `balance` DOUBLE NOT NULL DEFAULT 0.00,
     `coupon_points` INTEGER NOT NULL DEFAULT 0,
@@ -23,7 +11,6 @@ CREATE TABLE `users` (
     `deleted_at` DATETIME(0) NULL,
 
     UNIQUE INDEX `users_unique_1`(`email`),
-    UNIQUE INDEX `users_unique`(`username`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -32,8 +19,9 @@ CREATE TABLE `coupons` (
     `id` VARCHAR(36) NOT NULL,
     `user_id` VARCHAR(36) NOT NULL,
     `coupon_categories_id` VARCHAR(36) NOT NULL,
-    `created_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     `used_at` DATETIME(0) NULL,
+    `created_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `updated_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
 
     INDEX `coupons_coupon_categories_FK`(`coupon_categories_id`),
     INDEX `coupons_users_FK`(`user_id`),
@@ -60,6 +48,7 @@ CREATE TABLE `coupon_categories` (
     `image_path` VARCHAR(255) NULL,
     `point` INTEGER NOT NULL,
     `value` DOUBLE NOT NULL,
+    `min_check_value` DOUBLE NOT NULL,
     `stock` INTEGER NOT NULL DEFAULT 0,
     `active` BOOLEAN NOT NULL DEFAULT false,
     `created_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
@@ -88,6 +77,7 @@ CREATE TABLE `order_items` (
     `product_id` VARCHAR(36) NOT NULL,
     `quantity` INTEGER NOT NULL,
     `created_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `updated_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
 
     INDEX `order_items_products_FK`(`product_id`),
     PRIMARY KEY (`id`)
@@ -104,6 +94,7 @@ CREATE TABLE `orders` (
     `receiver_address` VARCHAR(255) NULL,
     `state` VARCHAR(20) NOT NULL DEFAULT 'pending',
     `created_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `updated_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     `deleted_at` DATETIME(0) NULL,
 
     INDEX `orders_users_FK`(`user_id`),
@@ -130,16 +121,15 @@ CREATE TABLE `products` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `topups` (
+CREATE TABLE `payments` (
     `id` VARCHAR(36) NOT NULL,
     `user_id` VARCHAR(36) NOT NULL,
     `amount` DOUBLE NOT NULL,
-    `image_path` VARCHAR(100) NOT NULL,
-    `approved` BOOLEAN NOT NULL DEFAULT false,
+    `state` VARCHAR(20) NOT NULL DEFAULT 'pending',
     `created_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     `updated_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
 
-    INDEX `topups_users_FK`(`user_id`),
+    INDEX `payments_users_FK`(`user_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -148,6 +138,7 @@ CREATE TABLE `website_contents` (
     `id` VARCHAR(36) NOT NULL,
     `key` VARCHAR(20) NOT NULL,
     `content` TEXT NOT NULL,
+    `created_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     `updated_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
 
     UNIQUE INDEX `website_key_unique`(`key`),
@@ -176,10 +167,10 @@ ALTER TABLE `orders` ADD CONSTRAINT `orders_users_FK` FOREIGN KEY (`user_id`) RE
 ALTER TABLE `orders` ADD CONSTRAINT `orders_coupons_FK` FOREIGN KEY (`coupon_id`) REFERENCES `coupons`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE `orders` ADD CONSTRAINT `orders_topups_FK` FOREIGN KEY (`payment_id`) REFERENCES `topups`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `orders` ADD CONSTRAINT `orders_payments_FK` FOREIGN KEY (`payment_id`) REFERENCES `payments`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE `products` ADD CONSTRAINT `products_categories_FK` FOREIGN KEY (`categories_id`) REFERENCES `categories`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE `topups` ADD CONSTRAINT `topups_users_FK` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `payments` ADD CONSTRAINT `paymentss_users_FK` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;

@@ -48,7 +48,7 @@ export default async function Home() {
         </div>
         <div className="col-start-4 md:col-span-5 bg-gray-100">
           <Image
-            src={`https://publicen.s3.ap-southeast-2.amazonaws.com/images/banner.jpg?timeStamp=${timeStamp}`}
+            src={`${process.env.AWS_S3_URL ?? ""}/images/banner.jpg?timeStamp=${timeStamp}`}
             className="w-full h-auto max-h-96 object-contain"
             width={600}
             height={600}

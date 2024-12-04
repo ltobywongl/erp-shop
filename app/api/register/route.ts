@@ -11,7 +11,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     if (
       !body.email ||
-      !body.name ||
       !body.password ||
       !/\S+@\S+\.\S+/.test(body.email)
     )
@@ -34,10 +33,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       data: {
         id: uuid(),
         email: body.email,
-        username: body.name,
         password: body.password,
-        age: body.age,
-        gender: body.gender,
       },
     });
 

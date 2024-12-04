@@ -7,10 +7,7 @@ import { Button } from "antd";
 
 type Inputs = {
   email: string;
-  name: string;
   password: string;
-  age: number;
-  gender: string;
 };
 
 export default function Login() {
@@ -30,10 +27,7 @@ export default function Login() {
       method: "POST",
       body: JSON.stringify({
         email: data.email,
-        name: data.name,
         password: data.password,
-        age: data.age,
-        gender: data.gender,
       }),
     });
     setLoading(false);
@@ -69,16 +63,6 @@ export default function Login() {
         {errors.email && (
           <div className="text-red-500 text-sm">{errors.email.message}</div>
         )}
-        名稱
-        <input
-          className="mb-1 p-1 rounded-sm border border-solid"
-          {...register("name", {
-            required: true,
-          })}
-        />
-        {errors.name && (
-          <div className="text-red-500 text-sm">{errors.name.message}</div>
-        )}
         密碼
         <input
           className="p-1 rounded-sm border border-solid"
@@ -89,31 +73,6 @@ export default function Login() {
         />
         {errors.password && (
           <div className="text-red-500 text-sm">{errors.password.message}</div>
-        )}
-        性別
-        <select
-          className="mb-1 p-1 rounded-sm border border-solid"
-          {...register("gender", {
-            required: true,
-          })}
-        >
-          <option value="M">男</option>
-          <option value="F">女</option>
-        </select>
-        {errors.gender && (
-          <div className="text-red-500 text-sm">{errors.gender.message}</div>
-        )}
-        年齡
-        <input
-          className="mb-1 p-1 rounded-sm border border-solid"
-          type="number"
-          min={0}
-          {...register("age", {
-            required: true,
-          })}
-        />
-        {errors.age && (
-          <div className="text-red-500 text-sm">{errors.age.message}</div>
         )}
         <Button
           className="mt-4"

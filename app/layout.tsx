@@ -20,12 +20,12 @@ export default function RootLayout({
   return (
     <CartProvider>
       <html lang="en">
-        <body className={inter.className}>
-          <AntdRegistry>
+        <AntdRegistry>
+          <body className={inter.className}>
             <NavBar />
             {children}
-          </AntdRegistry>
-        </body>
+          </body>
+        </AntdRegistry>
       </html>
     </CartProvider>
   );

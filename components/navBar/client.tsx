@@ -10,36 +10,16 @@ import {
   AppstoreOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
-import { Input, Button, Badge, Drawer } from "antd";
-import { Suspense, useState } from "react";
+import { Button, Badge, Drawer } from "antd";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { SmallItemCard } from "@/components/common/itemCard";
 import { useCart } from "@/utils/cartProvider";
 import useBigScreen from "@/utils/hooks/windowSize";
-import { useRouter, useSearchParams } from "next/navigation";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
-
-const { Search } = Input;
-
-function SearchBar(params: { className?: string }) {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  return (
-    <Search
-      placeholder="Search"
-      defaultValue={searchParams.get("keyword") ?? ""}
-      enterButton
-      size="large"
-      loading={false}
-      onSearch={(data) => {
-        if (data.length > 0) router.push(`/search/${data}`);
-      }}
-      className={params.className}
-    />
-  );
-}
+import SearchBar from "../common/searchBar";
 
 function NavBarClient(props: { session: Session | null }) {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -47,7 +27,6 @@ function NavBarClient(props: { session: Session | null }) {
   const [openSearch, setOpenSearch] = useState(false);
   const isBigScreen = useBigScreen();
   const cartContext = useCart();
-  const router = useRouter();
   const timeStamp = new Date().getTime();
 
   return (
@@ -121,7 +100,7 @@ function NavBarClient(props: { session: Session | null }) {
           <div>關於我們</div>
         </Link>
       </Drawer>
-      <div className="z-0 h-[56px] md:h-24 w-full gap-8 px-4 py-3 flex items-center justify-between md:justify-around bg-zinc-100 md:bg-transparent">
+      <div className="z-50 h-[56px] md:h-24 w-full gap-8 px-4 py-3 flex items-center justify-between md:justify-around bg-zinc-100 md:bg-transparent">
         <div className="h-full flex gap-4">
           <Button
             type="text"
@@ -130,32 +109,15 @@ function NavBarClient(props: { session: Session | null }) {
             onClick={() => setOpenDrawer(true)}
             className="md:!hidden"
           />
-          <Link href="/">
-            <Image
-              src={`https://publicen.s3.ap-southeast-2.amazonaws.com/images/icon.jpg?timeStamp=${timeStamp}`}
-              alt="Shop"
-              className="h-full w-auto max-h-16 object-contain"
-              width={200}
-              height={200}
-            />
-          </Link>
+          <Image
+            src={`${process.env.AWS_S3_URL ?? ""}/images/icon.jpg?timeStamp=${timeStamp}`}
+            alt="Shop"
+            className="h-full w-auto max-h-16 object-contain"
+            width={200}
+            height={200}
+          />
         </div>
-        <Suspense
-          fallback={
-            <Search
-              placeholder="Search"
-              enterButton
-              size="large"
-              loading={false}
-              onSearch={(data) => {
-                if (data.length > 0) router.push(`/search/${data}`);
-              }}
-              className="max-w-[40%] !hidden md:!block"
-            />
-          }
-        >
-          <SearchBar className="max-w-[40%] !hidden md:!block" />
-        </Suspense>
+        <SearchBar className="!w-2/5 !hidden md:!flex" />
 
         <div className="flex gap-4">
           <Button
@@ -176,24 +138,10 @@ function NavBarClient(props: { session: Session | null }) {
           </Badge>
         </div>
       </div>
-      <div className="md:!hidden" hidden={!openSearch}>
-        <Suspense
-          fallback={
-            <Search
-              placeholder="Search"
-              enterButton
-              size="large"
-              loading={false}
-              onSearch={(data) => {
-                if (data.length > 0) router.push(`/search?keyword=${data}`);
-              }}
-            />
-          }
-        >
-          <SearchBar />
-        </Suspense>
+      <div className="z-50 md:!hidden" hidden={!openSearch}>
+        <SearchBar />
       </div>
-      <div className="h-[3rem] w-full mt-4 bg-zinc-700 gap-4 px-4 hidden md:flex items-center justify-around">
+      <div className="z-50 h-[3rem] w-full mt-4 bg-zinc-700 gap-4 px-4 hidden md:flex items-center justify-around">
         <div className="flex h-full [&>a]:flex [&>a]:h-full [&>a]:items-center [&>a]:px-6">
           <Link href="/" className="bg-red-500 text-white">
             首頁

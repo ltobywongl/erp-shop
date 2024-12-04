@@ -1,6 +1,4 @@
-This is a [Next.js](https://nextjs.org/) Ecommerce project
-
-Prisma is used as the ORM
+This is a [Next.js](https://nextjs.org/) + Prisma project
 
 This project uses aws and sendgrid services
 
