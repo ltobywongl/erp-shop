@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/utils/prisma";
 import * as bcrypt from "bcrypt";
+import { v4 as uuid } from "uuid";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -23,27 +24,26 @@ export const authOptions: NextAuthOptions = {
           select: {
             id: true,
             email: true,
-            username: true,
             password: true,
             role: true,
+            provider: true,
           },
           where: {
             email: credentials.email,
           },
         });
 
-        if (!loginUser) return null;
+        if (!loginUser || loginUser.provider !== 'credentials') return null;
 
         const passwordCorrect = await bcrypt.compare(
           credentials.password,
-          loginUser.password
+          loginUser.password as string,
         );
 
         if (passwordCorrect) {
           return {
             id: loginUser.id,
             email: loginUser.email,
-            name: loginUser.username,
             role: loginUser.role,
           };
         }
@@ -54,13 +54,6 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_ID ?? "",
       clientSecret: process.env.GOOGLE_SECRET ?? "",
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
-        },
-      },
     }),
   ],
   pages: {
@@ -80,6 +73,35 @@ export const authOptions: NextAuthOptions = {
       session.user.role = token.user.role;
       delete session.user.image;
       return session;
+    },
+    async signIn({ account, profile }) {
+      if (!account || !profile?.email) return false;
+
+      if (account.provider === "google") {
+        const user = await prisma.user.findFirst({
+          select: {
+            id: true,
+            email: true,
+            role: true,
+          },
+          where: {
+            email: profile.email,
+            provider: 'google'
+          },
+        });
+
+        if (!user) {
+          // Create a new user
+          await prisma.user.create({
+            data: {
+              id: uuid(),
+              email: profile.email,
+              provider: 'google',
+            },
+          });
+        }
+      }
+      return true;
     },
   },
   session: {

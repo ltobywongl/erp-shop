@@ -34,11 +34,9 @@ export default function Login() {
     setLoading(false);
     if (res?.error) {
       setError(true);
-    } else {
-      if (res?.url) {
-        await router.push(res.url);
-        router.refresh();
-      }
+    } else if (res?.url) {
+      router.push(res.url);
+      router.refresh();
     }
   };
 
@@ -56,7 +54,7 @@ export default function Login() {
         action="/api/auth/callback/credentials"
         onSubmit={handleSubmit(onSubmit)}
       >
-        電郵地址
+        <span>電郵地址</span>
         <input
           type="email"
           className="mb-1 p-1 rounded-sm border border-solid"
@@ -71,7 +69,7 @@ export default function Login() {
         {errors.email && (
           <div className="text-red-500 text-sm">{errors.email.message}</div>
         )}
-        密碼
+        <span>密碼</span>
         <input
           className="p-1 rounded-sm border border-solid"
           type="password"
@@ -86,7 +84,10 @@ export default function Login() {
           <Link href="/register" className="w-fit text-blue-800 underline">
             註冊
           </Link>
-          <Link href="/forget-password" className="w-fit text-blue-800 underline">
+          <Link
+            href="/forget-password"
+            className="w-fit text-blue-800 underline"
+          >
             忘記密碼
           </Link>
         </div>

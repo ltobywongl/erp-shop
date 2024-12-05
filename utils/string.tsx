@@ -9,6 +9,5 @@ export function insertAt(target: string, toInsert: string, position: number) {
 
 export function pathToS3Url(path: string) {
   if (path.startsWith("http") || path === "/images/fallback.png") return path;
-  const timeStamp = new Date().getTime();
-  return `${process.env.AWS_S3_URL ?? ""}/${path}?timeStamp=${timeStamp}`;
+  return `${process.env.AWS_S3_URL ?? ""}/${path}`;
 }

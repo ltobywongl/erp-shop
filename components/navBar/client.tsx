@@ -21,14 +21,13 @@ import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import SearchBar from "../common/searchBar";
 
-function NavBarClient(props: { session: Session | null }) {
+function NavBarClient(props: Readonly<{ session: Session | null }>) {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const isBigScreen = useBigScreen();
   const cartContext = useCart();
-  const timeStamp = new Date().getTime();
-
+  
   return (
     <>
       <Drawer
@@ -110,7 +109,7 @@ function NavBarClient(props: { session: Session | null }) {
             className="md:!hidden"
           />
           <Image
-            src={`${process.env.AWS_S3_URL ?? ""}/images/icon.jpg?timeStamp=${timeStamp}`}
+            src={`${process.env.AWS_S3_URL ?? ""}/images/icon.jpg`}
             alt="Shop"
             className="h-full w-auto max-h-16 object-contain"
             width={200}

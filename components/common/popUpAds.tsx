@@ -8,7 +8,6 @@ function PopUpAds() {
   useEffect(() => {
     setModalOpen(true);
   }, []);
-  const timeStamp = new Date().getTime();
 
   return (
     <Modal
@@ -18,7 +17,7 @@ function PopUpAds() {
       footer={null}
       onCancel={() => setModalOpen(false)}
     >
-      <Image src={`${process.env.AWS_S3_URL ?? ""}/images/popup.jpg?timeStamp=${timeStamp}`} width={600} height={600} alt="" priority={true} />
+      <Image src={`${process.env.AWS_S3_URL ?? ""}/images/popup.jpg`} width={600} height={600} alt="" priority={true} />
     </Modal>
   );
 }
