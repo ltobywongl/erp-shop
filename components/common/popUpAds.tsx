@@ -3,7 +3,7 @@ import Modal from "antd/es/modal";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-function PopUpAds() {
+function PopUpAds(params: Readonly<{ imageUrl: string }>) {
   const [modalOpen, setModalOpen] = useState(false);
   useEffect(() => {
     setModalOpen(true);
@@ -17,7 +17,13 @@ function PopUpAds() {
       footer={null}
       onCancel={() => setModalOpen(false)}
     >
-      <Image src={`${process.env.AWS_S3_URL ?? ""}/images/popup.jpg`} width={600} height={600} alt="" priority={true} />
+      <Image
+        src={params.imageUrl}
+        unoptimized
+        width={600}
+        height={600}
+        alt=""
+      />
     </Modal>
   );
 }

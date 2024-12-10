@@ -110,6 +110,7 @@ function NavBarClient(props: Readonly<{ session: Session | null }>) {
           />
           <Image
             src={`${process.env.AWS_S3_URL ?? ""}/images/icon.jpg`}
+            unoptimized
             alt="Shop"
             className="h-full w-auto max-h-16 object-contain"
             width={200}

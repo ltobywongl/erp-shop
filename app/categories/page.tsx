@@ -19,7 +19,7 @@ async function Page() {
   return (
     <div className="flex justify-center py-2">
       <div className="w-full md:w-4/5">
-        <h1 className="text-xl font-bold">所有商品種類</h1>
+        <h1 className="text-xl font-bold p-2">所有商品種類</h1>
         <div className="md:grid md:grid-cols-2 gap-2">
           {categories.map((category) => (
             <Link

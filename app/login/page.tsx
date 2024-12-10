@@ -42,7 +42,7 @@ export default function Login() {
 
   return (
     <div className="flex flex-col w-full my-[10%] items-center justify-center">
-      <div className="flex flex-col gap-2 w-[90%] md:w-96 mb-2 [&>button]:w-full">
+      <div className="flex flex-col gap-2 w-[90%] md:w-96 mb-4 [&>button]:w-full">
         <Button onClick={() => signIn("google", { callbackUrl: "/" })}>
           Sign in with Google
           <GoogleOutlined />

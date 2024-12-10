@@ -35,7 +35,7 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col md:mt-4">
-      <PopUpAds />
+      <PopUpAds imageUrl={`${process.env.AWS_S3_URL ?? ""}/images/popup.jpg`} />
       <FloatButton
         icon={<QuestionCircleOutlined />}
         type="primary"
@@ -48,6 +48,7 @@ export default async function Home() {
         <div className="col-start-4 md:col-span-5 bg-gray-100">
           <Image
             src={`${process.env.AWS_S3_URL ?? ""}/images/banner.jpg`}
+            unoptimized
             className="w-full h-auto max-h-96 object-contain"
             width={600}
             height={600}

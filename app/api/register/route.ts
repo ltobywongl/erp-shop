@@ -34,6 +34,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         id: uuid(),
         email: body.email,
         password: body.password,
+        provider: 'credentials',
       },
     });
 
