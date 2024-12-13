@@ -13,7 +13,7 @@ const {
 const command = `ssh -N -L ${LOCAL_PORT}:${REMOTE_HOST}:${REMOTE_PORT} ${SSH_USER}@${SSH_HOST} -i "${SSH_KEY}"`;
 
 while (true) {
-  console.log('Executing command: ' + command);
+  console.log(`${new Date().toISOString()} Executing command: ${command}`);
   const response = shell.exec(command);
   console.log(response);
 
