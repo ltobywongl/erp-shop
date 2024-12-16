@@ -11,17 +11,17 @@ model User {
   id           String    @id @db.VarChar(36)
   email        String    @unique(map: "users_unique_1") @db.VarChar(100)
   password     String?   @db.VarChar(100)
-  provider     String?   @db.VarChar(16)
   role         String    @default("user") @db.VarChar(36)
-  balance      Float     @default(0.00)
+  balance      Float     @default(0)
   couponPoints Int       @default(0) @map("coupon_points")
   createdAt    DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt    DateTime  @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
   deletedAt    DateTime? @map("deleted_at") @db.DateTime(0)
+  provider     String?   @db.VarChar(16)
   coupons      Coupon[]
+  enquiries    Enquiry[]
   orders       Order[]
   payment      Payment[]
-  enquiries    Enquiry[]
 
   @@map("users")
 }
@@ -45,7 +45,7 @@ model Coupon {
 model Category {
   id        String    @id @db.VarChar(36)
   name      String    @db.VarChar(30)
-  discount  Float     @default(0.00)
+  discount  Float     @default(0)
   createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt DateTime  @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
   deletedAt DateTime? @map("deleted_at") @db.DateTime(0)
@@ -81,6 +81,7 @@ model Enquiry {
   createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
   user      User?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "enquiries_users_FK")
 
+  @@index([userId], map: "enquiries_users_FK")
   @@map("enquiries")
 }
 
@@ -95,6 +96,7 @@ model OrderItem {
   product   Product  @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "order_items_products_FK")
 
   @@index([productId], map: "order_items_products_FK")
+  @@index([orderId], map: "order_items_orders_FK")
   @@map("order_items")
 }
 
@@ -110,12 +112,14 @@ model Order {
   createdAt       DateTime    @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt       DateTime    @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
   deletedAt       DateTime?   @map("deleted_at") @db.DateTime(0)
-  user            User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_users_FK")
+  orderItem       OrderItem[]
   coupon          Coupon?     @relation(fields: [couponId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_coupons_FK")
   payment         Payment?    @relation(fields: [paymentId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_payments_FK")
-  orderItem       OrderItem[]
+  user            User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_users_FK")
 
   @@index([userId], map: "orders_users_FK")
+  @@index([couponId], map: "orders_coupons_FK")
+  @@index([paymentId], map: "orders_payments_FK")
   @@map("orders")
 }
 
@@ -126,8 +130,9 @@ model Product {
   description String?     @db.VarChar(255)
   image       String?     @db.VarChar(255)
   price       Float
+  useStock    Boolean     @default(false) @map("use_stock")
   stock       Int         @default(0)
-  discount    Float       @default(0.00)
+  discount    Float       @default(0)
   couponPoint Int         @map("coupon_point")
   createdAt   DateTime    @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt   DateTime    @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
@@ -146,8 +151,8 @@ model Payment {
   state     String   @default("pending") @db.VarChar(20)
   createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
-  users     User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "paymentss_users_FK")
   Order     Order[]
+  users     User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "paymentss_users_FK")
 
   @@index([userId], map: "payments_users_FK")
   @@map("payments")

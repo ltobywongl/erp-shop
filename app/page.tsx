@@ -25,7 +25,12 @@ export default async function Home() {
     },
     where: {
       deletedAt: null,
-      stock: { gt: 0 },
+      OR: [
+        {
+          useStock: false,
+          stock: { gt: 0 },
+        },
+      ],
     },
     orderBy: {
       createdAt: "desc",
