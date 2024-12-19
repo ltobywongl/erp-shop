@@ -3,7 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/utils/prisma";
 import * as bcrypt from "bcrypt";
-import { v4 as uuid } from "uuid";
+import { createId } from '@paralleldrive/cuid2';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -94,7 +94,7 @@ export const authOptions: NextAuthOptions = {
           // Create a new user
           await prisma.user.create({
             data: {
-              id: uuid(),
+              id: createId(),
               email: profile.email,
               provider: 'google',
             },

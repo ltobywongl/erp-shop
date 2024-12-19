@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/utils/prisma";
-import { v4 as uuid } from "uuid";
+import { createId } from '@paralleldrive/cuid2';
 
 export async function POST(req: NextRequest) {
   try {
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     await prisma.enquiry.create({
       data: {
-        id: uuid(),
+        id: createId(),
         userId: body.userId,
         email: body.email,
         content: body.content,

@@ -6,7 +6,7 @@ import prisma from "@/utils/prisma";
 import { uploadBlob } from "@/utils/s3";
 import { getServerSession } from "next-auth/next";
 import { NextRequest, NextResponse } from "next/server";
-import { v4 as uuid } from "uuid";
+import { createId } from '@paralleldrive/cuid2';
 
 export async function POST(request: NextRequest) {
   try {
@@ -136,11 +136,11 @@ export async function POST(request: NextRequest) {
     }
     const file = formData.transfer as File;
 
-    const orderId = uuid();
+    const orderId = createId();
     await prisma.$transaction(async (tx) => {
       if (needToTopup) {
-        const fileUUID = uuid();
-        const paymentId = uuid();
+        const fileUUID = createId();
+        const paymentId = createId();
         const path = `orders/payments/${user.id}/${fileUUID}`;
 
         await uploadBlob("tomshop-pub", path, file, file.type);
@@ -180,7 +180,7 @@ export async function POST(request: NextRequest) {
         await tx.orderItem.createMany({
           data: cart.map((product) => {
             return {
-              id: uuid(),
+              id: createId(),
               orderId: orderId,
               productId: product.id,
               quantity: product.quantity,
@@ -220,7 +220,7 @@ export async function POST(request: NextRequest) {
         await tx.orderItem.createMany({
           data: cart.map((product) => {
             return {
-              id: uuid(),
+              id: createId(),
               orderId: orderId,
               productId: product.id,
               quantity: product.quantity,

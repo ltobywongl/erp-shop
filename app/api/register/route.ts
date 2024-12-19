@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcrypt";
-import { v4 as uuid } from "uuid";
+import { createId } from '@paralleldrive/cuid2';
 
 const prisma = new PrismaClient();
 
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     body.password = await bcrypt.hash(body.password, 10);
     await prisma.user.create({
       data: {
-        id: uuid(),
+        id: createId(),
         email: body.email,
         password: body.password,
         provider: 'credentials',

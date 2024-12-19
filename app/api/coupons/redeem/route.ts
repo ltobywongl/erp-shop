@@ -3,7 +3,7 @@ import prisma from "@/utils/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
 import { errorResponse, successResponse } from "@/utils/httpResponse";
-import { v4 as uuid } from "uuid";
+import { createId } from '@paralleldrive/cuid2';
 
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       }),
       prisma.coupon.create({
         data: {
-          id: uuid(),
+          id: createId(),
           userId: session.user.id,
           couponCategoryId: couponCategory.id,
         },
