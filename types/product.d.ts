@@ -5,6 +5,7 @@ type CategoryListProduct = {
   price: number;
   discount: number;
   couponPoint: number;
+  useStock: boolean;
   stock: number;
   category: {
     discount: number;

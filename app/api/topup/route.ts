@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     const fileUUID = uuid();
     const path = `orders/payments/${user.id}/${fileUUID}`;
 
-    await uploadBlob("privateen", path, file, file.type);
+    await uploadBlob("tomshop-pub", path, file, file.type);
 
     await prisma.topup.create({
       data: {

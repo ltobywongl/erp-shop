@@ -13,10 +13,17 @@ export async function GET(request: NextRequest) {
 
   const whereClause = {
     deletedAt: null,
-    stock: { gt: 0 },
     name: {
       contains: keyword,
     },
+    OR: [
+      {
+        useStock: false,
+      },
+      {
+        stock: { gt: 0 },
+      }
+    ],
   };
 
   const orderByClause: {
@@ -33,6 +40,7 @@ export async function GET(request: NextRequest) {
       price: true,
       discount: true,
       couponPoint: true,
+      useStock: true,
       stock: true,
       category: {
         select: {

@@ -111,13 +111,12 @@ function ItemCardVertical(props: { item: Item }) {
               ${toPrice(item.markedPrice)}
             </span>
           ) : null}
-          <span className="text-red-500 ml-1 text-xs">
-            ({item.couponPoint}積分)
-          </span>
         </div>
-        <div className="w-full md:text-center text-xs text-zinc-500">
-          剩餘{item.stock}件商品
-        </div>
+        {item.useStock && (
+          <div className="w-full md:text-center text-xs text-zinc-500">
+            剩餘{item.stock}件商品
+          </div>
+        )}
         <div className="w-full md:text-center">
           <button
             className="bg-green-500 text-white text-sm rounded-md font-medium py-1 px-2"
@@ -190,9 +189,11 @@ function ItemCardPoint(props: { item: Partial<CouponCategory> }) {
             <span>積分</span>
           </Link>
         </div>
-        <div className="w-full md:text-center text-zinc-500">
-          剩餘{item.stock}件
-        </div>
+        {item.useStock && (
+          <div className="w-full md:text-center text-zinc-500">
+            剩餘{item.stock}件
+          </div>
+        )}
         <button
           className="bg-green-500 hover:bg-green-400 text-white rounded-sm py-1 px-3"
           onClick={() => handleRedeem()}

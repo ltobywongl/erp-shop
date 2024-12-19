@@ -57,6 +57,7 @@ export async function POST(request: NextRequest) {
       select: {
         id: true,
         price: true,
+        useStock: true,
         stock: true,
         discount: true,
         couponPoint: true,
@@ -85,16 +86,16 @@ export async function POST(request: NextRequest) {
             cartProduct.category.discount) *
           product.quantity;
         totalPoint += cartProduct.couponPoint * product.quantity;
-        if (cartProduct.stock < product.quantity) {
+        if (cartProduct.useStock && cartProduct.stock < product.quantity) {
           return errorResponse(`庫存不足:${product.name}`, 400);
         }
       } else {
-        return errorResponse(`未知商品:${product.name}`, 400);
+        return errorResponse(`未知的商品:${product.name}`, 400);
       }
     }
 
     if (!products) {
-      return errorResponse("未知商品", 400);
+      return errorResponse("未知的商品", 400);
     }
 
     if (parseFloat(formData.price as string) !== totalPrice) {
@@ -118,7 +119,7 @@ export async function POST(request: NextRequest) {
       });
 
       if (!coupon) {
-        return errorResponse("未知優惠卷", 400);
+        return errorResponse("未知的優惠卷", 400);
       }
       totalPrice -= coupon?.couponCategory.value;
     }
@@ -142,7 +143,7 @@ export async function POST(request: NextRequest) {
         const paymentId = uuid();
         const path = `orders/payments/${user.id}/${fileUUID}`;
 
-        await uploadBlob("privateen", path, file, file.type);
+        await uploadBlob("tomshop-pub", path, file, file.type);
 
         await tx.topup.create({
           data: {
@@ -201,8 +202,6 @@ export async function POST(request: NextRequest) {
         });
 
         await Promise.all(data);
-
-        //TODO: add point & remove balance to user after approved topup
       } else {
         await tx.order.create({
           data: {

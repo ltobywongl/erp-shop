@@ -30,7 +30,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     if (!user || !couponCategory) return errorResponse("Bad Request", 400);
 
-    if (couponCategory.stock < 1) {
+    if (couponCategory.useStock && couponCategory.stock < 1) {
       return errorResponse("Out of stock", 400);
     }
 
@@ -56,6 +56,20 @@ export async function POST(req: NextRequest, res: NextResponse) {
           couponCategoryId: couponCategory.id,
         },
       }),
+      ...(couponCategory.useStock
+        ? [
+            prisma.couponCategory.update({
+              where: {
+                id: couponCategory.id,
+              },
+              data: {
+                stock: {
+                  decrement: 1,
+                },
+              },
+            }),
+          ]
+        : []),
     ]);
 
     return successResponse("Success", "Success");

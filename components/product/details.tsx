@@ -5,8 +5,8 @@ import { pathToS3Url, toPrice } from "@/utils/string";
 import { useCart } from "@/utils/cartProvider";
 
 type DetailsItem = Item & {
-    description: string;
-}
+  description: string;
+};
 
 function ProductDetails({ item }: { item: DetailsItem }) {
   const { addQuantity } = useCart();
@@ -36,9 +36,7 @@ function ProductDetails({ item }: { item: DetailsItem }) {
         )}
       </div>
       <div className="flex flex-col ml-4 md:ml-0">
-        <div className="text-zinc-600">
-            {item.description}
-        </div>
+        <div className="text-zinc-600">{item.description}</div>
         <div className="w-full text-red-400 mt-2">
           <span className="md:hidden">HKD$</span>
           <span className="hidden md:inline">$</span>
@@ -51,13 +49,11 @@ function ProductDetails({ item }: { item: DetailsItem }) {
               ${toPrice(item.markedPrice)}
             </span>
           ) : null}
-          <span className="text-red-500 ml-1">
-            ({item.couponPoint}積分)
-          </span>
+          <span className="text-red-500 ml-1">({item.couponPoint}積分)</span>
         </div>
-        <div className="w-full text-zinc-500">
-          剩餘{item.stock}件商品
-        </div>
+        {item.useStock && (
+          <div className="w-full text-zinc-500">剩餘{item.stock}件商品</div>
+        )}
         <div className="w-full">
           <button
             className="bg-green-500 text-white rounded-md font-medium py-1 px-3 text-lg"

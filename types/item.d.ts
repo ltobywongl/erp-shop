@@ -6,5 +6,6 @@ type Item = {
   sellingPrice: number;
   couponPoint?: number;
   quantity: number;
+  useStock: boolean;
   stock: number;
 };

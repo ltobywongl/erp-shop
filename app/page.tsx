@@ -16,6 +16,7 @@ export default async function Home() {
       price: true,
       discount: true,
       couponPoint: true,
+      useStock: true,
       stock: true,
       category: {
         select: {
@@ -28,8 +29,10 @@ export default async function Home() {
       OR: [
         {
           useStock: false,
-          stock: { gt: 0 },
         },
+        {
+          stock: { gt: 0 },
+        }
       ],
     },
     orderBy: {
@@ -75,6 +78,7 @@ export default async function Home() {
                 sellingPrice:
                   item.price - item.discount - item.category.discount,
                 quantity: 1,
+                useStock: item.useStock,
                 stock: item.stock,
                 couponPoint: item.couponPoint,
               }}

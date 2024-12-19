@@ -5,6 +5,7 @@ import SideMenu from "../common/sideMenu";
 import { ItemCardVertical } from "../common/itemCard";
 import { useEffect, useState } from "react";
 import Loading from "@/app/loading";
+import PaginationClient from "@/components/common/pagination";
 
 function CategoryListPage({ id }: { id: string }) {
   const [data, setData] = useState<CategoryListProduct[]>([]);
@@ -55,62 +56,11 @@ function CategoryListPage({ id }: { id: string }) {
         <div className="col-start-4 col-span-6 px-1">
           <Breadcrumb items={breadItems} />
           <hr className="mt-1" />
-          <div className="mt-2">
-            <div className="w-full flex items-center gap-2">
-              <span className="flex items-center gap-1">
-                <div>頁面</div>
-                <strong>
-                  {pagination.pageIndex + 1}/{totalPages}
-                </strong>
-              </span>
-            </div>
-            <div className="w-full flex justify-between gap-4 mt-2">
-              <button
-                className="hover:bg-slate-50 w-full border rounded px-2 py-1"
-                onClick={() =>
-                  setPagination((p) => {
-                    return { ...p, pageIndex: 0 };
-                  })
-                }
-                disabled={pagination.pageIndex <= 0}
-              >
-                {"<<"}
-              </button>
-              <button
-                className="hover:bg-slate-50 w-full border rounded px-2 py-1"
-                onClick={() =>
-                  setPagination((p) => {
-                    return { ...p, pageIndex: p.pageIndex - 1 };
-                  })
-                }
-                disabled={pagination.pageIndex <= 0}
-              >
-                {"<"}
-              </button>
-              <button
-                className="hover:bg-slate-50 w-full border rounded px-2 py-1"
-                onClick={() =>
-                  setPagination((p) => {
-                    return { ...p, pageIndex: p.pageIndex + 1 };
-                  })
-                }
-                disabled={pagination.pageIndex >= totalPages - 1}
-              >
-                {">"}
-              </button>
-              <button
-                className="hover:bg-slate-50 w-full border rounded px-2 py-1"
-                onClick={() =>
-                  setPagination((p) => {
-                    return { ...p, pageIndex: totalPages - 1 };
-                  })
-                }
-                disabled={pagination.pageIndex >= totalPages - 1}
-              >
-                {">>"}
-              </button>
-            </div>
-          </div>
+          <PaginationClient
+            setPagination={setPagination}
+            pagination={pagination}
+            totalPages={totalPages}
+          />
           {isLoading ? (
             <Loading />
           ) : data.length > 0 ? (
@@ -125,6 +75,7 @@ function CategoryListPage({ id }: { id: string }) {
                     sellingPrice:
                       item.price - item.discount - item.category.discount,
                     quantity: 1,
+                    useStock: item.useStock,
                     stock: item.stock,
                     couponPoint: item.couponPoint,
                   }}
@@ -137,62 +88,11 @@ function CategoryListPage({ id }: { id: string }) {
               <div>查無商品</div>
             </div>
           )}
-          <div className="mt-2">
-            <div className="w-full flex justify-between gap-4">
-              <button
-                className="hover:bg-slate-50 w-full border rounded px-2 py-1"
-                onClick={() =>
-                  setPagination((p) => {
-                    return { ...p, pageIndex: 0 };
-                  })
-                }
-                disabled={pagination.pageIndex <= 0}
-              >
-                {"<<"}
-              </button>
-              <button
-                className="hover:bg-slate-50 w-full border rounded px-2 py-1"
-                onClick={() =>
-                  setPagination((p) => {
-                    return { ...p, pageIndex: p.pageIndex - 1 };
-                  })
-                }
-                disabled={pagination.pageIndex <= 0}
-              >
-                {"<"}
-              </button>
-              <button
-                className="hover:bg-slate-50 w-full border rounded px-2 py-1"
-                onClick={() =>
-                  setPagination((p) => {
-                    return { ...p, pageIndex: p.pageIndex + 1 };
-                  })
-                }
-                disabled={pagination.pageIndex >= totalPages - 1}
-              >
-                {">"}
-              </button>
-              <button
-                className="hover:bg-slate-50 w-full border rounded px-2 py-1"
-                onClick={() =>
-                  setPagination((p) => {
-                    return { ...p, pageIndex: totalPages - 1 };
-                  })
-                }
-                disabled={pagination.pageIndex >= totalPages - 1}
-              >
-                {">>"}
-              </button>
-            </div>
-            <div className="w-full flex items-center gap-2 mt-2">
-              <span className="flex items-center gap-1">
-                <div>頁面</div>
-                <strong>
-                  {pagination.pageIndex + 1}/{totalPages}
-                </strong>
-              </span>
-            </div>
-          </div>
+          <PaginationClient
+            setPagination={setPagination}
+            pagination={pagination}
+            totalPages={totalPages}
+          />
         </div>
       </div>
     </main>

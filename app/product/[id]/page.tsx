@@ -10,6 +10,7 @@ async function Page({ params }: { params: { id: string } }) {
       description: true,
       image: true,
       price: true,
+      useStock: true,
       stock: true,
       discount: true,
       couponPoint: true,
@@ -36,6 +37,7 @@ async function Page({ params }: { params: { id: string } }) {
     markedPrice: product.price,
     sellingPrice: product.price - product.discount - product.category.discount,
     quantity: 1,
+    useStock: product.useStock,
     stock: product.stock,
     couponPoint: product.couponPoint,
   };
