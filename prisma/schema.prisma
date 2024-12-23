@@ -63,7 +63,7 @@ model CouponCategory {
   imagePath     String?   @map("image_path") @db.VarChar(255)
   point         Int
   value         Float
-  minCheckValue Float     @map("min_check_value")
+  minCheckValue Float?    @map("min_check_value")
   useStock      Boolean   @default(false) @map("use_stock")
   stock         Int       @default(0)
   active        Boolean   @default(false)
