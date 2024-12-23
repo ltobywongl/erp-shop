@@ -14,10 +14,11 @@ model User {
   role         String    @default("user") @db.VarChar(36)
   balance      Float     @default(0)
   couponPoints Int       @default(0) @map("coupon_points")
+  status       String?   @default("v") @db.VarChar(1)
+  provider     String    @db.VarChar(16)
   createdAt    DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt    DateTime  @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
   deletedAt    DateTime? @map("deleted_at") @db.DateTime(0)
-  provider     String?   @db.VarChar(16)
   coupons      Coupon[]
   enquiries    Enquiry[]
   orders       Order[]
@@ -179,11 +180,20 @@ model Payment {
 }
 
 model WebsiteContent {
-  id        String   @id @db.VarChar(36)
+  id        Int      @id @default(autoincrement())
   key       String   @unique(map: "website_key_unique") @db.VarChar(20)
   content   String   @db.Text
   createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
 
   @@map("website_contents")
+}
+
+model verifications {
+  id         String    @id @db.VarChar(36)
+  type       String    @db.VarChar(20)
+  user_id    String    @db.VarChar(36)
+  created_at DateTime  @default(now()) @db.DateTime(0)
+  deleted_at DateTime? @db.DateTime(0)
+  expired_at DateTime  @db.DateTime(0)
 }
