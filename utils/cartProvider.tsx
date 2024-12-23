@@ -1,6 +1,7 @@
 "use client";
 import { message } from "antd";
 import React, { useContext, createContext, useState, useEffect } from "react";
+import { useModal } from "@/components/common/modal";
 
 const cartContext = createContext<{
   cart: Item[];
@@ -17,6 +18,7 @@ const cartContext = createContext<{
 const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<Item[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const { showModal } = useModal();
 
   useEffect(() => {
     const cartData = JSON.parse(localStorage.getItem("cart") ?? "[]");
@@ -38,34 +40,40 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
       if (existingItem) {
         return c.map((i) => {
           if (i.id === item.id) {
-            if (i.quantity + 1 > i.stock) {
+            if (i.useStock && i.quantity + 1 > i.stock) {
               message.error("庫存不足");
               return i;
             }
+            message.success("已添加至購物車");
             return { ...i, quantity: (i.quantity || 1) + 1 };
           } else return i;
         });
       } else {
         item.image = item.image ? item.image : "/images/fallback.png";
+        message.success("已添加至購物車");
         return [...c, { ...item, quantity: 1 }];
       }
     });
   };
 
   const reduceQuantity = (item: Item) => {
-    setCart((c) => {
-      const existingItem = c.find((i) => i.id === item.id);
-      if (existingItem) {
-        if (existingItem.quantity === 1) {
-          return [...c].filter((i) => i.id !== item.id);
-        }
-        return [...c].map((i) =>
-          i.id === item.id ? { ...i, quantity: (i.quantity || 1) - 1 } : i
+    const c = [...cart];
+    const existingItem = c.find((i) => i.id === item.id);
+    if (existingItem) {
+      if (existingItem.quantity === 1) {
+        showModal("Remove Item?", () =>
+          setCart([...c].filter((i) => i.id !== item.id))
         );
       } else {
-        return [...c];
+        setCart(
+          c.map((i) =>
+            i.id === item.id ? { ...i, quantity: (i.quantity || 1) - 1 } : i
+          )
+        );
       }
-    });
+    } else {
+      return c;
+    }
   };
 
   return (

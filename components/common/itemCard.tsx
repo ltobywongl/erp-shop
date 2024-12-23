@@ -42,7 +42,9 @@ function SmallItemCard(props: { item: Item; className?: string }) {
             </span>
           )}
         </div>
-        <div className="text-xs text-zinc-500">剩餘{item.stock}件商品</div>
+        {item.useStock && (
+          <div className="text-xs text-zinc-500">剩餘{item.stock}件商品</div>
+        )}
         <div className="flex flex-row">
           <button
             className="border bg-red-500 text-white text-lg font-medium px-2 py-1 rounded"

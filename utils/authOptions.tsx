@@ -75,7 +75,7 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async signIn({ account, profile }) {
-      if (!account || !profile?.email) return false;
+      if (!account || !profile?.email || !profile.sub) return false;
 
       if (account.provider === "google") {
         const user = await prisma.user.findFirst({
@@ -94,9 +94,10 @@ export const authOptions: NextAuthOptions = {
           // Create a new user
           await prisma.user.create({
             data: {
-              id: createId(),
+              id: profile.sub,
               email: profile.email,
               provider: 'google',
+              status: '',
             },
           });
         }

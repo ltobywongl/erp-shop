@@ -41,9 +41,9 @@ export default function Login() {
   };
 
   return (
-    <div className="flex w-full h-[60%] items-center justify-center">
+    <div className="flex flex-col w-full my-[10%] items-center justify-center">
       <form
-        className="flex flex-col rounded-md w-[90%] md:w-96 p-6 bg-zinc-100 border border-solid"
+        className="flex flex-col gap-2 w-[90%] md:w-96 mb-4 [&>button]:w-full"
         method="post"
         action="/api/auth/callback/credentials"
         onSubmit={handleSubmit(onSubmit)}

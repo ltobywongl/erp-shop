@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import CartProvider from "@/utils/cartProvider";
+import { ModalProvider } from "@/components/common/modal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,15 +19,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <CartProvider>
-      <html lang="en">
-        <AntdRegistry>
-          <body className={inter.className}>
-            <NavBar />
-            {children}
-          </body>
-        </AntdRegistry>
-      </html>
-    </CartProvider>
+    <ModalProvider>
+      <CartProvider>
+        <html lang="en">
+          <AntdRegistry>
+            <body className={inter.className}>
+              <NavBar />
+              {children}
+            </body>
+          </AntdRegistry>
+        </html>
+      </CartProvider>
+    </ModalProvider>
   );
 }
