@@ -1,10 +1,9 @@
 import EnquiryForm from "@/components/enquiries/form";
-import { authOptions } from "@/utils/authOptions";
 import prisma from "@/utils/prisma";
-import { getServerSession } from "next-auth";
+import { loadUser } from "@/utils/user";
 
 async function Page() {
-  const session = await getServerSession(authOptions);
+  const user = await loadUser();
 
   const about = await prisma.websiteContent.findMany({
     select: {
@@ -35,7 +34,7 @@ async function Page() {
           <div>聯絡電話: {about.find((c) => c.key === "tel")?.content}</div>
           <hr className="my-1" />
           <div>或在此提交查詢:</div>
-          <EnquiryForm userId={session?.user.id} />
+          <EnquiryForm userId={user?.id} />
         </div>
         <hr className="my-2" />
         <div>

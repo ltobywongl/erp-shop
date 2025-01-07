@@ -104,31 +104,16 @@ export default function CheckoutForm({
           <div>你的賬戶結餘: ${balance}</div>
           {balance < finalPrice ? (
             <div className="text-red-500">
-              請先充值或在提交訂單時附上轉賬記錄以完成你的購買,最低轉賬額:${finalPrice - balance}
+              支付:${finalPrice - balance}
             </div>
           ) : (
-            <div className="text-green-500">不需充值</div>
+            <div className="text-green-500">不需支付</div>
           )}
           <hr className="my-1" />
           <label htmlFor="name">收件人姓名</label>
           <Input type="text" id="name" name="name" required />
           <label htmlFor="address">收件人地址</label>
           <Input type="text" id="address" name="address" required />
-          {balance < finalPrice && (
-            <>
-              <label htmlFor="transferAmount">轉賬額</label>
-              <Input
-                type="number"
-                step={0.01}
-                id="transferAmount"
-                name="transferAmount"
-                min={finalPrice - balance}
-                required
-              />
-              <label htmlFor="transfer">轉賬記錄 (轉賬人姓名需與收件人姓名相同)</label>
-              <Input type="file" id="transfer" name="transfer" required />
-            </>
-          )}
           <p className="text-sm text-red-500">{error}</p>
           <button
             type="submit"
