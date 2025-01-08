@@ -1,12 +1,11 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/utils/authOptions";
 import { RedirectType, redirect } from "next/navigation";
 import TopUpForm from "@/components/top-up/form";
+import { loadSessionUser } from "@/utils/user";
 
 export default async function TopUp() {
-  const session = await getServerSession(authOptions);
+  const user = await loadSessionUser();
 
-  if (session?.user) {
+  if (user) {
     return (
       <div className="p-4 md:p-8">
         <TopUpForm />

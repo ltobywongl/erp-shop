@@ -1,26 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/utils/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/utils/authOptions";
 import { errorResponse, successResponse } from "@/utils/httpResponse";
 import { createId } from '@paralleldrive/cuid2';
+import { loadUser } from "@/utils/user";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user.role) {
+    const user = await loadUser();
+    if (!user?.role) {
       return errorResponse("Unauthorized", 401);
     }
 
     const body = await req.json();
     if (!body.id || typeof body.id !== "string")
       return errorResponse("Missing Params", 400);
-
-    const user = await prisma.user.findUnique({
-      where: {
-        id: session.user.id,
-      },
-    });
 
     const couponCategory = await prisma.couponCategory.findUnique({
       where: {
@@ -41,7 +34,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     await prisma.$transaction([
       prisma.user.update({
         where: {
-          id: session.user.id,
+          id: user.id,
         },
         data: {
           couponPoints: {
@@ -52,7 +45,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       prisma.coupon.create({
         data: {
           id: createId(),
-          userId: session.user.id,
+          userId: user.id,
           couponCategoryId: couponCategory.id,
         },
       }),

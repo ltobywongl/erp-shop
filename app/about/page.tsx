@@ -1,9 +1,9 @@
 import EnquiryForm from "@/components/enquiries/form";
 import prisma from "@/utils/prisma";
-import { loadUser } from "@/utils/user";
+import { loadSessionUser } from "@/utils/user";
 
 async function Page() {
-  const user = await loadUser();
+  const user = await loadSessionUser();
 
   const about = await prisma.websiteContent.findMany({
     select: {

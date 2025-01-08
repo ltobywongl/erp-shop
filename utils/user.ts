@@ -2,36 +2,8 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "./authOptions";
 import prisma from "./prisma";
 
-export async function loadUser(options: { detailed: true }): Promise<{
-  id: string;
-  email: string;
-  password: string | null;
-  role: string;
-  balance: number;
-  couponPoints: number;
-  status: string | null;
-  provider: string;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date | null;
-} | null>;
-
-export async function loadUser(options: { detailed: false }): Promise<
-  | {
-      id: string;
-      name: string;
-      email: string;
-      role: string;
-    }
-  | undefined
->;
-
-export async function loadUser(options: { detailed: true }) {
+export async function loadUser() {
   const session = await getServerSession(authOptions);
-
-  if (!options.detailed) {
-    return session?.user;
-  }
 
   if (!session?.user) {
     return null;
@@ -42,6 +14,15 @@ export async function loadUser(options: { detailed: true }) {
       id: session.user.id,
     },
   });
-
+  
+  if (!user) {
+    return null;
+  }
+  
   return user;
+}
+
+export async function loadSessionUser() {
+  const session = await getServerSession(authOptions);
+  return session?.user;
 }

@@ -6,24 +6,11 @@ import {
   IdcardOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
-import { authOptions } from "@/utils/authOptions";
-import prisma from "@/utils/prisma";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { loadUser } from "@/utils/user";
 
 async function Page() {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    return redirect("/login");
-  }
-  const user = await prisma.user.findUnique({
-    select: {
-      balance: true,
-    },
-    where: {
-      id: session.user.id,
-    },
-  });
+  const user = await loadUser();
   if (!user) {
     return redirect("/login");
   }

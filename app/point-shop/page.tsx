@@ -1,13 +1,12 @@
-import { getServerSession } from "next-auth";
 import { RedirectType, redirect } from "next/navigation";
 import PointShopPage from "@/components/point-shop/page";
 import prisma from "@/utils/prisma";
 import { CouponCategory } from "@prisma/client";
-import { authOptions } from "@/utils/authOptions";
+import { loadUser } from "@/utils/user";
 
 async function Page() {
-  const session = await getServerSession(authOptions);
-  if (session?.user) {
+  const user = await loadUser();
+  if (user) {
     const items = (await prisma.couponCategory.findMany({
       select: {
         id: true,
@@ -25,14 +24,6 @@ async function Page() {
       },
     })) as Partial<CouponCategory>[];
 
-    const user = await prisma.user.findUnique({
-      select: {
-        couponPoints: true,
-      },
-      where: {
-        id: session.user.id,
-      },
-    });
     return (
       <div className="m-3 md:m-6">
         <div className="p-2 md:p-3 border w-fit font-bold">

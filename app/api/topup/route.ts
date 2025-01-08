@@ -1,27 +1,13 @@
-import { authOptions } from "@/utils/authOptions";
 import { errorResponse, successResponse } from "@/utils/httpResponse";
 import prisma from "@/utils/prisma";
 import { uploadBlob } from "@/utils/s3";
-import { getServerSession } from "next-auth/next";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { createId } from '@paralleldrive/cuid2';
+import { loadUser } from "@/utils/user";
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-
-    if (!session?.user) {
-      return errorResponse("Unauthorized", 401);
-    }
-
-    const user = await prisma.user.findUnique({
-      select: {
-        id: true,
-      },
-      where: {
-        id: session.user.id,
-      },
-    });
+    const user = await loadUser();
 
     if (!user) {
       return errorResponse("Unauthorized", 401);
