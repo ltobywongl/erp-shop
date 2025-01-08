@@ -30,8 +30,8 @@ export async function POST(req: NextRequest) {
           }
         ],
         mode: 'payment',
-        success_url: `${process.env.NEXT_BASE_URL}/billing`,
-        cancel_url: `${process.env.NEXT_BASE_URL}/billing`,
+        ui_mode: 'embedded',
+        return_url: `${process.env.NEXT_BASE_URL}/billing`,
         metadata: {
           userId: user.id,
         }
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       }
     });
 
-    return successResponse(checkoutSession.id, 200);
+    return successResponse(checkoutSession.client_secret ?? '', 200);
   } catch (error: any) {
     console.error(error);
     return errorResponse("Internal Server Error", 500);
