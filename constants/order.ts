@@ -1,0 +1,9 @@
+export const enum OrderStates {
+    PAYMENT_PENDING = 'PAYMENT_PENDING',
+    CONFIRM = 'CONFIRM',
+    SHIPMENT_PENDING = 'SHIPMENT_PENDING',
+    SHIPMENT = 'SHIPMENT',
+    SUCCESS = 'SUCCESS',
+    CANCEL = 'CANCEL',
+    REFUND = 'REFUND',
+}

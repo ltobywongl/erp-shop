@@ -250,7 +250,7 @@ export async function POST(request: NextRequest) {
       })
     );
 
-    return successResponse("Success", "Success", 200);
+    return successResponse("Success", 200);
   } catch (e: any) {
     console.log(e);
     return errorResponse("Internal Server Error", 500);

@@ -38,7 +38,7 @@ async function Page() {
 
   return (
     <main className="flex justify-center w-full md:mt-4">
-      <CheckoutForm balance={user.balance} coupons={filteredCoupons} />
+      <CheckoutForm coupons={filteredCoupons} />
     </main>
   );
 }

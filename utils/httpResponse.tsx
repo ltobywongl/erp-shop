@@ -13,7 +13,6 @@ export const errorResponse = (error: string, statusCode: number) => {
 };
 
 export const successResponse = (
-  message: string,
   body: any,
   statusCode?: number
 ) => {
@@ -21,7 +20,6 @@ export const successResponse = (
     {
       success: true,
       body,
-      message,
     },
     {
       status: statusCode,

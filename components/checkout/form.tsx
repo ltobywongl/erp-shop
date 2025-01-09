@@ -8,10 +8,8 @@ import LoadingSpinner from "@/components/common/spinner";
 import { CouponCategory } from "@prisma/client";
 
 export default function CheckoutForm({
-  balance,
   coupons,
 }: {
-  balance: number;
   coupons: Partial<CouponCategory>[];
 }) {
   const router = useRouter();
@@ -34,19 +32,22 @@ export default function CheckoutForm({
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsLoading(true);
-    const formData = new FormData(e.currentTarget);
-    formData.append("price", finalPrice.toString());
-    formData.append("cart", JSON.stringify(cartContext?.cart));
-    const response = await fetch("/api/order/create", {
+    const data: any = {};
+    data.coupon = (e.currentTarget.elements.namedItem("coupon") as HTMLInputElement).value;
+    data.name = (e.currentTarget.elements.namedItem("name") as HTMLInputElement).value;
+    data.address = (e.currentTarget.elements.namedItem("address") as HTMLInputElement).value;
+    data.price = finalPrice.toString();
+    data.cart = JSON.stringify(cartContext?.cart);
+    const response = await fetch("/api/checkout", {
       method: "POST",
-      body: formData,
+      body: JSON.stringify(data),
     });
-    const data = await response.json();
-    if (!response.ok) {
-      setError(data.error);
-    } else {
+    const resData = await response.json();
+    if (response.ok && resData.success) {
       cartContext.setcart([]);
-      router.push("/");
+      router.push(`/payment/${resData.body}`);
+    } else {
+      setError(resData.error);
     }
     setIsLoading(false);
   }
@@ -95,19 +96,12 @@ export default function CheckoutForm({
           <hr className="my-1" />
           <div>小計 ({totalQuantity}件商品):</div>
           <div className="text-xl md:text-2xl">HKD ${finalPrice}</div>
-          <div>
-            <span>獲得積分</span>
-            <span className="text-red-500 ml-1">{totalPoint}</span>
-            <span className="ml-1">點</span>
-          </div>
-          <hr className="my-1" />
-          <div>你的賬戶結餘: ${balance}</div>
-          {balance < finalPrice ? (
-            <div className="text-red-500">
-              支付:${finalPrice - balance}
+          {totalPoint > 0 && (
+            <div>
+              <span>獲得積分</span>
+              <span className="text-red-500 ml-1">{totalPoint}</span>
+              <span className="ml-1">點</span>
             </div>
-          ) : (
-            <div className="text-green-500">不需支付</div>
           )}
           <hr className="my-1" />
           <label htmlFor="name">收件人姓名</label>

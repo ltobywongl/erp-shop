@@ -12,7 +12,6 @@ import {
 } from "@ant-design/icons";
 import { Button, Badge, Drawer } from "antd";
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { SmallItemCard } from "@/components/common/itemCard";
 import { useCart } from "@/utils/cartProvider";
@@ -107,14 +106,6 @@ function NavBarClient(props: Readonly<{ session: Session | null }>) {
             size={"large"}
             onClick={() => setOpenDrawer(true)}
             className="md:!hidden"
-          />
-          <Image
-            src={`${process.env.AWS_S3_URL ?? ""}/images/icon.jpg`}
-            unoptimized
-            alt="Shop"
-            className="h-full w-auto max-h-16 object-contain"
-            width={200}
-            height={200}
           />
         </div>
         <SearchBar className="!w-2/5 !hidden md:!flex" />

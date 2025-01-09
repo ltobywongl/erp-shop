@@ -169,7 +169,7 @@ model Payment {
   id        String   @id @db.VarChar(36)
   userId    String   @map("user_id") @db.VarChar(36)
   amount    Float
-  state     String   @default("pending") @db.VarChar(20)
+  state     String   @default("PENDING") @db.VarChar(20)
   createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
   Order     Order[]
@@ -180,7 +180,7 @@ model Payment {
 }
 
 model WebsiteContent {
-  id        Int      @id @default(autoincrement())
+  id        Int      @id
   key       String   @unique(map: "website_key_unique") @db.VarChar(20)
   content   String   @db.Text
   createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
