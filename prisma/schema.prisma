@@ -108,7 +108,7 @@ model Order {
   userId          String      @map("user_id") @db.VarChar(36)
   totalPrice      Float       @map("total_price")
   couponId        String?     @map("coupon_id") @db.VarChar(36)
-  paymentId       String?     @map("payment_id") @db.VarChar(36)
+  paymentId       String?     @map("payment_id") @db.VarChar(128)
   receiverName    String?     @map("receiver_name") @db.VarChar(100)
   receiverAddress String?     @map("receiver_address") @db.VarChar(255)
   state           String      @default("pending") @db.VarChar(20)
@@ -166,7 +166,7 @@ model Topup {
 }
 
 model Payment {
-  id        String   @id @db.VarChar(36)
+  id        String   @id @db.VarChar(128)
   userId    String   @map("user_id") @db.VarChar(36)
   amount    Float
   state     String   @default("PENDING") @db.VarChar(20)

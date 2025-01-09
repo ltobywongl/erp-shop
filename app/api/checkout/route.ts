@@ -46,10 +46,9 @@ export async function POST(request: NextRequest) {
         },
       });
 
-    console.log(checkoutSession.id);
+    const orderId = createId();
 
     await prisma.$transaction(async (tx) => {
-      const orderId = createId();
 
       await tx.user.update({
         where: {
@@ -62,7 +61,7 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      await prisma.payment.create({
+      await tx.payment.create({
         data: {
           id: checkoutSession.id,
           userId: user.id,
@@ -108,6 +107,8 @@ export async function POST(request: NextRequest) {
           },
         });
       }
+    }, {
+      timeout: 20000,
     });
 
     return successResponse(checkoutSession.client_secret ?? "", 200);

@@ -7,14 +7,14 @@ import {
   EmbeddedCheckout,
 } from "@stripe/react-stripe-js";
 
-const stripePromise = loadStripe(process.env.STRIPE_SECRET_KEY as string);
+console.log('Stripe API Key:', process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
 
-function Payment(params: { clientSecret: string }) {
-  const options = { clientSecret: params.clientSecret };
-
+function Payment({ params }: { params: { clientSecret: string } }) {
+  console.log('Client Secret:', params.clientSecret);
   return (
-    <div id="checkout">
-      <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
+    <div id="checkout" className="p-4">
+      <EmbeddedCheckoutProvider stripe={stripePromise} options={{ clientSecret: params.clientSecret }}>
         <EmbeddedCheckout />
       </EmbeddedCheckoutProvider>
     </div>
