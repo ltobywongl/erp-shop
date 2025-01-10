@@ -18,15 +18,15 @@ import { useCart } from "@/utils/cartProvider";
 import useBigScreen from "@/utils/hooks/windowSize";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
-import SearchBar from "../common/searchBar";
+import { useRouter } from "next/navigation";
 
 function NavBarClient(props: Readonly<{ session: Session | null }>) {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openCart, setOpenCart] = useState(false);
-  const [openSearch, setOpenSearch] = useState(false);
   const isBigScreen = useBigScreen();
   const cartContext = useCart();
-  
+  const router = useRouter();
+
   return (
     <>
       <Drawer
@@ -98,7 +98,7 @@ function NavBarClient(props: Readonly<{ session: Session | null }>) {
           <div>關於我們</div>
         </Link>
       </Drawer>
-      <div className="z-50 h-[56px] md:h-24 w-full gap-8 px-4 py-3 flex items-center justify-between md:justify-around bg-zinc-100 md:bg-transparent">
+      <div className="z-50 absolute pointer-events-none [&>*]:pointer-events-auto h-24 w-full gap-8 px-4 py-3 flex items-center justify-between bg-transparent">
         <div className="h-full flex gap-4">
           <Button
             type="text"
@@ -107,17 +107,16 @@ function NavBarClient(props: Readonly<{ session: Session | null }>) {
             onClick={() => setOpenDrawer(true)}
             className="md:!hidden"
           />
-        </div>
-        <SearchBar className="!w-2/5 !hidden md:!flex" />
-
-        <div className="flex gap-4">
           <Button
             type="text"
             icon={<SearchOutlined color="black" />}
             size={"large"}
             className="md:!hidden"
-            onClick={() => setOpenSearch(!openSearch)}
+            onClick={() => router.push('/search')}
           />
+        </div>
+
+        <div>
           <Badge count={cartContext.cart.length}>
             <Button
               type="text"
@@ -129,24 +128,7 @@ function NavBarClient(props: Readonly<{ session: Session | null }>) {
           </Badge>
         </div>
       </div>
-      <div className="z-50 md:!hidden" hidden={!openSearch}>
-        <SearchBar />
-      </div>
       <div className="z-50 h-[3rem] w-full mt-4 bg-zinc-700 gap-4 px-4 hidden md:flex items-center justify-around">
-        <div className="flex h-full [&>a]:flex [&>a]:h-full [&>a]:items-center [&>a]:px-6">
-          <Link href="/" className="bg-red-500 text-white">
-            首頁
-          </Link>
-          <Link href="/point-shop" className="text-zinc-200">
-            積分商城
-          </Link>
-          <Link href="/categories" className="text-zinc-200">
-            商品種類
-          </Link>
-          <Link href="/about" className="text-zinc-200">
-            關於我們
-          </Link>
-        </div>
         <div className="flex h-full [&>a]:flex [&>a]:h-full [&>a]:items-center [&>a]:px-6">
           {props.session ? (
             <>
