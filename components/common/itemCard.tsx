@@ -15,13 +15,23 @@ function SmallItemCard(props: { item: Item; className?: string }) {
   const item = props.item;
   return (
     <div className={`flex gap-2 ${props.className}`}>
-      <Image
-        className="object-contain hidden md:block"
-        src={pathToS3Url(item.image)}
-        alt={`product-${item.id}`}
-        height={50}
-        width={50}
-      />
+      {item.image ? (
+          <Image
+            src={pathToS3Url(item.image)}
+            alt={`product-${item.id}`}
+            height={50}
+            width={50}
+            className="object-contain hidden md:block"
+          />
+        ) : (
+          <Image
+            src={"/images/fallback.png"}
+            alt={`product-${item.id}`}
+            height={50}
+            width={50}
+            className="object-contain hidden md:block"
+          />
+        )}
       <div className="flex flex-col">
         <Link
           href={`/product/${item.id}`}
