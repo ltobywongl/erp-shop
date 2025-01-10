@@ -3,12 +3,8 @@ import {
   ShoppingCartOutlined,
   UserOutlined,
   SearchOutlined,
-  FormOutlined,
   MenuOutlined,
-  StarOutlined,
-  SettingOutlined,
-  AppstoreOutlined,
-  InfoCircleOutlined,
+  PlusOutlined,
 } from "@ant-design/icons";
 import { Button, Badge, Drawer } from "antd";
 import { useState } from "react";
@@ -17,8 +13,9 @@ import { SmallItemCard } from "@/components/common/itemCard";
 import { useCart } from "@/utils/cartProvider";
 import useBigScreen from "@/utils/hooks/windowSize";
 import { Session } from "next-auth";
-import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Logo from "@/public/images/logo-gradient.png";
 
 function NavBarClient(props: Readonly<{ session: Session | null }>) {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -57,108 +54,74 @@ function NavBarClient(props: Readonly<{ session: Session | null }>) {
       </Drawer>
       <Drawer
         placement="left"
-        width={80}
+        width={isBigScreen ? 400 : 220}
         closable={true}
         onClose={() => setOpenDrawer(false)}
         open={openDrawer}
         styles={{ body: { padding: "10px" } }}
-        className="[&>div>a]:flex [&>div>a]:flex-col [&>div>a]:items-center [&>div>a]:justify-center [&>div>a]:text-black [&>div>a]:aspect-square"
+        className="[&>div>a]:flex [&>div>a]:p-4 [&>div>a]:items-center [&>div>a]:justify-between [&>div>a]:text-black [&>div>a]:font-bold [&>div>a>span>svg]:text-sm text-xl"
       >
-        {props.session ? (
-          <>
-            <div className="flex flex-col items-center justify-center aspect-square">
-              <UserOutlined color="black" />
-              <button onClick={() => signOut()}>登出</button>
-            </div>
-          </>
-        ) : (
-          <Link href="/login">
-            <UserOutlined color="black" />
-            <div>登入</div>
-          </Link>
-        )}
         <Link href="/">
-          <StarOutlined color="black" />
           <div>首頁</div>
+          <PlusOutlined color="black" />
         </Link>
+        <hr />
         <Link href="/search">
-          <SearchOutlined color="black" />
           <div>搜索</div>
+          <PlusOutlined color="black" />
         </Link>
-        <Link href="/categories" className="text-zinc-200">
-          <AppstoreOutlined color="black" />
-          <div>商品種類</div>
+        <hr />
+        <Link href="/categories">
+          <div>分類</div>
+          <PlusOutlined color="black" />
         </Link>
-        <Link href="/settings">
-          <SettingOutlined color="black" />
-          <div>設置</div>
-        </Link>
-        <Link href="/about" className="text-zinc-200">
-          <InfoCircleOutlined color="black" />
-          <div>關於我們</div>
+        <hr />
+        <Link href="/account">
+          <div>賬號</div>
+          <PlusOutlined color="black" />
         </Link>
       </Drawer>
-      <div className="z-50 absolute pointer-events-none [&>*]:pointer-events-auto h-24 w-full gap-8 px-4 py-3 flex items-center justify-between bg-transparent">
-        <div className="h-full flex gap-4">
+      <div
+        className="z-50 sticky h-24 w-full gap-8 px-[5%] md:px-[10%] py-3 flex items-center justify-between transition-colors bg-transparent"
+      >
+        <div className="flex gap-4">
           <Button
             type="text"
             icon={<MenuOutlined color="black" />}
             size={"large"}
             onClick={() => setOpenDrawer(true)}
-            className="md:!hidden"
           />
           <Button
             type="text"
             icon={<SearchOutlined color="black" />}
             size={"large"}
-            className="md:!hidden"
             onClick={() => router.push('/search')}
           />
         </div>
 
-        <div>
+        <Image
+          src={Logo}
+          height={32}
+          width={32}
+          alt="logo"
+          onClick={() => router.push("/")}
+        />
+
+        <div className="flex gap-4">
+          <Button
+            type="text"
+            icon={<UserOutlined />}
+            size={"large"}
+            onClick={() => router.push('/account')}
+          />
           <Badge count={cartContext.cart.length}>
             <Button
               type="text"
               icon={<ShoppingCartOutlined />}
               size={"large"}
-              className="md:!bg-green-500 md:hover:!bg-green-600 md:active:!bg-green-600 md:!text-white"
               onClick={() => setOpenCart(true)}
             />
           </Badge>
-        </div>
-      </div>
-      <div className="z-50 h-[3rem] w-full mt-4 bg-zinc-700 gap-4 px-4 hidden md:flex items-center justify-around">
-        <div className="flex h-full [&>a]:flex [&>a]:h-full [&>a]:items-center [&>a]:px-6">
-          {props.session ? (
-            <>
-              <Link
-                href={"/settings"}
-                className="text-zinc-200 flex h-full items-center px-6"
-              >
-                <UserOutlined className="mr-1" />
-                {props.session.user?.name}
-              </Link>
-              <button
-                onClick={() => signOut()}
-                className="text-zinc-200 flex h-full items-center px-6"
-              >
-                <FormOutlined className="mr-1" />
-                登出
-              </button>
-            </>
-          ) : (
-            <>
-              <a href="/login" className="text-zinc-200">
-                <UserOutlined className="mr-1" />
-                登入
-              </a>
-              <a href="/register" className="text-zinc-200">
-                <FormOutlined className="mr-1" />
-                註冊
-              </a>
-            </>
-          )}
         </div>
       </div>
     </>

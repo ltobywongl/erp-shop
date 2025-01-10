@@ -1,16 +1,17 @@
 import NavBar from "@/components/navBar/server";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Playfair_Display } from "next/font/google";
 import "./globals.css";
 import CartProvider from "@/utils/cartProvider";
 import { ModalProvider } from "@/components/common/modal";
+import { cn } from "@/utils/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+const playfair = Playfair_Display({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Shop",
-  description: "erp demo shop",
+  description: "Shop",
 };
 
 export default function RootLayout({
@@ -23,9 +24,12 @@ export default function RootLayout({
       <CartProvider>
         <html lang="en">
           <AntdRegistry>
-            <body className={inter.className}>
+            <body className={cn(playfair.className, "flex flex-col")}>
               <NavBar />
               {children}
+              <div className="flex-1 flex flex-col justify-end">
+                <div className="h-4 bg-emerald-800"></div>
+              </div>
             </body>
           </AntdRegistry>
         </html>

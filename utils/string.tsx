@@ -9,5 +9,5 @@ export function insertAt(target: string, toInsert: string, position: number) {
 
 export function pathToS3Url(path: string) {
   if (path.startsWith("http") || path === "/images/fallback.png") return path;
-  return `${process.env.AWS_S3_URL ?? ""}/${path}`;
+  return `${process.env.NEXT_PUBLIC_AWS_S3_URL ?? ""}/${path}`;
 }

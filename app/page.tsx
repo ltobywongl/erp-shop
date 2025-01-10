@@ -31,6 +31,7 @@ export default async function Home() {
           useStock: false,
         },
         {
+          useStock: true,
           stock: { gt: 0 },
         }
       ],
@@ -43,21 +44,6 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col md:mt-4">
-      <FloatButton
-        icon={<QuestionCircleOutlined />}
-        type="primary"
-        href="/about"
-      />
-      <div className="w-full h-screen bg-gray-100">
-        <Image
-          src={`${process.env.AWS_S3_URL ?? ""}/images/banner.jpg`}
-          unoptimized
-          className="w-full h-auto object-contain"
-          width={600}
-          height={600}
-          alt="Image"
-        />
-      </div>
       <div className="flex flex-col items-center mt-2">
         <div className="text-xl font-bold">最新商品</div>
         <hr className="my-1 w-full md:w-4/5" />
