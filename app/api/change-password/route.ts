@@ -26,13 +26,13 @@ export async function POST(req: NextRequest) {
 
     if (!loginUser)
       return NextResponse.json(
-        { success: false, message: "Unknown Email" },
+        { success: false, message: "Unknown Account" },
         { status: 401 }
       );
 
     if (loginUser.provider != 'credentials' || !loginUser.password) {
       return NextResponse.json(
-        { success: false, message: "Bad request" },
+        { success: false },
         { status: 401 }
       );
     }
