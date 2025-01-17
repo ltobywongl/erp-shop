@@ -76,8 +76,18 @@ function NavBarClient(props: Readonly<{ session: Session | null }>) {
           <PlusOutlined color="black" />
         </Link>
         <hr />
+        <Link href="/point-shop">
+          <div>積分</div>
+          <PlusOutlined color="black" />
+        </Link>
+        <hr />
         <Link href="/account">
           <div>賬號</div>
+          <PlusOutlined color="black" />
+        </Link>
+        <hr />
+        <Link href="/about">
+          <div>關於</div>
           <PlusOutlined color="black" />
         </Link>
       </Drawer>

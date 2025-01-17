@@ -3,7 +3,6 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/utils/prisma";
 import * as bcrypt from "bcrypt";
-import { createId } from '@paralleldrive/cuid2';
 
 export const authOptions: NextAuthOptions = {
   providers: [

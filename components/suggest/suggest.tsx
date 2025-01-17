@@ -3,6 +3,7 @@ import Breadcrumb, { BreadcrumbItemType } from "antd/es/breadcrumb/Breadcrumb";
 import SideMenu from "../common/sideMenu";
 import { ItemCardVertical } from "../common/itemCard";
 import prisma from "@/utils/prisma";
+import SearchBar from "../common/searchBar";
 
 async function SuggestPage() {
   const breadItems: BreadcrumbItemType[] = [
@@ -51,6 +52,9 @@ async function SuggestPage() {
   return (
     <main className="flex flex-col md:mt-4">
       <div className="md:grid md:grid-cols-10 gap-2">
+        <div className="col-start-2 col-span-8">
+          <SearchBar />
+        </div>
         <div className="hidden md:block col-start-2 col-span-2">
           <SideMenu />
         </div>

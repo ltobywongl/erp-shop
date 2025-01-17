@@ -16,8 +16,8 @@ export async function POST(req: NextRequest) {
       select: {
         id: true,
         email: true,
-        username: true,
         password: true,
+        provider: true,
       },
       where: {
         email: body.email,
@@ -26,9 +26,16 @@ export async function POST(req: NextRequest) {
 
     if (!loginUser)
       return NextResponse.json(
-        { success: false, message: "Wrong Username/Password" },
+        { success: false, message: "Unknown Email" },
         { status: 401 }
       );
+
+    if (loginUser.provider != 'credentials' || !loginUser.password) {
+      return NextResponse.json(
+        { success: false, message: "Bad request" },
+        { status: 401 }
+      );
+    }
 
     const passwordCorrect = await bcrypt.compare(
       body.password,

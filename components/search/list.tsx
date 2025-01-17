@@ -6,6 +6,7 @@ import { ItemCardVertical } from "../common/itemCard";
 import { useEffect, useState } from "react";
 import Loading from "@/app/loading";
 import PaginationClient from "@/components/common/pagination";
+import SearchBar from "../common/searchBar";
 
 function SearchPage({ keyword }: { keyword: string }) {
   const [data, setData] = useState<CategoryListProduct[]>([]);
@@ -50,6 +51,9 @@ function SearchPage({ keyword }: { keyword: string }) {
   return (
     <main className="flex flex-col md:mt-4">
       <div className="md:grid md:grid-cols-10 gap-2">
+        <div className="col-start-2 col-span-8">
+          <SearchBar keyword={keyword} />
+        </div>
         <div className="hidden md:block col-start-2 col-span-2">
           <SideMenu />
         </div>

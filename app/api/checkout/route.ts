@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
         ],
         mode: "payment",
         ui_mode: "embedded",
-        return_url: `${process.env.NEXT_BASE_URL}/billing`,
+        return_url: `${process.env.NEXT_BASE_URL}/order-history`,
         metadata: {
           userId: user.id,
         },
