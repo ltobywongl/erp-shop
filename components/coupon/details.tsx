@@ -52,7 +52,11 @@ function CouponDetails({ item }: { item: Partial<CouponCategory> }) {
         <div className="w-full text-red-400 mt-2">
           <span className="text-red-500 font-bold ml-1">{item.point}積分</span>
         </div>
-        <div className="w-full text-zinc-500">剩餘{item.stock}件</div>
+        {
+          item.useStock && (
+            <div className="w-full text-zinc-500">剩餘{item.stock}件</div>
+          )
+        }
         <div className="w-full">
           <button
             className="bg-green-400 text-white rounded-sm py-1 px-3"

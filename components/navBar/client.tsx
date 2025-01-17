@@ -15,14 +15,17 @@ import useBigScreen from "@/utils/hooks/windowSize";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Logo from "@/public/images/logo-gradient.png";
+import { pathToS3Url } from "@/utils/string";
+import { cn } from "@/utils/utils";
+import { usePathname } from 'next/navigation';
 
-function NavBarClient(props: Readonly<{ session: Session | null }>) {
+function NavBarClient(props: Readonly<{ session: Session | null, className?: string }>) {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const isBigScreen = useBigScreen();
   const cartContext = useCart();
   const router = useRouter();
+  const pathName = usePathname();
 
   return (
     <>
@@ -59,40 +62,46 @@ function NavBarClient(props: Readonly<{ session: Session | null }>) {
         onClose={() => setOpenDrawer(false)}
         open={openDrawer}
         styles={{ body: { padding: "10px" } }}
-        className="[&>div>a]:flex [&>div>a]:p-4 [&>div>a]:items-center [&>div>a]:justify-between [&>div>a]:text-black [&>div>a]:font-bold [&>div>a>span>svg]:text-sm text-xl"
+        className="text-xl"
       >
-        <Link href="/">
-          <div>首頁</div>
-          <PlusOutlined color="black" />
-        </Link>
-        <hr />
-        <Link href="/search">
-          <div>搜索</div>
-          <PlusOutlined color="black" />
-        </Link>
-        <hr />
-        <Link href="/categories">
-          <div>分類</div>
-          <PlusOutlined color="black" />
-        </Link>
-        <hr />
-        <Link href="/point-shop">
-          <div>積分</div>
-          <PlusOutlined color="black" />
-        </Link>
-        <hr />
-        <Link href="/account">
-          <div>賬號</div>
-          <PlusOutlined color="black" />
-        </Link>
-        <hr />
-        <Link href="/about">
-          <div>關於</div>
-          <PlusOutlined color="black" />
-        </Link>
+        <div className="h-full flex flex-col justify-between [&>div>a]:flex [&>div>a]:p-4 [&>div>a]:items-center [&>div>a]:justify-between [&>div>a]:text-black [&>div>a]:font-bold [&>div>a>span>svg]:text-sm">
+          <div className="">
+            <Link href="/">
+              <div>首頁</div>
+              <PlusOutlined color="black" />
+            </Link>
+            <hr />
+            <Link href="/search">
+              <div>搜索商品</div>
+              <PlusOutlined color="black" />
+            </Link>
+            <hr />
+            <Link href="/categories">
+              <div>商品分類</div>
+              <PlusOutlined color="black" />
+            </Link>
+            <hr />
+            <Link href="/point-shop">
+              <div>積分商城</div>
+              <PlusOutlined color="black" />
+            </Link>
+          </div>
+          <div className="">
+            <hr />
+            <Link href="/about">
+              <div>關於我們</div>
+              <PlusOutlined color="black" />
+            </Link>
+          </div>
+        </div>
       </Drawer>
       <div
-        className="z-50 sticky h-24 w-full gap-8 px-[5%] md:px-[10%] py-3 flex items-center justify-between transition-colors bg-transparent"
+        className={
+          cn(
+            "z-50 sticky h-20 w-full gap-8 px-[5%] md:px-[10%] flex items-center justify-between transition-colors bg-transparent",
+            pathName === "/" ? "absolute hover:bg-white transition-colors duration-500" : "",
+          )
+        }
       >
         <div className="flex gap-4">
           <Button
@@ -110,9 +119,10 @@ function NavBarClient(props: Readonly<{ session: Session | null }>) {
         </div>
 
         <Image
-          src={Logo}
-          height={32}
-          width={32}
+          src={pathToS3Url("images/icon.jpg")}
+          className="cursor-pointer"
+          height={48}
+          width={48}
           alt="logo"
           onClick={() => router.push("/")}
         />

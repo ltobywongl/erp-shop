@@ -44,12 +44,14 @@ function ProductDetails({ item }: { item: DetailsItem }) {
             {toPrice(item.sellingPrice)}
           </span>
           {item.markedPrice !== undefined &&
-          item.sellingPrice !== item.markedPrice ? (
+            item.sellingPrice !== item.markedPrice ? (
             <span className="hidden md:inline text-zinc-500 line-through ml-1">
               ${toPrice(item.markedPrice)}
             </span>
           ) : null}
-          <span className="text-red-500 ml-1">({item.couponPoint}積分)</span>
+          {item.couponPoint && item.couponPoint > 0 ? (
+            <span className="text-red-500 ml-1">({item.couponPoint}積分)</span>
+          ) : null}
         </div>
         {item.useStock && (
           <div className="w-full text-zinc-500">剩餘{item.stock}件商品</div>

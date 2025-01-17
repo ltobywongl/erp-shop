@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { errorResponse, successResponse } from "@/utils/httpResponse";
 import prisma from "@/utils/prisma";
 import { PaymentStates } from "@/constants/payment";
+import { OrderStates } from "@/constants/order";
 type METADATA = {
   userId: string;
 };
@@ -44,6 +45,15 @@ export async function POST(request: NextRequest) {
         id: data.id,
         userId: userId,
       },
+    });
+
+    await prisma.order.updateMany({
+      data: {
+        state: OrderStates.CONFIRM,
+      },
+      where: {
+        paymentId: data.id,
+      }
     });
 
     // database update here

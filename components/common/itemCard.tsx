@@ -19,17 +19,17 @@ function SmallItemCard(props: { item: Item; className?: string }) {
           <Image
             src={pathToS3Url(item.image)}
             alt={`product-${item.id}`}
-            height={50}
-            width={50}
-            className="object-contain hidden md:block"
+            height={80}
+            width={80}
+            className="object-contain !max-h-20 md:!max-h-52 hidden md:block"
           />
         ) : (
           <Image
             src={"/images/fallback.png"}
             alt={`product-${item.id}`}
-            height={50}
-            width={50}
-            className="object-contain hidden md:block"
+            height={80}
+            width={80}
+            className="object-contain !max-h-20 md:!max-h-52 hidden md:block"
           />
         )}
       <div className="flex flex-col">
@@ -46,7 +46,7 @@ function SmallItemCard(props: { item: Item; className?: string }) {
               ${item.markedPrice}
             </span>
           ) : null}
-          {item.couponPoint !== undefined && (
+          {item.couponPoint !== undefined && item.couponPoint > 0 && (
             <span className="text-red-500 ml-1 text-xs">
               ({item.couponPoint * item.quantity}積分)
             </span>
@@ -92,7 +92,7 @@ function ItemCardVertical(props: { item: Item }) {
             alt={`product-${item.id}`}
             height={400}
             width={400}
-            className="aspect-square object-contain !max-h-20 md:!max-h-52"
+            className="aspect-square object-contain !max-h-20 md:!max-h-52 mx-auto"
           />
         ) : (
           <Image
@@ -100,7 +100,7 @@ function ItemCardVertical(props: { item: Item }) {
             alt={`product-${item.id}`}
             height={400}
             width={400}
-            className="aspect-square object-contain !max-h-20 md:!max-h-52"
+            className="aspect-square object-contain !max-h-20 md:!max-h-52 mx-auto"
           />
         )}
       </Link>
@@ -182,7 +182,7 @@ function ItemCardPoint(props: { item: Partial<CouponCategory> }) {
       <Link className="w-[25%] md:w-full" href={`/coupons/${item.id}`}>
         {item.imagePath ? (
           <Image
-            className="w-full"
+            className="w-full !max-h-20 md:!max-h-52 object-contain mx-auto"
             src={pathToS3Url(item.imagePath)}
             width={500}
             height={500}
@@ -209,38 +209,10 @@ function ItemCardPoint(props: { item: Partial<CouponCategory> }) {
         <button
           className="bg-green-500 hover:bg-green-400 text-white rounded-sm py-1 px-3"
           onClick={() => handleRedeem()}
-          disabled={isLoading || item.stock === 0}
+          disabled={isLoading || (item.useStock && item.stock === 0)}
         >
           {isLoading ? <LoadingSpinner /> : "兌換"}
         </button>
-      </div>
-    </div>
-  );
-}
-
-function ItemCardPointReadOnly(props: { item: Partial<CouponCategory> }) {
-  const item = props.item;
-
-  return (
-    <div className="flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
-      {item.imagePath ? (
-        <Image
-          className="w-[25%] md:w-full"
-          src={pathToS3Url(item.imagePath)}
-          width={500}
-          height={500}
-          alt={`coupon-${item.id}`}
-        />
-      ) : (
-        <div className="w-[25%] md:w-full border-4 border-double text-xl md:text-2xl text-center font-semibold md:font-bold bg-gradient-radial from-yellow-200 to-yellow-500 p-1 md:p-5 shadow-sm">
-          ${item.value}
-        </div>
-      )}
-      <div className="flex flex-col items-center justify-center ml-4 md:ml-0">
-        <div className="w-full md:text-center text-red-400">
-          <span className="font-bold ml-1 md:ml-0">{item.point}</span>
-          <span>積分</span>
-        </div>
       </div>
     </div>
   );
@@ -250,5 +222,4 @@ export {
   SmallItemCard,
   ItemCardVertical,
   ItemCardPoint,
-  ItemCardPointReadOnly,
 };

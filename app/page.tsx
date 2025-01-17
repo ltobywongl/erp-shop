@@ -1,11 +1,8 @@
-import { FloatButton } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
-import Image from "next/image";
 import React from "react";
-import SideMenu from "@/components/common/sideMenu";
 import { ItemCardVertical } from "@/components/common/itemCard";
-import PopUpAds from "@/components/common/popUpAds";
 import prisma from "@/utils/prisma";
+import { pathToS3Url } from "@/utils/string";
+import Link from "next/link";
 
 export default async function Home() {
   const items = await prisma.product.findMany({
@@ -43,7 +40,13 @@ export default async function Home() {
   });
 
   return (
-    <main className="flex flex-col md:mt-4">
+    <main className="flex flex-col">
+      <div className="h-dvh w-full flex flex-col gap-2 items-center justify-center bg-cover" style={{ backgroundImage: `url(${pathToS3Url("images/banner.jpg")})` }}>
+        <div className="text-3xl font-medium">
+          果然好事
+        </div>
+        <Link href={"/categories"} className="bg-white border px-4 md:px-6 py-2 md:py-4 rounded">SHOP NOW</Link>
+      </div>
       <div className="flex flex-col items-center mt-2">
         <div className="text-xl font-bold">最新商品</div>
         <hr className="my-1 w-full md:w-4/5" />

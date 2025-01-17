@@ -13,6 +13,11 @@ body {
   overflow-x: hidden;
 }
 
+.h-dvh {
+  height: 100vh;
+  height: 100dvh;
+}
+
 .lds-ring {
   display: inline-block;
   position: relative;

@@ -19,6 +19,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <ModalProvider>
       <CartProvider>
@@ -27,7 +28,7 @@ export default function RootLayout({
             <body className={cn(playfair.className, "flex flex-col")}>
               <NavBar />
               {children}
-              <div className="flex-1 flex flex-col justify-end">
+              <div className="mt-4 flex-1 flex flex-col justify-end">
                 <div className="h-4 bg-emerald-800"></div>
               </div>
             </body>
