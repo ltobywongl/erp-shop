@@ -35,7 +35,8 @@ export function middleware(req: NextRequest) {
       refererUrl.pathname.startsWith(`/${l}`)
     );
     const response = NextResponse.next();
-    if (langInReferer) response.cookies.set(cookieName, langInReferer);
+    if (langInReferer)
+      response.cookies.set(cookieName, langInReferer, { sameSite: "strict" });
     return response;
   }
 

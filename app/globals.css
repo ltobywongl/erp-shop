@@ -13,6 +13,11 @@ body {
   overflow-x: hidden;
 }
 
+.min-h-dvh {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
 .h-dvh {
   height: 100vh;
   height: 100dvh;

@@ -44,7 +44,7 @@ export default async function Home({ params }: { params: { lang: string } }) {
   return (
     <main className="flex flex-col">
       <div
-        className="h-dvh w-full flex flex-col gap-2 items-center justify-center bg-cover"
+        className="min-h-dvh w-full flex flex-col gap-2 items-center justify-center bg-cover p-2"
         style={{ backgroundImage: `url(${pathToS3Url("images/banner.jpg")})` }}
       >
         <div className="text-3xl font-medium">{t("brand")}</div>
