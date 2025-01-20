@@ -8,7 +8,7 @@ import Loading from "@/app/loading";
 import PaginationClient from "@/components/common/pagination";
 import SearchBar from "../common/searchBar";
 
-function SearchPage({ keyword }: { keyword: string }) {
+function SearchPage({ lang, keyword }: { lang: string; keyword: string }) {
   const [data, setData] = useState<CategoryListProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(0);
@@ -52,7 +52,7 @@ function SearchPage({ keyword }: { keyword: string }) {
     <main className="flex flex-col md:mt-4">
       <div className="md:grid md:grid-cols-10 gap-2">
         <div className="col-start-2 col-span-8">
-          <SearchBar keyword={keyword} />
+          <SearchBar lang={lang} keyword={keyword} />
         </div>
         <div className="hidden md:block col-start-2 col-span-2">
           <SideMenu />

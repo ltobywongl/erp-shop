@@ -1,7 +1,7 @@
 import SearchPage from "@/components/search/list";
 
-async function Page({ params }: { params: { keyword: string } }) {
-  return <SearchPage keyword={params.keyword} />;
+async function Page({ params }: { params: { lang: string; keyword: string } }) {
+  return <SearchPage lang={params.lang} keyword={params.keyword} />;
 }
 
 export default Page;
