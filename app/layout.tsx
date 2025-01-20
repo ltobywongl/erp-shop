@@ -6,6 +6,7 @@ import "./globals.css";
 import CartProvider from "@/utils/cartProvider";
 import { ModalProvider } from "@/components/common/modal";
 import { cn } from "@/utils/utils";
+import { dir } from "i18next";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
@@ -14,26 +15,29 @@ export const metadata: Metadata = {
   description: "Shop",
 };
 
-export default function RootLayout({
+export default function Layout({
   children,
+  params: { lang },
 }: Readonly<{
   children: React.ReactNode;
+  params: {
+    lang: string;
+  };
 }>) {
-
   return (
     <ModalProvider>
       <CartProvider>
-        <html lang="en">
-          <AntdRegistry>
+        <AntdRegistry>
+          <html lang={lang} dir={dir(lang)}>
             <body className={cn(playfair.className, "flex flex-col")}>
               <NavBar />
               {children}
               <div className="mt-4 flex-1 flex flex-col justify-end">
-                <div className="h-4 bg-emerald-800"></div>
+                <div className="h-4 bg-emerald-800" />
               </div>
             </body>
-          </AntdRegistry>
-        </html>
+          </html>
+        </AntdRegistry>
       </CartProvider>
     </ModalProvider>
   );

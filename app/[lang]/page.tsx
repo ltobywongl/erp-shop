@@ -3,8 +3,10 @@ import { ItemCardVertical } from "@/components/common/itemCard";
 import prisma from "@/utils/prisma";
 import { pathToS3Url } from "@/utils/string";
 import Link from "next/link";
+import { translation } from "@/i18n";
 
-export default async function Home() {
+export default async function Home({ params }: { params: { lang: string } }) {
+  const { t } = await translation(params.lang, "home");
   const items = await prisma.product.findMany({
     select: {
       id: true,
@@ -30,7 +32,7 @@ export default async function Home() {
         {
           useStock: true,
           stock: { gt: 0 },
-        }
+        },
       ],
     },
     orderBy: {
@@ -41,11 +43,17 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col">
-      <div className="h-dvh w-full flex flex-col gap-2 items-center justify-center bg-cover" style={{ backgroundImage: `url(${pathToS3Url("images/banner.jpg")})` }}>
-        <div className="text-3xl font-medium">
-          果然好事
-        </div>
-        <Link href={"/categories"} className="bg-white border px-4 md:px-6 py-2 md:py-4 rounded">SHOP NOW</Link>
+      <div
+        className="h-dvh w-full flex flex-col gap-2 items-center justify-center bg-cover"
+        style={{ backgroundImage: `url(${pathToS3Url("images/banner.jpg")})` }}
+      >
+        <div className="text-3xl font-medium">{t("brand")}</div>
+        <Link
+          href={"/categories"}
+          className="bg-white border px-4 md:px-6 py-2 md:py-4 rounded"
+        >
+          SHOP NOW
+        </Link>
       </div>
       <div className="flex flex-col items-center mt-2">
         <div className="text-xl font-bold">最新商品</div>

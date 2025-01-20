@@ -5,7 +5,7 @@ import { ItemCardVertical } from "../common/itemCard";
 import prisma from "@/utils/prisma";
 import SearchBar from "../common/searchBar";
 
-async function SuggestPage() {
+async function SuggestPage(params: { lang: string }) {
   const breadItems: BreadcrumbItemType[] = [
     {
       href: "/",
@@ -40,7 +40,7 @@ async function SuggestPage() {
         },
         {
           stock: { gt: 0 },
-        }
+        },
       ],
     },
     orderBy: {
@@ -53,7 +53,7 @@ async function SuggestPage() {
     <main className="flex flex-col md:mt-4">
       <div className="md:grid md:grid-cols-10 gap-2">
         <div className="col-start-2 col-span-8">
-          <SearchBar />
+          <SearchBar lang={params.lang} />
         </div>
         <div className="hidden md:block col-start-2 col-span-2">
           <SideMenu />

@@ -1,33 +1,44 @@
 "use client";
 
+import { useTranslation } from "@/i18n/client";
 import { cn } from "@/utils/utils";
 import { SearchOutlined } from "@ant-design/icons";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRef } from "react";
 
-export default function SearchBar(params: { className?: string, keyword?: string }) {
+export default function SearchBar(params: {
+  lang: string;
+  className?: string;
+  keyword?: string;
+}) {
+  const { t } = useTranslation(params.lang, "search");
   const searchParams = useSearchParams();
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const defaultValue = params.keyword ?? searchParams.get("keyword") ?? "";
   const onSearch = (data?: String) => {
     if (!data || data === "") {
-        return;
+      return;
     }
     router.push(`/search/${data}`);
   };
   return (
-    <span className={cn(params.className ?? "", "w-full z-50 flex outline outline-1 outline-slate-300")}>
+    <span
+      className={cn(
+        params.className ?? "",
+        "w-full z-50 flex outline outline-1 outline-slate-300"
+      )}
+    >
       <input
         ref={inputRef}
         type="text"
         className="flex-1 py-2 px-3 ring-0 outline-none"
         defaultValue={defaultValue}
-        placeholder="Search..."
+        placeholder={t("search")}
         onKeyUp={(e) => {
-            if (e.key === "Enter") {
-              onSearch(inputRef.current?.value);
-            }
+          if (e.key === "Enter") {
+            onSearch(inputRef.current?.value);
+          }
         }}
       />
       <button
