@@ -28,7 +28,7 @@ export default function Layout({
     <ModalProvider>
       <CartProvider>
         <AntdRegistry>
-          <html lang={lang} dir={dir(lang)}>
+          <html lang={lang}>
             <body className={cn(playfair.className, "flex flex-col")}>
               <NavBar />
               {children}

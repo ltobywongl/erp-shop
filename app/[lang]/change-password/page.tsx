@@ -19,7 +19,7 @@ export default function Login() {
     formState: { errors },
   } = useForm<Inputs>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const router = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -36,12 +36,13 @@ export default function Login() {
     if (res?.ok) {
       router.push("/");
     } else {
-      setError(true);
+      const response = await res.json();
+      setError(response.error);
     }
   };
 
   return (
-    <div className="flex w-full h-[60%] items-center justify-center">
+    <div className="flex flex-col w-full py-[10%] items-center justify-center bg-[#e5ebe5]">
       <form
         className="flex flex-col rounded-md w-[90%] md:w-96 p-6 bg-zinc-100 border border-solid"
         method="post"

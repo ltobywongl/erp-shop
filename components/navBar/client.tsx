@@ -12,14 +12,13 @@ import Link from "next/link";
 import { SmallItemCard } from "@/components/common/itemCard";
 import { useCart } from "@/utils/cartProvider";
 import useBigScreen from "@/utils/hooks/windowSize";
-import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { pathToS3Url } from "@/utils/string";
 import { cn } from "@/utils/utils";
 import { usePathname } from 'next/navigation';
 
-function NavBarClient(props: Readonly<{ session: Session | null, className?: string }>) {
+function NavBarClient() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const isBigScreen = useBigScreen();
@@ -64,8 +63,8 @@ function NavBarClient(props: Readonly<{ session: Session | null, className?: str
         styles={{ body: { padding: "10px" } }}
         className="text-xl"
       >
-        <div className="h-full flex flex-col justify-between [&>div>a]:flex [&>div>a]:p-4 [&>div>a]:items-center [&>div>a]:justify-between [&>div>a]:text-black [&>div>a]:font-bold [&>div>a>span>svg]:text-sm">
-          <div className="">
+        <div className="h-full flex flex-col justify-between [&>div>a>div]:text-md md:[&>div>a>div]:text-lg [&>div>a]:flex [&>div>a]:p-4 [&>div>a]:items-center [&>div>a]:justify-between [&>div>a]:text-black [&>div>a]:font-bold [&>div>a>span>svg]:text-sm">
+          <div>
             <Link href="/">
               <div>首頁</div>
               <PlusOutlined color="black" />

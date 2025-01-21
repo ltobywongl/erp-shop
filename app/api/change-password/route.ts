@@ -1,16 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/utils/prisma";
 import * as bcrypt from "bcrypt";
+import { errorResponse, successResponse } from "@/utils/httpResponse";
 
 export async function POST(req: NextRequest) {
   try {
     const body: UserChangePassword = await req.json();
 
     if (!body.email || !body.password || !body.newPassword)
-      return NextResponse.json(
-        { success: false, message: "Missing Params" },
-        { status: 400 }
-      );
+      return errorResponse("Unauthorized", 401);
 
     const loginUser = await prisma.user.findFirst({
       select: {
@@ -24,17 +22,8 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    if (!loginUser)
-      return NextResponse.json(
-        { success: false, message: "Unknown Account" },
-        { status: 401 }
-      );
-
-    if (loginUser.provider != 'credentials' || !loginUser.password) {
-      return NextResponse.json(
-        { success: false },
-        { status: 401 }
-      );
+    if (!loginUser || loginUser.provider != 'credentials' || !loginUser.password) {
+      return errorResponse("Unauthorized", 401);
     }
 
     const passwordCorrect = await bcrypt.compare(
@@ -52,18 +41,11 @@ export async function POST(req: NextRequest) {
           password: hashedPassword,
         },
       });
-      return NextResponse.json(
-        { success: true, message: "Password Changed" },
-        { status: 200 }
-      );
+      return successResponse("Password Changed");
     } else
-      return NextResponse.json(
-        { success: false, message: "Wrong Username/Password" },
-        { status: 401 }
-      );
+      return errorResponse("Unauthorized", 401);
   } catch (error: any) {
-    console.log(error);
-    return NextResponse.json({ success: false }, { status: 500 });
+    return errorResponse("Internal Server Error", 500);
   }
 }
 
