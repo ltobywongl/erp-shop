@@ -20,7 +20,7 @@ function SideMenu() {
       try {
         const response = await fetch("/api/suggest-categories");
         const res = await response.json();
-        setCategories(res.data);
+        setCategories(res.body.data);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
       } finally {

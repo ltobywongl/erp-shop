@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { createId } from '@paralleldrive/cuid2';
+import { errorResponse, successResponse } from "@/utils/httpResponse";
 
 const prisma = new PrismaClient();
 
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       !body.password ||
       !/\S+@\S+\.\S+/.test(body.email)
     )
-      return NextResponse.json({ success: false }, { status: 400 });
+      return errorResponse("Bad Request", 400);
 
     const emailUser = await prisma.user.findUnique({
       where: {
@@ -23,10 +24,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     });
 
     if (emailUser !== null)
-      return NextResponse.json(
-        { success: false, message: "An user with this email already exists" },
-        { status: 400 }
-      );
+      return errorResponse("An user with this email already exists", 400);
 
     body.password = await bcrypt.hash(body.password, 10);
     await prisma.user.create({
@@ -38,9 +36,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
       },
     });
 
-    return NextResponse.json({ success: true });
+    return successResponse("");
   } catch (error: any) {
-    return NextResponse.json({ success: false }, { status: 500 });
+    return errorResponse("Internal Server Error", 500);
   }
 }
 

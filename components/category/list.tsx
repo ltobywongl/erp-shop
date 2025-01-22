@@ -39,9 +39,9 @@ function CategoryListPage({ id }: { id: string }) {
       const result = await response.json();
 
       setIsLoading(false);
-      setData(result.data);
-      setTotalPages(result.totalPages);
-      setTotalItems(result.totalItems);
+      setData(result.body.data);
+      setTotalPages(result.body.totalPages);
+      setTotalItems(result.body.totalItems);
     };
 
     fetchData();

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/utils/prisma";
-import { errorResponse } from "@/utils/httpResponse";
+import { errorResponse, successResponse } from "@/utils/httpResponse";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
     where: whereClause,
   });
 
-  return NextResponse.json({
+  return successResponse({
     data: products,
     totalPages: Math.ceil(totalItems / pageSize),
     totalItems: totalItems,

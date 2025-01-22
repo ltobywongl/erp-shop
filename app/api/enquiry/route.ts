@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/utils/prisma";
 import { createId } from '@paralleldrive/cuid2';
+import { errorResponse, successResponse } from "@/utils/httpResponse";
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,10 +12,7 @@ export async function POST(req: NextRequest) {
     } = await req.json();
 
     if (!body.email || !body.content)
-      return NextResponse.json(
-        { success: false, message: "Missing Params" },
-        { status: 400 }
-      );
+      return errorResponse("Bad Request", 400);
 
     await prisma.enquiry.create({
       data: {
@@ -25,13 +23,10 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(
-      { success: true, message: "Sent" },
-      { status: 200 }
-    );
+    return successResponse("Sent");
   } catch (error: any) {
     console.log(error);
-    return NextResponse.json({ success: false }, { status: 500 });
+    return errorResponse("Internal Server Error", 500);
   }
 }
 

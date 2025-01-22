@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/utils/prisma";
-import { errorResponse } from "@/utils/httpResponse";
+import { errorResponse, successResponse } from "@/utils/httpResponse";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
       },
       {
         stock: { gt: 0 },
-      }
+      },
     ],
   };
 
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     createdAt: "asc" | "desc";
   } = {
     createdAt: "desc",
-  }
+  };
 
   const products = await prisma.product.findMany({
     select: {
@@ -53,12 +53,12 @@ export async function GET(request: NextRequest) {
     take: pageSize,
     skip: (page - 1) * pageSize,
   });
-  
+
   const totalItems = await prisma.product.count({
     where: whereClause,
   });
 
-  return NextResponse.json({
+  return successResponse({
     data: products,
     totalPages: Math.ceil(totalItems / pageSize),
     totalItems: totalItems,
