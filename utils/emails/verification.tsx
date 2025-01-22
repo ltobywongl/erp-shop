@@ -5,18 +5,27 @@ import { Hr } from "@react-email/hr";
 import { render } from "@react-email/render";
 import { User } from "@prisma/client";
 
+const url = process.env.NEXT_BASE_URL;
+if (!url) throw new Error("Missing Base URL");
+
 export const verificationEmail = (user: Partial<User>, id: string) => {
   return render(
     <Html lang="en">
-      <Text>你好：</Text>
+      <Text>Hello</Text>
       <Text>{user.email}</Text>
 
-      <Hr />
+      <Hr style={{ marginTop: "8px" }} />
 
-      <Text style={{ fontWeight: "bold" }}>電郵驗證</Text>
+      <Text style={{ fontWeight: "bold" }}>Email Verification</Text>
 
-      <Text>
-        詳情: <Link href="https://erp-shop.com/order-history">點擊這裡</Link>
+      <Text style={{ marginTop: "8px" }}>
+        Link: <Link href={`${url}/verification/${id}`}>CLICK HERE</Link>
+      </Text>
+
+      <Hr style={{ marginTop: "8px" }} />
+
+      <Text style={{ marginTop: "8px" }}>
+        Shop
       </Text>
     </Html>
   );

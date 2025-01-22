@@ -26,13 +26,14 @@ export const authOptions: NextAuthOptions = {
             password: true,
             role: true,
             provider: true,
+            status: true,
           },
           where: {
             email: credentials.email,
           },
         });
 
-        if (!loginUser || loginUser.provider !== 'credentials') return null;
+        if (!loginUser || loginUser.provider !== 'credentials' || loginUser.status !== '') return null;
 
         const passwordCorrect = await bcrypt.compare(
           credentials.password,
