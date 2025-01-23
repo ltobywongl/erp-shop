@@ -47,7 +47,7 @@ export default async function Home({ params }: { params: { lang: string } }) {
         className="min-h-dvh w-full flex flex-col gap-2 items-center justify-center bg-cover p-2"
         style={{ backgroundImage: `url(${pathToS3Url("images/banner.jpg")})` }}
       >
-        <div className="text-3xl font-medium">{t("brand")}</div>
+        <div className="text-3xl font-medium text-white drop-shadow-lg">{t("brand")}</div>
         <Link
           href={"/categories"}
           className="bg-white border px-4 md:px-6 py-2 md:py-4 rounded"

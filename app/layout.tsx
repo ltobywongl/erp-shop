@@ -6,7 +6,6 @@ import "./globals.css";
 import CartProvider from "@/utils/cartProvider";
 import { ModalProvider } from "@/components/common/modal";
 import { cn } from "@/utils/utils";
-import { dir } from "i18next";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
@@ -30,7 +29,7 @@ export default function Layout({
         <AntdRegistry>
           <html lang={lang}>
             <body className={cn(playfair.className, "flex flex-col")}>
-              <NavBar />
+              <NavBar lang={lang} />
               {children}
               <div className="mt-4 flex-1 flex flex-col justify-end">
                 <div className="h-4 bg-emerald-800" />

@@ -29,12 +29,14 @@ export function middleware(req: NextRequest) {
     );
   }
 
+  const response = NextResponse.next();
+  response.cookies.set(cookieName, lang, { sameSite: "strict" });
+
   if (req.headers.has("referer")) {
     const refererUrl = new URL(req.headers.get("referer") as string);
     const langInReferer = languages.find((l) =>
       refererUrl.pathname.startsWith(`/${l}`)
     );
-    const response = NextResponse.next();
     if (langInReferer)
       response.cookies.set(cookieName, langInReferer, { sameSite: "strict" });
     return response;

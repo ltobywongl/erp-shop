@@ -7,10 +7,9 @@ import {
   UseTranslationOptions,
   useTranslation as useTranslationOrg,
 } from "react-i18next";
-import { useCookies } from "react-cookie";
 import resourcesToBackend from "i18next-resources-to-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
-import { getOptions, languages, cookieName } from "./settings";
+import { getOptions, languages } from "./settings";
 
 const runsOnServerSide = typeof window === "undefined";
 
@@ -20,7 +19,8 @@ i18next
   .use(LanguageDetector)
   .use(
     resourcesToBackend(
-      (language: any, namespace: any) => import(`./locales/${language}/${namespace}.json`)
+      (language: any, namespace: any) =>
+        import(`./locales/${language}/${namespace}.json`)
     )
   )
   .init({
@@ -32,8 +32,11 @@ i18next
     preload: runsOnServerSide ? languages : [],
   });
 
-export function useTranslation(lang: string, ns: string, options?: UseTranslationOptions<undefined>) {
-  const [cookies, setCookie] = useCookies([cookieName]);
+export function useTranslation(
+  lang: string,
+  ns: string,
+  options?: UseTranslationOptions<undefined>
+) {
   const ret = useTranslationOrg(ns, options);
   const { i18n } = ret;
   if (runsOnServerSide && lang && i18n.resolvedLanguage !== lang) {
@@ -51,11 +54,6 @@ export function useTranslation(lang: string, ns: string, options?: UseTranslatio
       if (!lang || i18n.resolvedLanguage === lang) return;
       i18n.changeLanguage(lang);
     }, [lang, i18n]);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
-      if (cookies.i18next === lang) return;
-      setCookie(cookieName, lang, { path: "/" });
-    }, [lang, cookies.i18next, setCookie]);
   }
   return ret;
 }

@@ -16,9 +16,12 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { pathToS3Url } from "@/utils/string";
 import { cn } from "@/utils/utils";
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
+import LanguageSwitcher from "../common/langSwitcher";
+import { useTranslation } from "@/i18n/client";
 
-function NavBarClient() {
+function NavBarClient(params: { lang: string }) {
+  const { t } = useTranslation(params.lang, "nav");
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const isBigScreen = useBigScreen();
@@ -66,41 +69,46 @@ function NavBarClient() {
         <div className="h-full flex flex-col justify-between [&>div>a>div]:text-md md:[&>div>a>div]:text-lg [&>div>a]:flex [&>div>a]:p-4 [&>div>a]:items-center [&>div>a]:justify-between [&>div>a]:text-black [&>div>a]:font-bold [&>div>a>span>svg]:text-sm">
           <div>
             <Link href="/">
-              <div>首頁</div>
+              <div>{t("home")}</div>
               <PlusOutlined color="black" />
             </Link>
             <hr />
             <Link href="/search">
-              <div>搜索商品</div>
+              <div>{t("search")}</div>
               <PlusOutlined color="black" />
             </Link>
             <hr />
             <Link href="/categories">
-              <div>商品分類</div>
+              <div>{t("category")}</div>
               <PlusOutlined color="black" />
             </Link>
             <hr />
             <Link href="/point-shop">
-              <div>積分商城</div>
+              <div>{t("pointShop")}</div>
               <PlusOutlined color="black" />
             </Link>
           </div>
           <div className="">
             <hr />
             <Link href="/about">
-              <div>關於我們</div>
+              <div>{t("about")}</div>
               <PlusOutlined color="black" />
             </Link>
+            <hr />
+            <div className="flex gap-2 text-sm">
+              <LanguageSwitcher className="text-black" lang="zh-HK" />
+              <LanguageSwitcher className="text-black" lang="en" />
+            </div>
           </div>
         </div>
       </Drawer>
       <div
-        className={
-          cn(
-            "z-50 sticky h-20 w-full gap-8 px-[5%] md:px-[10%] flex items-center justify-between transition-colors bg-transparent",
-            pathName === "/" ? "absolute hover:bg-white transition-colors duration-500" : "",
-          )
-        }
+        className={cn(
+          "z-50 sticky h-20 w-full gap-8 px-[5%] md:px-[10%] flex items-center justify-between transition-colors bg-transparent",
+          pathName === "/"
+            ? "absolute hover:bg-white transition-colors duration-500"
+            : ""
+        )}
       >
         <div className="flex gap-4">
           <Button
@@ -113,7 +121,7 @@ function NavBarClient() {
             type="text"
             icon={<SearchOutlined color="black" />}
             size={"large"}
-            onClick={() => router.push('/search')}
+            onClick={() => router.push("/search")}
           />
         </div>
 
@@ -131,7 +139,7 @@ function NavBarClient() {
             type="text"
             icon={<UserOutlined />}
             size={"large"}
-            onClick={() => router.push('/account')}
+            onClick={() => router.push("/account")}
           />
           <Badge count={cartContext.cart.length}>
             <Button
