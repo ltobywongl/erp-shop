@@ -75,9 +75,10 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async signIn({ account, profile }) {
-      if (!account || !profile?.email || !profile.sub) return false;
+      if (!account) return false;
 
       if (account.provider === "google") {
+        if (!profile?.email || !profile.sub) return false;
         const user = await prisma.user.findFirst({
           select: {
             id: true,
