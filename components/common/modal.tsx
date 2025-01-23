@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { Modal } from "antd";
 
 interface ModalContextProps {
-  showModal: (content: ReactNode, onConfirm: () => void) => void;
+  showModal: (content: ReactNode, onConfirm: () => void, hideFooter: boolean) => void;
   hideModal: () => void;
 }
 
@@ -12,13 +12,15 @@ const ModalContext = createContext<ModalContextProps | undefined>(undefined);
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [hideFooter, setHideFooter] = useState(false);
   const [modalContent, setModalContent] = useState<ReactNode>(null);
   const [onConfirm, setOnConfirm] = useState<() => void>(() => {});
 
-  const showModal = (content: ReactNode, onConfirm: () => void) => {
+  const showModal = (content: ReactNode, onConfirm: () => void, hideFooter: boolean = false) => {
     setModalContent(content);
     setOnConfirm(() => onConfirm);
     setModalVisible(true);
+    setHideFooter(hideFooter);
   };
 
   const hideModal = () => {
@@ -39,6 +41,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         onCancel={hideModal}
         okText="確定"
         cancelText="取消"
+        footer={hideFooter ? null : undefined}
       >
         {modalContent}
       </Modal>

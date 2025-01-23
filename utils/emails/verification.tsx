@@ -11,8 +11,7 @@ if (!url) throw new Error("Missing Base URL");
 export const verificationEmail = (user: Partial<User>, id: string) => {
   return render(
     <Html lang="en">
-      <Text>Hello</Text>
-      <Text>{user.email}</Text>
+      <Text>Hello User,</Text>
 
       <Hr style={{ marginTop: "8px" }} />
 

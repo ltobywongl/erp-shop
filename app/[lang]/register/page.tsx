@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import { Button } from "antd";
 import { useModal } from "@/components/common/modal";
+import { useRouter } from "next/navigation";
 
 type Inputs = {
   email: string;
@@ -20,6 +21,7 @@ export default function Login() {
   const [error, setError] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const { showModal } = useModal();
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
@@ -36,7 +38,9 @@ export default function Login() {
       setMessage(response.message);
       setError(true);
     } else {
-      showModal("An email has been sent, please confirm your email.", () => {});
+      showModal("An email has been sent, please confirm your email.", () => {
+        router.push("/login");
+      }, true);
     }
   };
 
