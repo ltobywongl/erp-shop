@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 import { Modal } from "antd";
 
 interface ModalContextProps {
-  showModal: (content: ReactNode, onConfirm: () => void, hideFooter: boolean) => void;
+  showModal: (content: ReactNode, onConfirm: () => void, hideFooter?: boolean) => void;
   hideModal: () => void;
 }
 

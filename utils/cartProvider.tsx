@@ -61,8 +61,10 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const existingItem = c.find((i) => i.id === item.id);
     if (existingItem) {
       if (existingItem.quantity === 1) {
-        showModal("Remove Item?", () =>
-          setCart([...c].filter((i) => i.id !== item.id))
+        showModal(
+          "Remove Item?",
+          () => setCart([...c].filter((i) => i.id !== item.id)),
+          false
         );
       } else {
         setCart(
