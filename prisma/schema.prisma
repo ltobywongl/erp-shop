@@ -66,7 +66,7 @@ model CouponCategory {
   minCheckValue Float?    @map("min_check_value")
   useStock      Boolean   @default(false) @map("use_stock")
   stock         Int       @default(0)
-  active        Boolean   @default(false)
+  active        Boolean   @default(true)
   createdAt     DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
   deletedAt     DateTime? @map("deleted_at") @db.DateTime(0)
