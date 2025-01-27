@@ -5,7 +5,8 @@ import { pathToS3Url } from "@/utils/string";
 import Link from "next/link";
 import { translation } from "@/i18n";
 
-export default async function Home({ params }: { params: { lang: string } }) {
+export default async function Home(props: { params: Promise<{ lang: string }> }) {
+  const params = await props.params;
   const { t } = await translation(params.lang, "home");
   const items = await prisma.product.findMany({
     select: {

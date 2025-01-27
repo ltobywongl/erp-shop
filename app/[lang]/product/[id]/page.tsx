@@ -2,7 +2,8 @@ import NotFound from "@/app/not-found";
 import ProductDetails from "@/components/product/details";
 import prisma from "@/utils/prisma";
 
-async function Page({ params }: { params: { id: string } }) {
+async function Page(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const product = await prisma.product.findUnique({
     select: {
       id: true,

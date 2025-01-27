@@ -1,7 +1,7 @@
 "use client";
 import Modal from "antd/es/modal";
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import MyImage from "../image/customImage";
 
 function PopUpAds(params: Readonly<{ imageUrl: string }>) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -17,7 +17,7 @@ function PopUpAds(params: Readonly<{ imageUrl: string }>) {
       footer={null}
       onCancel={() => setModalOpen(false)}
     >
-      <Image
+      <MyImage
         src={params.imageUrl}
         unoptimized
         width={600}

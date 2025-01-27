@@ -1,14 +1,13 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
-import { pathToS3Url, toPrice } from "@/utils/string";
+import { toPrice } from "@/utils/string";
 import { useCart } from "@/utils/cartProvider";
+import MyImage from "../image/customImage";
 
 type DetailsItem = Item & {
   description: string;
 };
 
-function ProductDetails({ item }: { item: DetailsItem }) {
+function ProductDetails({ item }: Readonly<{ item: DetailsItem }>) {
   const { addQuantity } = useCart();
 
   return (
@@ -18,15 +17,16 @@ function ProductDetails({ item }: { item: DetailsItem }) {
       </h1>
       <div className="w-full">
         {item.image ? (
-          <Image
-            src={pathToS3Url(item.image)}
+          <MyImage
+            src={item.image}
             alt={`product-${item.id}`}
             height={400}
             width={400}
             className="aspect-square object-contain !max-h-32 md:!max-h-64 w-full"
+            externalUrl={true}
           />
         ) : (
-          <Image
+          <MyImage
             src={"/images/fallback.png"}
             alt={`product-${item.id}`}
             height={400}

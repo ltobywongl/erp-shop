@@ -14,15 +14,24 @@ export const metadata: Metadata = {
   description: "Shop",
 };
 
-export default function Layout({
-  children,
-  params: { lang },
-}: Readonly<{
-  children: React.ReactNode;
-  params: {
-    lang: string;
-  };
-}>) {
+export default async function Layout(
+  props: Readonly<{
+    children: React.ReactNode;
+    params: {
+      lang: string;
+    };
+  }>
+) {
+  const params = await props.params;
+
+  const {
+    lang
+  } = params;
+
+  const {
+    children
+  } = props;
+
   return (
     <ModalProvider>
       <CartProvider>

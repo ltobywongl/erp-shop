@@ -1,6 +1,5 @@
 "use client";
 import { toPrice } from "@/utils/string";
-import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "antd";
 import { CouponCategory } from "@prisma/client";
@@ -8,23 +7,24 @@ import { useState } from "react";
 import LoadingSpinner from "@/components/common/spinner";
 import { useCart } from "@/utils/cartProvider";
 import { useRouter } from "next/navigation";
-import { pathToS3Url } from "@/utils/string";
+import MyImage from "../image/customImage";
 
-function SmallItemCard(props: { item: Item; className?: string }) {
+function SmallItemCard(props: Readonly<{ item: Item; className?: string }>) {
   const { addQuantity, reduceQuantity } = useCart();
   const item = props.item;
   return (
     <div className={`flex gap-2 ${props.className}`}>
       {item.image ? (
-          <Image
-            src={pathToS3Url(item.image)}
+          <MyImage
+            src={item.image}
             alt={`product-${item.id}`}
             height={80}
             width={80}
             className="object-contain !max-h-20 md:!max-h-52 hidden md:block"
+            externalUrl={true}
           />
         ) : (
-          <Image
+          <MyImage
             src={"/images/fallback.png"}
             alt={`product-${item.id}`}
             height={80}
@@ -87,15 +87,16 @@ function ItemCardVertical(props: { item: Item }) {
     <div className="flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
       <Link href={`/product/${item.id}`} className="w-[20%] md:w-full">
         {item.image ? (
-          <Image
-            src={pathToS3Url(item.image)}
+          <MyImage
+            src={item.image}
             alt={`product-${item.id}`}
             height={400}
             width={400}
             className="aspect-square object-contain !max-h-20 md:!max-h-52 mx-auto"
+            externalUrl={true}
           />
         ) : (
-          <Image
+          <MyImage
             src={"/images/fallback.png"}
             alt={`product-${item.id}`}
             height={400}
@@ -181,12 +182,13 @@ function ItemCardPoint(props: { item: Partial<CouponCategory> }) {
     <div className="flex md:flex-col justify-between gap-2 p-2 md:border md:border-zinc-200">
       <Link className="w-[25%] md:w-full" href={`/coupons/${item.id}`}>
         {item.imagePath ? (
-          <Image
+          <MyImage
             className="w-full !max-h-20 md:!max-h-52 object-contain mx-auto"
-            src={pathToS3Url(item.imagePath)}
+            src={item.imagePath}
             width={500}
             height={500}
             alt={`coupon-${item.id}`}
+            externalUrl={true}
           />
         ) : (
           <div className="border-4 border-double text-xl md:text-2xl text-center font-semibold md:font-bold bg-gradient-radial from-yellow-200 to-yellow-500 p-1 md:p-5 shadow-sm">

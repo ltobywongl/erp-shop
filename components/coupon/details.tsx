@@ -1,9 +1,9 @@
 "use client";
-import Image from "next/image";
 import { CouponCategory } from "@prisma/client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "../common/spinner";
+import MyImage from "../image/customImage";
 
 function CouponDetails({ item }: { item: Partial<CouponCategory> }) {
   const router = useRouter();
@@ -34,7 +34,7 @@ function CouponDetails({ item }: { item: Partial<CouponCategory> }) {
       </h1>
       <div className="w-full">
         {item.imagePath ? (
-          <Image
+          <MyImage
             src={item.imagePath}
             alt={`product-${item.id}`}
             height={400}

@@ -26,13 +26,6 @@ async function Page() {
         <div>
           <Link
             className="flex items-center justify-center gap-2 w-full border-b p-2 hover:bg-slate-50 text-center"
-            href="/member-card"
-          >
-            <IdcardOutlined style={{ color: "black" }} />
-            <div>會員卡</div>
-          </Link>
-          <Link
-            className="flex items-center justify-center gap-2 w-full border-b p-2 hover:bg-slate-50 text-center"
             href="/order-history"
           >
             <FieldTimeOutlined style={{ color: "black" }} />

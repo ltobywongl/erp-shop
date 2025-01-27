@@ -1,7 +1,8 @@
 import NotFound from "@/app/not-found";
 import prisma from "@/utils/prisma";
 
-async function Page({ params }: { params: { id: string } }) {
+async function Page(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const currentTime = new Date();
   const verification = await prisma.verifications.findUnique({
     select: {

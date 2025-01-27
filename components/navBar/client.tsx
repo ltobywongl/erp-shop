@@ -12,13 +12,11 @@ import Link from "next/link";
 import { SmallItemCard } from "@/components/common/itemCard";
 import { useCart } from "@/utils/cartProvider";
 import useBigScreen from "@/utils/hooks/windowSize";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { pathToS3Url } from "@/utils/string";
+import { useRouter, usePathname } from "next/navigation";
 import { cn } from "@/utils/utils";
-import { usePathname } from "next/navigation";
 import LanguageSwitcher from "../common/langSwitcher";
 import { useTranslation } from "@/i18n/client";
+import MyImage from "../image/customImage";
 
 function NavBarClient(params: { lang: string }) {
   const { t } = useTranslation(params.lang, "nav");
@@ -125,13 +123,14 @@ function NavBarClient(params: { lang: string }) {
           />
         </div>
 
-        <Image
-          src={pathToS3Url("images/icon.jpg")}
+        <MyImage
+          src="images/icon.jpg"
           className="cursor-pointer"
           height={48}
           width={48}
           alt="logo"
           onClick={() => router.push("/")}
+          externalUrl={true}
         />
 
         <div className="flex gap-4">
@@ -141,7 +140,7 @@ function NavBarClient(params: { lang: string }) {
             size={"large"}
             onClick={() => router.push("/account")}
           />
-          <Badge count={cartContext.cart.length}>
+          <Badge size="small" offset={[2,4]} count={cartContext.cart.length}>
             <Button
               type="text"
               icon={<ShoppingCartOutlined />}

@@ -1,6 +1,7 @@
 import CategoryListPage from "@/components/category/list";
 
-async function Page({ params }: { params: { id: string } }) {
+async function Page(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   return <CategoryListPage id={params.id} />;
 }
 
