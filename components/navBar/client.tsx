@@ -95,7 +95,7 @@ function NavBarClient(params: { lang: string }) {
               <PlusOutlined color="black" />
             </Link>
             <hr />
-            <div className="flex gap-2 text-sm">
+            <div className="p-2 flex gap-2 text-sm">
               <LanguageSwitcher className="text-black" lang="zh-HK" />
               <LanguageSwitcher className="text-black" lang="en" />
             </div>

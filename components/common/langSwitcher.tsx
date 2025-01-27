@@ -1,18 +1,14 @@
 "use client"
 
-import { useRouter } from "next/navigation";
-
 const langKey = {
     "zh-HK": "繁",
     "en": "Eng"
 }
 
-function LanguageSwitcher(params: { lang: keyof typeof langKey, className?: string }) {
-    const router = useRouter();
+function LanguageSwitcher(params: Readonly<{ lang: keyof typeof langKey, className?: string }>) {
     return (
         <button className={params.className} onClick={() => {
-            router.push(`/${params.lang}`);
-            window.location.reload();
+            window.location.href = `/${params.lang}`;
         }}>
             {langKey[params.lang]}
         </button>
