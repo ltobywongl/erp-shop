@@ -9,9 +9,9 @@ import { CouponCategory } from "@prisma/client";
 
 export default function CheckoutForm({
   coupons,
-}: {
+}: Readonly<{
   coupons: Partial<CouponCategory>[];
-}) {
+}>) {
   const router = useRouter();
   const cartContext = useCart();
   const [isLoading, setIsLoading] = useState(false);

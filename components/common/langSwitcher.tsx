@@ -2,7 +2,7 @@
 
 const langKey = {
     "zh-HK": "繁",
-    "en": "Eng"
+    "en": "English"
 }
 
 function LanguageSwitcher(params: Readonly<{ lang: keyof typeof langKey, className?: string }>) {

@@ -5,7 +5,7 @@ import { ItemCardVertical } from "../common/itemCard";
 import prisma from "@/utils/prisma";
 import SearchBar from "../common/searchBar";
 
-async function SuggestPage(params: { lang: string }) {
+async function SuggestPage(params: Readonly<{ lang: string }>) {
   const breadItems: BreadcrumbItemType[] = [
     {
       href: "/",

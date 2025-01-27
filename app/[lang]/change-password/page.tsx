@@ -4,7 +4,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "antd";
-import Link from "next/link";
 
 type Inputs = {
   email: string;
@@ -44,7 +43,7 @@ export default function Login() {
   return (
     <div className="flex flex-col w-full py-[10%] items-center justify-center bg-[#e5ebe5]">
       <form
-        className="flex flex-col rounded-md w-[90%] md:w-96 p-6 bg-zinc-100 border border-solid"
+        className="flex flex-col w-[90%] md:w-96"
         method="post"
         action="/api/auth/callback/credentials"
         onSubmit={handleSubmit(onSubmit)}
@@ -82,7 +81,7 @@ export default function Login() {
         <label htmlFor="newPassword">新密碼</label>
         <input
           className="p-1 rounded-sm border border-solid"
-          type="newPassword"
+          type="password"
           id="newPassword"
           {...register("newPassword", {
             required: true,
@@ -101,7 +100,7 @@ export default function Login() {
         >
           更改密碼
         </Button>
-        {error && <div className="text-red-500">發生錯誤</div>}
+        {error && <div className="text-red-500">錯誤的電郵地址/密碼</div>}
       </form>
     </div>
   );

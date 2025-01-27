@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import LoadingSpinner from "../common/spinner";
 import MyImage from "../image/customImage";
 
-function CouponDetails({ item }: { item: Partial<CouponCategory> }) {
+function CouponDetails({ item }: Readonly<{ item: Partial<CouponCategory> }>) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 

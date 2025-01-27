@@ -1,15 +1,12 @@
 import {
-  WalletOutlined,
   KeyOutlined,
   ScheduleOutlined,
   FieldTimeOutlined,
-  IdcardOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { loadUser } from "@/utils/user";
-import { signOut } from "next-auth/react";
 import SignOutButton from "@/components/common/signOutButton";
 
 async function Page() {

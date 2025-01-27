@@ -3,7 +3,7 @@ import { message } from "antd";
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 
-function EnquiryForm({ userId }: { userId?: string }) {
+function EnquiryForm({ userId }: Readonly<{ userId?: string }>) {
   const router = useRouter();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {

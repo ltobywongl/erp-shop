@@ -24,14 +24,7 @@ async function Page() {
       },
     })) as Partial<CouponCategory>[];
 
-    return (
-      <div className="m-3 md:m-6">
-        <div className="p-2 md:p-3 border w-fit font-bold">
-          現有積分: {user?.couponPoints ?? 0}
-        </div>
-        <PointShopPage point={user?.couponPoints} items={items} />
-      </div>
-    );
+    return <PointShopPage point={user.couponPoints} items={items} />;
   } else {
     return redirect("/login", RedirectType.push);
   }

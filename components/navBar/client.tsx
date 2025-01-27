@@ -18,7 +18,7 @@ import LanguageSwitcher from "../common/langSwitcher";
 import { useTranslation } from "@/i18n/client";
 import MyImage from "../image/customImage";
 
-function NavBarClient(params: { lang: string }) {
+function NavBarClient(params: Readonly<{ lang: string }>) {
   const { t } = useTranslation(params.lang, "nav");
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openCart, setOpenCart] = useState(false);

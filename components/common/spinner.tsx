@@ -1,4 +1,4 @@
-function LoadingSpinner({ className }: { className?: string }) {
+function LoadingSpinner({ className }: Readonly<{ className?: string }>) {
   return (
     <div className={`flex items-center justify-center ${className}`}>
       <svg

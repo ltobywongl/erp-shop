@@ -6,17 +6,17 @@ import { SearchOutlined } from "@ant-design/icons";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRef } from "react";
 
-export default function SearchBar(params: {
+export default function SearchBar(params: Readonly<{
   lang: string;
   className?: string;
   keyword?: string;
-}) {
+}>) {
   const { t } = useTranslation(params.lang, "search");
   const searchParams = useSearchParams();
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const defaultValue = params.keyword ?? searchParams.get("keyword") ?? "";
-  const onSearch = (data?: String) => {
+  const onSearch = (data?: string) => {
     if (!data || data === "") {
       return;
     }
