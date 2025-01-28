@@ -94,8 +94,8 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
             </Link>
             <hr />
             <div className="p-2 flex gap-2 text-sm">
-              <LanguageSwitcher className="text-black" lang="zh-HK" />
-              <LanguageSwitcher className="text-black" lang="en" />
+              <LanguageSwitcher lang="zh-HK" />
+              <LanguageSwitcher lang="en" />
             </div>
           </div>
         </div>
