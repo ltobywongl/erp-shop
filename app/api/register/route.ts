@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { createId } from "@paralleldrive/cuid2";
@@ -8,7 +8,7 @@ import { verificationEmail } from "@/utils/emails/verification";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   try {
     const body: UserRegister = await req.json();
 
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     await sendMail(
       "Verify your email",
       user.email,
-      verificationEmail(user, verification.id)
+      await verificationEmail(user, verification.id)
     );
 
     return successResponse("");

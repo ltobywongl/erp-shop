@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import prisma from "@/utils/prisma";
 import { errorResponse, successResponse } from "@/utils/httpResponse";
 import { createId } from '@paralleldrive/cuid2';
 import { loadUser } from "@/utils/user";
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   try {
     const user = await loadUser();
     if (!user?.role) {

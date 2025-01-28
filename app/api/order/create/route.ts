@@ -245,7 +245,7 @@ export async function POST(request: NextRequest) {
     await sendMail(
       "Order Confirmation",
       user.email,
-      confirmEmail({
+      await confirmEmail({
         id: orderId,
       })
     );
