@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import prisma from "@/utils/prisma";
 import { errorResponse, successResponse } from "@/utils/httpResponse";
 
