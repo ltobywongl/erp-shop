@@ -9,7 +9,7 @@ import {
 } from "react-i18next";
 import resourcesToBackend from "i18next-resources-to-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
-import { getOptions, languages } from "./settings";
+import { getOptions, languages } from "@/i18n/settings";
 
 const runsOnServerSide = typeof window === "undefined";
 
@@ -20,7 +20,7 @@ i18next
   .use(
     resourcesToBackend(
       (language: any, namespace: any) =>
-        import(`./locales/${language}/${namespace}.json`)
+        import(`@/i18n/locales/${language}/${namespace}.json`)
     )
   )
   .init({

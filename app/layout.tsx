@@ -2,7 +2,7 @@ import NavBar from "@/components/navBar/server";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
-import "./globals.css";
+import "@/app/globals.css";
 import CartProvider from "@/utils/cartProvider";
 import { ModalProvider } from "@/components/common/modal";
 import { cn } from "@/utils/utils";

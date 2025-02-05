@@ -2,8 +2,8 @@
 import { CouponCategory } from "@prisma/client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import LoadingSpinner from "../common/spinner";
-import MyImage from "../image/customImage";
+import LoadingSpinner from "@/components/common/spinner";
+import MyImage from "@/components/image/customImage";
 
 function CouponDetails({ item }: Readonly<{ item: Partial<CouponCategory> }>) {
   const router = useRouter();

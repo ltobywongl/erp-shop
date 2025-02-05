@@ -1,7 +1,7 @@
 "use client";
 import Modal from "antd/es/modal";
 import { useEffect, useState } from "react";
-import MyImage from "../image/customImage";
+import MyImage from "@/components/image/customImage";
 
 function PopUpAds(params: Readonly<{ imageUrl: string }>) {
   const [modalOpen, setModalOpen] = useState(false);

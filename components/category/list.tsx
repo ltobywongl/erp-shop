@@ -1,8 +1,8 @@
 "use client";
 import HomeOutlined from "@ant-design/icons/lib/icons/HomeOutlined";
 import Breadcrumb, { BreadcrumbItemType } from "antd/es/breadcrumb/Breadcrumb";
-import SideMenu from "../common/sideMenu";
-import { ItemCardVertical } from "../common/itemCard";
+import SideMenu from "@/components/common/sideMenu";
+import { ItemCardVertical } from "@/components/common/itemCard";
 import { useEffect, useState } from "react";
 import Loading from "@/app/loading";
 import PaginationClient from "@/components/common/pagination";

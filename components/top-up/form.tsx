@@ -2,7 +2,7 @@
 import { Table, Modal, Result, message } from "antd";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
-import LoadingSpinner from "../common/spinner";
+import LoadingSpinner from "@/components/common/spinner";
 
 const dataSource = [
   {

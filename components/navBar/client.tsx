@@ -14,9 +14,9 @@ import { useCart } from "@/utils/cartProvider";
 import useBigScreen from "@/utils/hooks/windowSize";
 import { useRouter, usePathname } from "next/navigation";
 import { cn } from "@/utils/utils";
-import LanguageSwitcher from "../common/langSwitcher";
+import LanguageSwitcher from "@/components/common/langSwitcher";
 import { useTranslation } from "@/i18n/client";
-import MyImage from "../image/customImage";
+import MyImage from "@/components/image/customImage";
 
 function NavBarClient(params: Readonly<{ lang: string }>) {
   const { t } = useTranslation(params.lang, "nav");

@@ -1,9 +1,9 @@
 import HomeOutlined from "@ant-design/icons/lib/icons/HomeOutlined";
 import Breadcrumb, { BreadcrumbItemType } from "antd/es/breadcrumb/Breadcrumb";
-import SideMenu from "../common/sideMenu";
-import { ItemCardVertical } from "../common/itemCard";
+import SideMenu from "@/components/common/sideMenu";
+import { ItemCardVertical } from "@/components/common/itemCard";
 import prisma from "@/utils/prisma";
-import SearchBar from "../common/searchBar";
+import SearchBar from "@/components/common/searchBar";
 
 async function SuggestPage(params: Readonly<{ lang: string }>) {
   const breadItems: BreadcrumbItemType[] = [

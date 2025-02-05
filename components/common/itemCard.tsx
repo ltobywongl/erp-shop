@@ -7,7 +7,7 @@ import { useState } from "react";
 import LoadingSpinner from "@/components/common/spinner";
 import { useCart } from "@/utils/cartProvider";
 import { useRouter } from "next/navigation";
-import MyImage from "../image/customImage";
+import MyImage from "@/components/image/customImage";
 
 function SmallItemCard(props: Readonly<{ item: Item; className?: string }>) {
   const { addQuantity, reduceQuantity } = useCart();

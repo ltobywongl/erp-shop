@@ -1,4 +1,4 @@
-import NavBarClient from "./client";
+import NavBarClient from "@/components/navBar/client";
 
 export default async function NavBar(params: Readonly<{ lang: string }>) {
 

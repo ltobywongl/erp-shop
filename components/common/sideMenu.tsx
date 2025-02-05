@@ -5,7 +5,7 @@ import { StarFilled } from "@ant-design/icons";
 import Link from "next/link";
 import { MenuProps } from "antd";
 import MyMenu from "@/components/common/menu";
-import LoadingSpinner from "./spinner";
+import LoadingSpinner from "@/components/common/spinner";
 
 type MenuItem = Required<MenuProps>["items"][number];
 

@@ -1,7 +1,7 @@
 "use client";
 import { toPrice } from "@/utils/string";
 import { useCart } from "@/utils/cartProvider";
-import MyImage from "../image/customImage";
+import MyImage from "@/components/image/customImage";
 
 type DetailsItem = Item & {
   description: string;

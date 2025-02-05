@@ -1,7 +1,7 @@
 import { createInstance } from "i18next";
 import resourcesToBackend from "i18next-resources-to-backend";
 import { initReactI18next } from "react-i18next/initReactI18next";
-import { getOptions } from "./settings";
+import { getOptions } from "@/i18n/settings";
 
 const initI18next = async (lang: string, ns: string) => {
   const i18nInstance = createInstance();
@@ -10,7 +10,7 @@ const initI18next = async (lang: string, ns: string) => {
     .use(
       resourcesToBackend(
         (language: string, namespace: string) =>
-          import(`./locales/${language}/${namespace}.json`)
+          import(`@/i18n/locales/${language}/${namespace}.json`)
       )
     )
     .init(getOptions(lang, ns));
