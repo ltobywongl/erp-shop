@@ -1,4 +1,3 @@
-import React from "react";
 import { ItemCardVertical } from "@/components/common/itemCard";
 import prisma from "@/utils/prisma";
 import { pathToS3Url } from "@/utils/string";
