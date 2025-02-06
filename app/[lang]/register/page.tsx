@@ -2,9 +2,9 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
-import { Button } from "antd";
-import { useModal } from "@/components/common/modal";
-import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { Input } from "@/components/ui/input";
 
 type Inputs = {
   email: string;
@@ -15,13 +15,13 @@ export default function Login() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<Inputs>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
-  const { showModal } = useModal();
-  const router = useRouter();
+  const { toast } = useToast();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
@@ -38,24 +38,25 @@ export default function Login() {
       setMessage(response.message);
       setError(true);
     } else {
-      showModal("An email has been sent, please confirm your email.", () => {
-        router.push("/login");
-      }, true);
+      reset();
+      toast({
+        title: "Please check email to confirm the action",
+      });
     }
   };
 
   return (
     <div className="flex flex-col w-full my-[10%] items-center justify-center">
       <form
-        className="flex flex-col gap-2 w-[90%] md:w-96 mb-4 [&>button]:w-full"
+        className="flex flex-col gap-1 w-[90%] md:w-96 mb-4 [&>button]:w-full"
         method="post"
         action="/api/auth/callback/credentials"
         onSubmit={handleSubmit(onSubmit)}
       >
-        電郵地址
-        <input
+        <label htmlFor="email">電郵地址</label>
+        <Input
+          id="email"
           type="email"
-          className="mb-1 p-1 rounded-sm border border-solid"
           {...register("email", {
             required: true,
             pattern: {
@@ -67,9 +68,9 @@ export default function Login() {
         {errors.email && (
           <div className="text-red-500 text-sm">{errors.email.message}</div>
         )}
-        密碼
-        <input
-          className="p-1 rounded-sm border border-solid"
+        <label htmlFor="email">密碼</label>
+        <Input
+          id="password"
           type="password"
           {...register("password", {
             required: true,
@@ -81,8 +82,7 @@ export default function Login() {
         <Button
           className="mt-4"
           loading={loading}
-          type="primary"
-          htmlType="submit"
+          type="submit"
         >
           註冊
         </Button>

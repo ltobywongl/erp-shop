@@ -1,15 +1,15 @@
-import HomeOutlined from "@ant-design/icons/lib/icons/HomeOutlined";
-import Breadcrumb, { BreadcrumbItemType } from "antd/es/breadcrumb/Breadcrumb";
+import { Breadcrumbs, BreadcrumbItemType } from "@/components/ui/breadcrumb";
 import SideMenu from "@/components/common/sideMenu";
 import { ItemCardVertical } from "@/components/common/itemCard";
 import prisma from "@/utils/prisma";
 import SearchBar from "@/components/common/searchBar";
+import { HomeIcon } from "lucide-react";
 
 async function SuggestPage(params: Readonly<{ lang: string }>) {
   const breadItems: BreadcrumbItemType[] = [
     {
       href: "/",
-      title: <HomeOutlined />,
+      title: <HomeIcon />,
     },
     {
       title: "搜索",
@@ -59,7 +59,7 @@ async function SuggestPage(params: Readonly<{ lang: string }>) {
           <SideMenu />
         </div>
         <div className="col-start-4 col-span-6 px-1">
-          <Breadcrumb items={breadItems} />
+          <Breadcrumbs items={breadItems} />
           <hr className="mt-1" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
             {items.map((item, index) => (

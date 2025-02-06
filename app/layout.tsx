@@ -1,11 +1,11 @@
 import NavBar from "@/components/navBar/server";
-import { AntdRegistry } from "@ant-design/nextjs-registry";
 import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
 import "@/app/globals.css";
 import CartProvider from "@/utils/cartProvider";
-import { ModalProvider } from "@/components/common/modal";
+import { ModalProvider } from "@/utils/modalProvider";
 import { cn } from "@/utils/utils";
+import { Toaster } from "@/components/ui/toaster";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
@@ -24,28 +24,23 @@ export default async function Layout(
 ) {
   const params = await props.params;
 
-  const {
-    lang
-  } = params;
+  const { lang } = params;
 
-  const {
-    children
-  } = props;
+  const { children } = props;
 
   return (
     <ModalProvider>
       <CartProvider>
-        <AntdRegistry>
-          <html lang={lang}>
-            <body className={cn(playfair.className, "flex flex-col")}>
-              <NavBar lang={lang} />
-              {children}
-              <div className="mt-4 flex-1 flex flex-col justify-end">
-                <div className="h-4 bg-emerald-800" />
-              </div>
-            </body>
-          </html>
-        </AntdRegistry>
+        <html lang={lang}>
+          <body className={cn(playfair.className, "flex flex-col")}>
+            <NavBar lang={lang} />
+            {children}
+            <div className="mt-4 flex-1 flex flex-col justify-end">
+              <div className="h-4 bg-emerald-800" />
+            </div>
+            <Toaster />
+          </body>
+        </html>
       </CartProvider>
     </ModalProvider>
   );

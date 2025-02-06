@@ -1,15 +1,13 @@
 "use client";
 
 import { useForm, SubmitHandler } from "react-hook-form";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "antd";
-import { FacebookOutlined, GoogleOutlined } from "@ant-design/icons";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { Input } from "@/components/ui/input";
 
 type Inputs = {
   email: string;
-  password: string;
 };
 
 export default function Login() {
@@ -17,28 +15,29 @@ export default function Login() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<Inputs>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
-  const router = useRouter();
+  const { toast } = useToast();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    // setLoading(true);
-    // const res = await signIn("credentials", {
-    //   email: data.email,
-    //   password: data.password,
-    //   redirect: false,
-    //   callbackUrl: "/",
-    // });
-    // setLoading(false);
-    // if (res?.error) {
-    //   setError(true);
-    // } else {
-    //   if (res?.url) {
-    //     await router.push(res.url);
-    //     router.refresh();
-    //   }
-    // }
+    setLoading(true);
+    const res = await fetch("/api/forget-password", {
+      method: "POST",
+      body: JSON.stringify({
+        email: data.email,
+      }),
+    });
+    setLoading(false);
+    if (!res?.ok) {
+      setError(true);
+    } else {
+      reset();
+      toast({
+        title: "Please check email to confirm the action",
+      })
+    }
   };
 
   return (
@@ -50,8 +49,9 @@ export default function Login() {
         action="/api/auth/callback/credentials"
         onSubmit={handleSubmit(onSubmit)}
       >
-        電郵地址
-        <input
+        <label htmlFor="email">電郵地址</label>
+        <Input
+          id="email"
           type="email"
           className="mb-1 p-1 rounded-sm border border-solid"
           {...register("email", {
@@ -65,28 +65,14 @@ export default function Login() {
         {errors.email && (
           <div className="text-red-500 text-sm">{errors.email.message}</div>
         )}
-        新密碼
-        <input
-          className="p-1 rounded-sm border border-solid"
-          type="password"
-          {...register("password", {
-            required: true,
-          })}
-        />
-        {errors.password && (
-          <div className="text-red-500 text-sm">{errors.password.message}</div>
-        )}
         <Button
           className="mt-4"
           loading={loading}
-          type="primary"
-          htmlType="submit"
+          variant={"default"}
+          type="submit"
         >
           確認
         </Button>
-        <div className="text-sm text-gray-800 mt-1">
-          (請查看信箱並批准更改密碼要求)
-        </div>
         {error && <div className="text-red-500">Something went wrong.</div>}
       </form>
     </div>

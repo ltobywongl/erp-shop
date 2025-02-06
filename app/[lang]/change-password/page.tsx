@@ -3,7 +3,8 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "antd";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 type Inputs = {
   email: string;
@@ -43,16 +44,15 @@ export default function Login() {
   return (
     <div className="flex flex-col w-full py-[10%] items-center justify-center bg-[#e5ebe5]">
       <form
-        className="flex flex-col w-[90%] md:w-96"
+        className="flex flex-col gap-1 w-[90%] md:w-96"
         method="post"
         action="/api/auth/callback/credentials"
         onSubmit={handleSubmit(onSubmit)}
       >
         <label htmlFor="email">電郵地址</label>
-        <input
+        <Input
           type="email"
           id="email"
-          className="mb-1 p-1 rounded-sm border border-solid"
           {...register("email", {
             required: true,
             pattern: {
@@ -66,8 +66,7 @@ export default function Login() {
         )}
 
         <label htmlFor="password">密碼</label>
-        <input
-          className="p-1 rounded-sm border border-solid"
+        <Input
           type="password"
           id="password"
           {...register("password", {
@@ -79,8 +78,7 @@ export default function Login() {
         )}
 
         <label htmlFor="newPassword">新密碼</label>
-        <input
-          className="p-1 rounded-sm border border-solid"
+        <Input
           type="password"
           id="newPassword"
           {...register("newPassword", {
@@ -95,8 +93,8 @@ export default function Login() {
         <Button
           className="mt-4"
           loading={loading}
-          type="primary"
-          htmlType="submit"
+          variant="default"
+          type="submit"
         >
           更改密碼
         </Button>

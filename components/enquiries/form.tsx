@@ -1,10 +1,12 @@
 "use client";
-import { message } from "antd";
+import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
+import { Input } from "@/components/ui/input";
 
 function EnquiryForm({ userId }: Readonly<{ userId?: string }>) {
   const router = useRouter();
+  const { toast } = useToast();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -19,10 +21,15 @@ function EnquiryForm({ userId }: Readonly<{ userId?: string }>) {
     });
 
     if (res.ok) {
-      message.info("已發出");
+      toast({
+        title: "已發出",
+      });
       router.refresh();
     } else {
-      message.error("發生錯誤");
+      toast({
+        title: "發生錯誤",
+        variant: "destructive",
+      });
     }
   }
 
@@ -31,7 +38,12 @@ function EnquiryForm({ userId }: Readonly<{ userId?: string }>) {
       className="flex flex-col gap-2 [&>*]:border [&>*]:rounded [&>*]:px-3 [&>*]:py-1"
       onSubmit={(e) => handleSubmit(e)}
     >
-      <input type="email" id="email" name="email" placeholder="請輸入您的信箱" />
+      <Input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="請輸入您的信箱"
+      />
       <textarea name="content" id="content" />
       <button type="submit">提交</button>
     </form>

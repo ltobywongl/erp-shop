@@ -11,13 +11,12 @@
     "ssh-tunnel": "node ssh-tunnel.js"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.6.0",
-    "@ant-design/nextjs-registry": "^1.0.2",
     "@aws-sdk/client-s3": "^3.735.0",
     "@aws-sdk/lib-storage": "^3.735.0",
     "@aws-sdk/s3-request-presigner": "^3.735.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@prisma/client": "^6.2.1",
+    "@radix-ui/react-alert-dialog": "^1.1.5",
     "@radix-ui/react-dialog": "^1.1.5",
     "@radix-ui/react-slot": "^1.1.1",
     "@radix-ui/react-toast": "^1.2.5",
@@ -26,7 +25,6 @@
     "@stripe/react-stripe-js": "^3.1.1",
     "@stripe/stripe-js": "^5.5.0",
     "accept-language": "^3.0.20",
-    "antd": "^5.23.2",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

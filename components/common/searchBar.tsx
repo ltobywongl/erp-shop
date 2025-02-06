@@ -2,9 +2,10 @@
 
 import { useTranslation } from "@/i18n/client";
 import { cn } from "@/utils/utils";
-import { SearchOutlined } from "@ant-design/icons";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRef } from "react";
+import { Input } from "@/components/ui/input";
+import { SearchIcon } from "lucide-react";
 
 export default function SearchBar(params: Readonly<{
   lang: string;
@@ -29,10 +30,10 @@ export default function SearchBar(params: Readonly<{
         "w-full z-50 flex outline outline-1 outline-slate-300"
       )}
     >
-      <input
+      <Input
         ref={inputRef}
         type="text"
-        className="flex-1 py-2 px-3 ring-0 outline-none"
+        className="flex-1 py-2 px-3 rounded-none !ring-0"
         defaultValue={defaultValue}
         placeholder={t("search")}
         onKeyUp={(e) => {
@@ -45,7 +46,7 @@ export default function SearchBar(params: Readonly<{
         className="bg-blue-500 text-white py-2 px-3"
         onClick={() => onSearch(inputRef.current?.value)}
       >
-        <SearchOutlined />
+        <SearchIcon />
       </button>
     </span>
   );

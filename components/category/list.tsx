@@ -1,11 +1,11 @@
 "use client";
-import HomeOutlined from "@ant-design/icons/lib/icons/HomeOutlined";
-import Breadcrumb, { BreadcrumbItemType } from "antd/es/breadcrumb/Breadcrumb";
+import { Breadcrumbs, BreadcrumbItemType } from "@/components/ui/breadcrumb";
 import SideMenu from "@/components/common/sideMenu";
 import { ItemCardVertical } from "@/components/common/itemCard";
 import { useEffect, useState } from "react";
 import Loading from "@/app/loading";
 import PaginationClient from "@/components/common/pagination";
+import { HomeIcon } from "lucide-react";
 
 function CategoryListPage({ id }: Readonly<{ id: string }>) {
   const [data, setData] = useState<CategoryListProduct[]>([]);
@@ -19,7 +19,7 @@ function CategoryListPage({ id }: Readonly<{ id: string }>) {
   const breadItems: BreadcrumbItemType[] = [
     {
       href: "/",
-      title: <HomeOutlined />,
+      title: <HomeIcon />,
     },
     {
       title: "種類",
@@ -52,7 +52,7 @@ function CategoryListPage({ id }: Readonly<{ id: string }>) {
           <SideMenu />
         </div>
         <div className="col-start-4 col-span-6 px-1">
-          <Breadcrumb items={breadItems} />
+          <Breadcrumbs items={breadItems} />
           <hr className="mt-1" />
           <PaginationClient
             setPagination={setPagination}

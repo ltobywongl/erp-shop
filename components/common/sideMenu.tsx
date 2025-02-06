@@ -1,13 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { StarFilled } from "@ant-design/icons";
-import Link from "next/link";
-import { MenuProps } from "antd";
-import MyMenu from "@/components/common/menu";
 import LoadingSpinner from "@/components/common/spinner";
-
-type MenuItem = Required<MenuProps>["items"][number];
+import Menu, { MenuItem } from "@/components/ui/menu";
+import { StarIcon } from "lucide-react";
 
 function SideMenu() {
   const [categories, setCategories] = useState<{ id: string; name: string }[]>(
@@ -32,43 +28,43 @@ function SideMenu() {
   }, []);
 
   function getItem(
+    key: React.Key,
     label: React.ReactNode,
-    key?: React.Key,
-    icon?: React.ReactNode,
-    children?: MenuItem[],
-    type?: "group"
+    toUrl?: string,
+    icon?: React.ReactNode
   ): MenuItem {
     return {
       key,
-      icon,
-      children,
       label,
-      type,
+      toUrl,
+      icon,
     } as MenuItem;
   }
 
   const items: MenuItem[] = [
-    getItem("推薦商品種類", "Sub0", <StarFilled style={{ color: "orange" }} />),
+    getItem(
+      "MenuItem0",
+      "推薦商品種類",
+      undefined,
+      <StarIcon style={{ color: "orange" }} />
+    ),
 
     ...(categories.map((category) => {
       return getItem(
-        <Link href={`/category/${category.id}`}>{category.name}</Link>,
-        category.id
+        "MenuItem" + category.id,
+        category.name,
+        `/category/${category.id}`
       );
     }) || []),
   ];
 
   if (loading) {
-    return <LoadingSpinner className="border border-solid border-zinc-200 flex-1" />;
+    return (
+      <LoadingSpinner className="border border-solid border-zinc-200 flex-1" />
+    );
   }
 
-  return (
-    <MyMenu
-      mode="vertical"
-      items={items}
-      className="border border-solid border-zinc-200 [&>li]:!flex [&>li]:!items-center flex-1"
-    />
-  );
+  return <Menu items={items} direction="vertical" />;
 }
 
 export default SideMenu;

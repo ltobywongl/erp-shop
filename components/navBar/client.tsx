@@ -1,28 +1,34 @@
 "use client";
-import {
-  ShoppingCartOutlined,
-  UserOutlined,
-  SearchOutlined,
-  MenuOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
-import { Button, Badge, Drawer } from "antd";
 import { useState } from "react";
 import Link from "next/link";
 import { SmallItemCard } from "@/components/common/itemCard";
 import { useCart } from "@/utils/cartProvider";
-import useBigScreen from "@/utils/hooks/windowSize";
 import { useRouter, usePathname } from "next/navigation";
 import { cn } from "@/utils/utils";
 import LanguageSwitcher from "@/components/common/langSwitcher";
 import { useTranslation } from "@/i18n/client";
 import MyImage from "@/components/image/customImage";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  MenuIcon,
+  PlusIcon,
+  SearchIcon,
+  ShoppingCartIcon,
+  UserRoundIcon,
+} from "lucide-react";
 
 function NavBarClient(params: Readonly<{ lang: string }>) {
   const { t } = useTranslation(params.lang, "nav");
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openCart, setOpenCart] = useState(false);
-  const isBigScreen = useBigScreen();
   const cartContext = useCart();
   const router = useRouter();
   const pathName = usePathname();
@@ -30,75 +36,85 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
   return (
     <>
       <Drawer
-        title="購物車"
-        placement="right"
-        width={isBigScreen ? 400 : 220}
-        closable={true}
+        direction="bottom"
         onClose={() => setOpenCart(false)}
         open={openCart}
-        styles={{ body: { padding: "10px" } }}
       >
-        <div className="h-5/6 overflow-y-scroll custom-scrollbar border-y">
-          {cartContext?.cart.map((item) => (
-            <SmallItemCard
-              item={item}
-              key={item.id}
-              className="border-b py-2"
-            />
-          ))}
-        </div>
-        <Link
-          href={"/checkout"}
-          className="block w-full text-center mt-2 rounded bg-green-500 py-1 text-white font-bold"
-          onClick={() => setOpenCart(false)}
-        >
-          前往結帳
-        </Link>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>購物車</DrawerTitle>
+          </DrawerHeader>
+          <div className="h-5/6 overflow-y-scroll custom-scrollbar border-y">
+            {cartContext?.cart.map((item) => (
+              <SmallItemCard
+                item={item}
+                key={item.id}
+                className="border-b py-2"
+              />
+            ))}
+          </div>
+          <DrawerFooter>
+            <Link
+              href={"/checkout"}
+              className="block w-full text-center mt-2 rounded bg-green-500 py-1 text-white font-bold"
+              onClick={() => setOpenCart(false)}
+            >
+              前往結帳
+            </Link>
+          </DrawerFooter>
+        </DrawerContent>
       </Drawer>
       <Drawer
-        placement="left"
-        width={isBigScreen ? 400 : 220}
-        closable={true}
+        direction="bottom"
         onClose={() => setOpenDrawer(false)}
         open={openDrawer}
-        styles={{ body: { padding: "10px" } }}
-        className="text-xl"
       >
-        <div className="h-full flex flex-col justify-between [&>div>a>div]:text-md md:[&>div>a>div]:text-lg [&>div>a]:flex [&>div>a]:p-4 [&>div>a]:items-center [&>div>a]:justify-between [&>div>a]:text-black [&>div>a]:font-bold [&>div>a>span>svg]:text-sm">
-          <div>
-            <Link href="/">
-              <div>{t("home")}</div>
-              <PlusOutlined color="black" />
-            </Link>
-            <hr />
-            <Link href="/search">
-              <div>{t("search")}</div>
-              <PlusOutlined color="black" />
-            </Link>
-            <hr />
-            <Link href="/categories">
-              <div>{t("category")}</div>
-              <PlusOutlined color="black" />
-            </Link>
-            <hr />
-            <Link href="/point-shop">
-              <div>{t("pointShop")}</div>
-              <PlusOutlined color="black" />
-            </Link>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>
+              <Link href="/">
+                <MyImage
+                  src="images/icon.jpg"
+                  className="cursor-pointer"
+                  height={48}
+                  width={48}
+                  alt="logo"
+                  onClick={() => router.push("/")}
+                  externalUrl={true}
+                />
+              </Link>
+            </DrawerTitle>
+          </DrawerHeader>
+          <div className="h-full flex flex-col justify-between [&>div>a>div]:text-md md:[&>div>a>div]:text-lg [&>div>a]:flex [&>div>a]:p-4 [&>div>a]:items-center [&>div>a]:justify-between [&>div>a]:text-black [&>div>a]:font-bold [&>div>a>span>svg]:text-sm">
+            <div>
+              <Link href="/search">
+                <div>{t("search")}</div>
+                <PlusIcon color="black" />
+              </Link>
+              <hr />
+              <Link href="/categories">
+                <div>{t("category")}</div>
+                <PlusIcon color="black" />
+              </Link>
+              <hr />
+              <Link href="/point-shop">
+                <div>{t("pointShop")}</div>
+                <PlusIcon color="black" />
+              </Link>
+              <hr />
+              <Link href="/about">
+                <div>{t("about")}</div>
+                <PlusIcon color="black" />
+              </Link>
+            </div>
           </div>
-          <div className="">
-            <hr />
-            <Link href="/about">
-              <div>{t("about")}</div>
-              <PlusOutlined color="black" />
-            </Link>
-            <hr />
+          <DrawerFooter>
             <div className="p-2 flex gap-2 text-sm">
               <LanguageSwitcher className="text-black" lang="zh-HK" />
               <LanguageSwitcher className="text-black" lang="en" />
             </div>
-          </div>
-        </div>
+          </DrawerFooter>
+        </DrawerContent>
       </Drawer>
       <div
         className={cn(
@@ -110,17 +126,19 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
       >
         <div className="flex gap-4">
           <Button
-            type="text"
-            icon={<MenuOutlined color="black" />}
-            size={"large"}
+            variant={"ghost"}
+            size={"icon"}
             onClick={() => setOpenDrawer(true)}
-          />
+          >
+            <MenuIcon color="black" />
+          </Button>
           <Button
-            type="text"
-            icon={<SearchOutlined color="black" />}
-            size={"large"}
+            variant={"ghost"}
+            size={"icon"}
             onClick={() => router.push("/search")}
-          />
+          >
+            <SearchIcon color="black" />
+          </Button>
         </div>
 
         <MyImage
@@ -135,19 +153,21 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
 
         <div className="flex gap-4">
           <Button
-            type="text"
-            icon={<UserOutlined />}
-            size={"large"}
+            variant={"ghost"}
+            size={"icon"}
             onClick={() => router.push("/account")}
-          />
-          <Badge size="small" offset={[2,4]} count={cartContext.cart.length}>
-            <Button
-              type="text"
-              icon={<ShoppingCartOutlined />}
-              size={"large"}
-              onClick={() => setOpenCart(true)}
-            />
-          </Badge>
+          >
+            <UserRoundIcon color="black" />
+          </Button>
+          <Button
+            variant={"ghost"}
+            size={"icon"}
+            onClick={() => setOpenCart(true)}
+            className="relative"
+          >
+            <ShoppingCartIcon color="black" />
+            <Badge size={"sm"} />
+          </Button>
         </div>
       </div>
     </>

@@ -1,13 +1,8 @@
-import {
-  KeyOutlined,
-  ScheduleOutlined,
-  FieldTimeOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { loadUser } from "@/utils/user";
 import SignOutButton from "@/components/common/signOutButton";
+import { CircleDollarSignIcon, KeyIcon, TimerIcon, UserIcon } from "lucide-react";
 
 async function Page() {
   const user = await loadUser();
@@ -25,27 +20,27 @@ async function Page() {
             className="flex items-center justify-center gap-2 w-full border-b p-2 hover:bg-slate-50 text-center"
             href="/order-history"
           >
-            <FieldTimeOutlined style={{ color: "black" }} />
+            <TimerIcon style={{ color: "black" }} />
             <div>歷史訂單</div>
           </Link>
           <Link
             className="flex items-center justify-center gap-2 w-full border-b p-2 hover:bg-slate-50 text-center"
             href="/coupons"
           >
-            <ScheduleOutlined style={{ color: "black" }} />
+            <CircleDollarSignIcon style={{ color: "black" }} />
             <div>優惠卷</div>
           </Link>
           <Link
             className="flex items-center justify-center gap-2 w-full border-b p-2 hover:bg-slate-50 text-center"
             href="/change-password"
           >
-            <KeyOutlined style={{ color: "black" }} />
+            <KeyIcon style={{ color: "black" }} />
             <div>更改密碼</div>
           </Link>
           <SignOutButton
             className="flex items-center justify-center gap-2 w-full border-b p-2 hover:bg-slate-50 text-center"
           >
-            <UserOutlined style={{ color: "black" }} />
+            <UserIcon style={{ color: "black" }} />
             <div>登出</div>
           </SignOutButton>
         </div>

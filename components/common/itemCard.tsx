@@ -1,13 +1,13 @@
 "use client";
 import { toPrice } from "@/utils/string";
 import Link from "next/link";
-import { Badge } from "antd";
 import { CouponCategory } from "@prisma/client";
 import { useState } from "react";
 import LoadingSpinner from "@/components/common/spinner";
 import { useCart } from "@/utils/cartProvider";
 import { useRouter } from "next/navigation";
 import MyImage from "@/components/image/customImage";
+import { Badge } from "@/components/ui/badge";
 
 function SmallItemCard(props: Readonly<{ item: Item; className?: string }>) {
   const { addQuantity, reduceQuantity } = useCart();
@@ -15,23 +15,23 @@ function SmallItemCard(props: Readonly<{ item: Item; className?: string }>) {
   return (
     <div className={`flex gap-2 ${props.className}`}>
       {item.image ? (
-          <MyImage
-            src={item.image}
-            alt={`product-${item.id}`}
-            height={80}
-            width={80}
-            className="object-contain !max-h-20 md:!max-h-52 hidden md:block"
-            externalUrl={true}
-          />
-        ) : (
-          <MyImage
-            src={"/images/fallback.png"}
-            alt={`product-${item.id}`}
-            height={80}
-            width={80}
-            className="object-contain !max-h-20 md:!max-h-52 hidden md:block"
-          />
-        )}
+        <MyImage
+          src={item.image}
+          alt={`product-${item.id}`}
+          height={80}
+          width={80}
+          className="object-contain !max-h-20 md:!max-h-52 hidden md:block"
+          externalUrl={true}
+        />
+      ) : (
+        <MyImage
+          src={"/images/fallback.png"}
+          alt={`product-${item.id}`}
+          height={80}
+          width={80}
+          className="object-contain !max-h-20 md:!max-h-52 hidden md:block"
+        />
+      )}
       <div className="flex flex-col">
         <Link
           href={`/product/${item.id}`}
@@ -77,14 +77,19 @@ function SmallItemCard(props: Readonly<{ item: Item; className?: string }>) {
   );
 }
 
-function ItemCardVertical(props: { item: Item }) {
+function ItemCardVertical(props: Readonly<{ item: Item }>) {
   const { addQuantity } = useCart();
   const item = props.item;
-  const showRibbon: boolean =
-    item.markedPrice !== undefined && item.sellingPrice !== item.markedPrice;
+  let percentageDiff = 0;
+  if (item.markedPrice !== undefined) {
+    percentageDiff = Math.round(
+      (100 * (item.sellingPrice - item.markedPrice)) / item.markedPrice
+    );
+  }
 
-  const main = (
-    <div className="flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
+  return (
+    <div className="relative flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
+      {percentageDiff !== 0 && <Badge>{percentageDiff}%</Badge>}
       <Link href={`/product/${item.id}`} className="w-[20%] md:w-full">
         {item.image ? (
           <MyImage
@@ -141,21 +146,9 @@ function ItemCardVertical(props: { item: Item }) {
       </div>
     </div>
   );
-
-  if (showRibbon && item.markedPrice !== undefined) {
-    const percentageDiff = Math.round(
-      (100 * (item.sellingPrice - item.markedPrice)) / item.markedPrice
-    ).toString();
-    return (
-      <Badge.Ribbon text={`${percentageDiff}%`} color="red">
-        {main}
-      </Badge.Ribbon>
-    );
-  }
-  return main;
 }
 
-function ItemCardPoint(props: { item: Partial<CouponCategory> }) {
+function ItemCardPoint(props: Readonly<{ item: Partial<CouponCategory> }>) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const item = props.item;
@@ -220,8 +213,4 @@ function ItemCardPoint(props: { item: Partial<CouponCategory> }) {
   );
 }
 
-export {
-  SmallItemCard,
-  ItemCardVertical,
-  ItemCardPoint,
-};
+export { SmallItemCard, ItemCardVertical, ItemCardPoint };

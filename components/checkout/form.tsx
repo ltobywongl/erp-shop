@@ -1,7 +1,7 @@
 "use client";
 import { SmallItemCard } from "@/components/common/itemCard";
 import { useCart } from "@/utils/cartProvider";
-import { Input } from "antd";
+import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { FormEvent, ChangeEvent, useState } from "react";
 import LoadingSpinner from "@/components/common/spinner";

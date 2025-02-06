@@ -1,7 +1,7 @@
 "use client";
-import { message } from "antd";
 import React, { useContext, createContext, useState, useEffect } from "react";
-import { useModal } from "@/components/common/modal";
+import { useModal } from "@/utils/modalProvider";
+import { useToast } from "@/hooks/use-toast";
 
 const cartContext = createContext<{
   cart: Item[];
@@ -19,6 +19,7 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<Item[]>([]);
   const [loaded, setLoaded] = useState(false);
   const { showModal } = useModal();
+  const { toast } = useToast();
 
   useEffect(() => {
     const cartData = JSON.parse(localStorage.getItem("cart") ?? "[]");
@@ -41,16 +42,23 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
         return c.map((i) => {
           if (i.id === item.id) {
             if (i.useStock && i.quantity + 1 > i.stock) {
-              message.error("庫存不足");
+              toast({
+                title: "庫存不足",
+                variant: "destructive",
+              });
               return i;
             }
-            message.success("已添加至購物車");
+            toast({
+              title: "已添加至購物車",
+            });
             return { ...i, quantity: (i.quantity || 1) + 1 };
           } else return i;
         });
       } else {
         item.image = item.image ? item.image : "/images/fallback.png";
-        message.success("已添加至購物車");
+        toast({
+          title: "已添加至購物車",
+        });
         return [...c, { ...item, quantity: 1 }];
       }
     });
@@ -61,10 +69,8 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const existingItem = c.find((i) => i.id === item.id);
     if (existingItem) {
       if (existingItem.quantity === 1) {
-        showModal(
-          "Remove Item?",
-          () => setCart([...c].filter((i) => i.id !== item.id)),
-          false
+        showModal("Remove Item?", "", true, () =>
+          setCart([...c].filter((i) => i.id !== item.id))
         );
       } else {
         setCart(

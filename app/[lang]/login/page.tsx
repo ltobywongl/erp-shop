@@ -4,9 +4,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "antd";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { GoogleOutlined } from "@ant-design/icons";
+import { Input } from "@/components/ui/input";
+import GoogleIcon from "@/components/icons/google";
 
 type Inputs = {
   email: string;
@@ -46,21 +47,20 @@ export default function Login() {
         Login
       </div>
       <div className="mt-8 flex flex-col gap-2 w-[90%] md:w-96 mb-4 [&>button]:w-full">
-        <Button onClick={() => signIn("google", { callbackUrl: "/" })}>
+        <Button onClick={() => signIn("google", { callbackUrl: "/" })} variant={"secondary"}>
           Sign in with Google
-          <GoogleOutlined />
+          <GoogleIcon />
         </Button>
       </div>
       <form
-        className="flex flex-col w-[90%] md:w-96"
+        className="flex flex-col gap-1 w-[90%] md:w-96"
         method="post"
         action="/api/auth/callback/credentials"
         onSubmit={handleSubmit(onSubmit)}
       >
         <span>電郵地址</span>
-        <input
+        <Input
           type="email"
-          className="mb-1 p-1 rounded-sm border border-solid"
           {...register("email", {
             required: true,
             pattern: {
@@ -73,8 +73,7 @@ export default function Login() {
           <div className="text-red-500 text-sm">{errors.email.message}</div>
         )}
         <span>密碼</span>
-        <input
-          className="p-1 rounded-sm border border-solid"
+        <Input
           type="password"
           {...register("password", {
             required: true,
@@ -96,9 +95,9 @@ export default function Login() {
         </div>
         <Button
           className="mt-4"
+          variant="default"
           loading={loading}
-          type="primary"
-          htmlType="submit"
+          type="submit"
         >
           登入
         </Button>
