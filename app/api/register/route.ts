@@ -34,19 +34,17 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const verification = await prisma.verifications.create({
+    const verificationId = createId();
+    const getVerificationEmail = await verificationEmail(user, verificationId);
+
+    await prisma.verifications.create({
       data: {
-        id: createId(),
+        id: verificationId,
         type: "register",
         userId: user.id,
       },
     });
-
-    await sendMail(
-      "Verify your email",
-      user.email,
-      await verificationEmail(user, verification.id)
-    );
+    await sendMail("Verify your email", user.email, getVerificationEmail);
 
     return successResponse("");
   } catch (error: any) {

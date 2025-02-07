@@ -36,6 +36,7 @@ export default function Login() {
     if (res?.error) {
       setError(true);
     } else if (res?.url) {
+      setError(false);
       router.push(res.url);
       router.refresh();
     }
@@ -43,11 +44,12 @@ export default function Login() {
 
   return (
     <div className="flex flex-col w-full py-[10%] items-center justify-center bg-[#e5ebe5]">
-      <div className="text-3xl font-bold">
-        Login
-      </div>
+      <div className="text-3xl font-bold">Login</div>
       <div className="mt-8 flex flex-col gap-2 w-[90%] md:w-96 mb-4 [&>button]:w-full">
-        <Button onClick={() => signIn("google", { callbackUrl: "/" })} variant={"secondary"}>
+        <Button
+          onClick={() => signIn("google", { callbackUrl: "/" })}
+          variant={"secondary"}
+        >
           Sign in with Google
           <GoogleIcon />
         </Button>
@@ -99,7 +101,7 @@ export default function Login() {
           loading={loading}
           type="submit"
         >
-          登入
+          送出
         </Button>
         {error && <div className="text-red-500">Invalid email/password</div>}
       </form>

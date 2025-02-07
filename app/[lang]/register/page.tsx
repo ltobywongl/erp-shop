@@ -11,7 +11,7 @@ type Inputs = {
   password: string;
 };
 
-export default function Login() {
+export default function Register() {
   const {
     register,
     handleSubmit,
@@ -20,7 +20,6 @@ export default function Login() {
   } = useForm<Inputs>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>("");
   const { toast } = useToast();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -34,10 +33,14 @@ export default function Login() {
     });
     setLoading(false);
     if (!res?.ok) {
-      const response = await res?.json();
-      setMessage(response.message);
       setError(true);
+      const response = await res?.json();
+      toast({
+        title: response.error,
+        variant: "destructive",
+      });
     } else {
+      setError(false);
       reset();
       toast({
         title: "Please check email to confirm the action",
@@ -49,8 +52,6 @@ export default function Login() {
     <div className="flex flex-col w-full my-[10%] items-center justify-center">
       <form
         className="flex flex-col gap-1 w-[90%] md:w-96 mb-4 [&>button]:w-full"
-        method="post"
-        action="/api/auth/callback/credentials"
         onSubmit={handleSubmit(onSubmit)}
       >
         <label htmlFor="email">電郵地址</label>
@@ -86,8 +87,7 @@ export default function Login() {
         >
           註冊
         </Button>
-        {error && <div className="text-red-500 text-sm">Register Failed</div>}
-        {error && <div className="text-red-500 text-sm">{message}</div>}
+        {error && <div className="text-red-500 text-sm">Something went wrong</div>}
       </form>
     </div>
   );

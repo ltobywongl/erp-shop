@@ -166,7 +166,7 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
             className="relative"
           >
             <ShoppingCartIcon color="black" />
-            <Badge size={"sm"} />
+            <Badge size={"sm"} className="animate-pulse duration-1000" />
           </Button>
         </div>
       </div>

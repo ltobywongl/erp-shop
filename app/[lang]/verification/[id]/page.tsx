@@ -1,7 +1,8 @@
 import NotFound from "@/app/not-found";
+import ResetPassword from "@/components/resetPassword/page";
 import prisma from "@/utils/prisma";
 
-async function Page(props: { params: Promise<{ id: string }> }) {
+async function Page(props: Readonly<{ params: Promise<{ id: string }> }>) {
   const params = await props.params;
   const currentTime = new Date();
   const verification = await prisma.verifications.findUnique({
@@ -45,6 +46,11 @@ async function Page(props: { params: Promise<{ id: string }> }) {
     ]);
   }
 
+  if (verification.type === "forget-password") {
+    return (
+      <ResetPassword verificationId={params.id} />
+    )
+  }
   return (
     <h1 className="text-center text-xl text-bold mt-8">You are all set!</h1>
   );

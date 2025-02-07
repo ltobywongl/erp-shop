@@ -17,9 +17,9 @@ export const metadata: Metadata = {
 export default async function Layout(
   props: Readonly<{
     children: React.ReactNode;
-    params: {
+    params: Promise<{
       lang: string;
-    };
+    }>;
   }>
 ) {
   const params = await props.params;
@@ -36,7 +36,7 @@ export default async function Layout(
             <NavBar lang={lang} />
             {children}
             <div className="mt-4 flex-1 flex flex-col justify-end">
-              <div className="h-4 bg-emerald-800" />
+              <div className="h-4 bg-primary" />
             </div>
             <Toaster />
           </body>

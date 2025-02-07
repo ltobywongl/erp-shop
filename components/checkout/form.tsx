@@ -44,6 +44,7 @@ export default function CheckoutForm({
     });
     const resData = await response.json();
     if (response.ok && resData.success) {
+      setError("");
       cartContext.setcart([]);
       router.push(`/payment/${resData.body}`);
     } else {

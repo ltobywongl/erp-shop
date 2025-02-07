@@ -48,5 +48,3 @@ export async function POST(req: NextRequest) {
     return errorResponse("Internal Server Error", 500);
   }
 }
-
-export const dynamic = "force-dynamic";

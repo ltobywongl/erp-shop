@@ -24,7 +24,7 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
-    const res = await fetch("/api/change-password", {
+    const res = await fetch("/api/auth/change-password", {
       method: "POST",
       body: JSON.stringify({
         email: data.email,
@@ -43,10 +43,9 @@ export default function Login() {
 
   return (
     <div className="flex flex-col w-full py-[10%] items-center justify-center bg-[#e5ebe5]">
+      <div className="text-3xl font-bold">更改密碼</div>
       <form
         className="flex flex-col gap-1 w-[90%] md:w-96"
-        method="post"
-        action="/api/auth/callback/credentials"
         onSubmit={handleSubmit(onSubmit)}
       >
         <label htmlFor="email">電郵地址</label>
@@ -96,7 +95,7 @@ export default function Login() {
           variant="default"
           type="submit"
         >
-          更改密碼
+          送出
         </Button>
         {error && <div className="text-red-500">錯誤的電郵地址/密碼</div>}
       </form>
