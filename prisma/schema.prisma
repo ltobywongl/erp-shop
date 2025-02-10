@@ -46,8 +46,9 @@ model Coupon {
 
 model Category {
   id        String    @id @db.VarChar(36)
-  name      String    @db.VarChar(30)
+  name      Json
   discount  Float     @default(0)
+  hidden    Boolean   @default(true)
   createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt DateTime  @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
   deletedAt DateTime? @map("deleted_at") @db.DateTime(0)
@@ -130,24 +131,34 @@ model Order {
 }
 
 model Product {
-  id          String      @id @db.VarChar(36)
-  categoryId  String      @map("categories_id") @db.VarChar(36)
-  name        String      @db.VarChar(100)
-  description String?     @db.VarChar(255)
-  image       String?     @db.VarChar(255)
-  price       Float
-  useStock    Boolean     @default(false) @map("use_stock")
-  stock       Int         @default(0)
-  discount    Float       @default(0)
-  couponPoint Int         @map("coupon_point")
-  createdAt   DateTime    @default(now()) @map("created_at") @db.DateTime(0)
-  updatedAt   DateTime    @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
-  deletedAt   DateTime?   @map("deleted_at") @db.DateTime(0)
-  orderItems  OrderItem[]
-  category    Category    @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "products_categories_FK")
+  id                       String      @id @db.VarChar(36)
+  categoryId               String      @map("categories_id") @db.VarChar(36)
+  name                     Json
+  descriptionTranslationId Json?       @map("description_translation_id")
+  image                    String?     @db.VarChar(255)
+  price                    Float
+  useStock                 Boolean     @default(false) @map("use_stock")
+  stock                    Int         @default(0)
+  discount                 Float       @default(0)
+  couponPoint              Int         @default(0) @map("coupon_point")
+  createdAt                DateTime    @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt                DateTime    @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
+  deletedAt                DateTime?   @map("deleted_at") @db.DateTime(0)
+  orderItems               OrderItem[]
+  category                 Category    @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "products_categories_FK")
 
   @@index([categoryId], map: "products_categories_FK")
   @@map("products")
+}
+
+model ProductDescription {
+  id        String    @id @db.VarChar(36)
+  content   String    @db.Text
+  createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
+  deletedAt DateTime? @map("deleted_at") @db.DateTime(0)
+
+  @@map("product_descriptions")
 }
 
 model Topup {

@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
-import prisma from "@/utils/prisma";
 import { errorResponse, successResponse } from "@/utils/httpResponse";
+import { searchProducts } from "@/utils/products/products";
+import { fallbackLang } from "@/i18n/settings";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -9,58 +10,19 @@ export async function GET(request: NextRequest) {
     ? parseInt(searchParams.get("page")!, 10)
     : 1;
   const keyword = searchParams.get("keyword");
+  const lang = searchParams.get("lang") ?? fallbackLang;
   if (!keyword) return errorResponse("Missing Params", 400);
 
-  const whereClause = {
-    deletedAt: null,
-    name: {
-      contains: keyword,
-    },
-    OR: [
-      {
-        useStock: false,
-      },
-      {
-        stock: { gt: 0 },
-      }
-    ],
-  };
-
-  const orderByClause: {
-    createdAt: "asc" | "desc";
-  } = {
-    createdAt: "desc",
-  };
-
-  const products = await prisma.product.findMany({
-    select: {
-      id: true,
-      name: true,
-      image: true,
-      price: true,
-      discount: true,
-      couponPoint: true,
-      useStock: true,
-      stock: true,
-      category: {
-        select: {
-          discount: true,
-        },
-      },
-    },
-    where: whereClause,
-    orderBy: orderByClause,
-    take: pageSize,
-    skip: (page - 1) * pageSize,
-  });
-
-  const totalItems = await prisma.product.count({
-    where: whereClause,
-  });
+  const products = await searchProducts(
+    lang,
+    keyword,
+    pageSize,
+    (page - 1) * pageSize,
+  );
 
   return successResponse({
-    data: products,
-    totalPages: Math.ceil(totalItems / pageSize),
-    totalItems: totalItems,
+    data: products.products,
+    totalPages: Math.ceil(products.counts / pageSize),
+    totalItems: products.counts,
   });
 }

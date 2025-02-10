@@ -72,7 +72,7 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>
-              <Link href="/">
+              <Link href="/" onClick={() => setOpenDrawer(false)}>
                 <MyImage
                   src="images/icon.jpg"
                   className="cursor-pointer"
@@ -87,22 +87,22 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
           </DrawerHeader>
           <div className="h-full flex flex-col justify-between [&>div>a>div]:text-md md:[&>div>a>div]:text-lg [&>div>a]:flex [&>div>a]:p-4 [&>div>a]:items-center [&>div>a]:justify-between [&>div>a]:text-black [&>div>a]:font-bold [&>div>a>span>svg]:text-sm">
             <div>
-              <Link href="/search">
+              <Link href="/search" onClick={() => setOpenDrawer(false)}>
                 <div>{t("search")}</div>
                 <PlusIcon color="black" />
               </Link>
               <hr />
-              <Link href="/categories">
+              <Link href="/categories" onClick={() => setOpenDrawer(false)}>
                 <div>{t("category")}</div>
                 <PlusIcon color="black" />
               </Link>
               <hr />
-              <Link href="/point-shop">
+              <Link href="/point-shop" onClick={() => setOpenDrawer(false)}>
                 <div>{t("pointShop")}</div>
                 <PlusIcon color="black" />
               </Link>
               <hr />
-              <Link href="/about">
+              <Link href="/about" onClick={() => setOpenDrawer(false)}>
                 <div>{t("about")}</div>
                 <PlusIcon color="black" />
               </Link>

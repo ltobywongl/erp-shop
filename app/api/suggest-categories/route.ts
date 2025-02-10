@@ -1,22 +1,20 @@
 import { NextRequest } from "next/server";
-import prisma from "@/utils/prisma";
 import { errorResponse, successResponse } from "@/utils/httpResponse";
+import { getCategories } from "@/utils/products/categories/categories";
+import { fallbackLang } from "@/i18n/settings";
 
 export async function GET(request: NextRequest) {
   try {
-    const categories = await prisma.category.findMany({
-      select: {
-        id: true,
-        name: true,
-      },
-      where: {
-        deletedAt: null,
-      },
-      orderBy: {
+    const searchParams = request.nextUrl.searchParams;
+    const lang = searchParams.get("lang") ?? fallbackLang;
+
+    const categories = await getCategories(
+      lang,
+      {
         updatedAt: "desc",
       },
-      take: 4,
-    });
+      4
+    );
 
     return successResponse({
       data: categories,

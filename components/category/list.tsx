@@ -7,8 +7,8 @@ import Loading from "@/app/loading";
 import PaginationClient from "@/components/common/pagination";
 import { HomeIcon } from "lucide-react";
 
-function CategoryListPage({ id }: Readonly<{ id: string }>) {
-  const [data, setData] = useState<CategoryListProduct[]>([]);
+function CategoryListPage(params: Readonly<{ id: string; lang: string }>) {
+  const [data, setData] = useState<Item[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(0);
   const [pagination, setPagination] = useState({
@@ -30,7 +30,8 @@ function CategoryListPage({ id }: Readonly<{ id: string }>) {
     const fetchData = async () => {
       setIsLoading(true);
       const queryParams = new URLSearchParams({
-        id,
+        lang: params.lang,
+        id: params.id,
         page: (pagination.pageIndex + 1).toString(),
       });
 
@@ -43,7 +44,7 @@ function CategoryListPage({ id }: Readonly<{ id: string }>) {
     };
 
     fetchData();
-  }, [id, pagination]);
+  }, [params.id, params.lang, pagination]);
 
   return (
     <main className="flex flex-col md:mt-4">
@@ -69,9 +70,8 @@ function CategoryListPage({ id }: Readonly<{ id: string }>) {
                       id: item.id,
                       name: item.name,
                       image: item.image,
-                      markedPrice: item.price,
-                      sellingPrice:
-                        item.price - item.discount - item.category.discount,
+                      markedPrice: item.markedPrice,
+                      sellingPrice: item.sellingPrice,
                       quantity: 1,
                       useStock: item.useStock,
                       stock: item.stock,

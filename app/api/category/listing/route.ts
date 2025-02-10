@@ -1,6 +1,8 @@
 import { NextRequest } from "next/server";
 import prisma from "@/utils/prisma";
 import { errorResponse, successResponse } from "@/utils/httpResponse";
+import { getProducts } from "@/utils/products/products";
+import { fallbackLang } from "@/i18n/settings";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -8,6 +10,7 @@ export async function GET(request: NextRequest) {
   const page = searchParams.get("page")
     ? parseInt(searchParams.get("page")!, 10)
     : 1;
+  const lang = searchParams.get("lang") ?? fallbackLang;
   const id = searchParams.get("id");
   if (!id) return errorResponse("Missing Params", 400);
 
@@ -32,27 +35,13 @@ export async function GET(request: NextRequest) {
     createdAt: "desc",
   };
 
-  const products = await prisma.product.findMany({
-    select: {
-      id: true,
-      name: true,
-      image: true,
-      price: true,
-      discount: true,
-      couponPoint: true,
-      useStock: true,
-      stock: true,
-      category: {
-        select: {
-          discount: true,
-        },
-      },
-    },
-    where: whereClause,
-    orderBy: orderByClause,
-    take: pageSize,
-    skip: (page - 1) * pageSize,
-  });
+  const products = await getProducts(
+    lang,
+    orderByClause,
+    pageSize,
+    (page - 1) * pageSize,
+    whereClause
+  );
 
   const totalItems = await prisma.product.count({
     where: whereClause,

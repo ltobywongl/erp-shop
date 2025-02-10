@@ -7,7 +7,10 @@ type DetailsItem = Item & {
   description: string;
 };
 
-function ProductDetails({ item }: Readonly<{ item: DetailsItem }>) {
+function ProductDetails({
+  lang,
+  item,
+}: Readonly<{ lang: string; item: Item }>) {
   const { addQuantity } = useCart();
 
   return (
@@ -44,7 +47,7 @@ function ProductDetails({ item }: Readonly<{ item: DetailsItem }>) {
             {toPrice(item.sellingPrice)}
           </span>
           {item.markedPrice !== undefined &&
-            item.sellingPrice !== item.markedPrice ? (
+          item.sellingPrice !== item.markedPrice ? (
             <span className="hidden md:inline text-zinc-500 line-through ml-1">
               ${toPrice(item.markedPrice)}
             </span>

@@ -1,20 +1,12 @@
-import prisma from "@/utils/prisma";
 import Link from "next/link";
 import { HomeIcon, StarIcon } from "lucide-react";
 import { BreadcrumbItemType, Breadcrumbs } from "@/components/ui/breadcrumb";
+import { getCategories } from "@/utils/products/categories/categories";
 
-async function Page() {
-  const categories = await prisma.category.findMany({
-    select: {
-      id: true,
-      name: true,
-    },
-    where: {
-      deletedAt: null,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
+async function Page(props: Readonly<{ params: Promise<{ lang: string }> }>) {
+  const params = await props.params;
+  const categories = await getCategories(params.lang, {
+    createdAt: "desc",
   });
 
   const breadItems: BreadcrumbItemType[] = [
@@ -33,7 +25,7 @@ async function Page() {
         <Breadcrumbs items={breadItems} />
         <hr className="mt-1" />
         <div className="md:grid md:grid-cols-2 gap-2">
-          {categories.map((category) => (
+          {categories?.map((category) => (
             <Link
               href={`/category/${category.id}`}
               key={category.id}

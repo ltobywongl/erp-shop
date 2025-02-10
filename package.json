@@ -15,7 +15,7 @@
     "@aws-sdk/lib-storage": "^3.735.0",
     "@aws-sdk/s3-request-presigner": "^3.735.0",
     "@paralleldrive/cuid2": "^2.2.2",
-    "@prisma/client": "^6.2.1",
+    "@prisma/client": "^6.3.1",
     "@radix-ui/react-alert-dialog": "^1.1.5",
     "@radix-ui/react-dialog": "^1.1.5",
     "@radix-ui/react-slot": "^1.1.1",
@@ -59,7 +59,7 @@
     "eslint": "^8.57.1",
     "eslint-config-next": "15.1.6",
     "postcss": "^8.5.1",
-    "prisma": "^6.2.1",
+    "prisma": "^6.3.1",
     "shelljs": "^0.8.5",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.3"

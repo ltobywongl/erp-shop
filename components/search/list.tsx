@@ -12,7 +12,7 @@ function SearchPage({
   lang,
   keyword,
 }: Readonly<{ lang: string; keyword: string }>) {
-  const [data, setData] = useState<CategoryListProduct[]>([]);
+  const [data, setData] = useState<Item[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(0);
   const [pagination, setPagination] = useState<Pagination>({
@@ -34,6 +34,7 @@ function SearchPage({
     const fetchData = async () => {
       setIsLoading(true);
       const queryParams = new URLSearchParams({
+        lang: lang,
         keyword,
         page: (pagination.pageIndex + 1).toString(),
       });
@@ -76,9 +77,8 @@ function SearchPage({
                       id: item.id,
                       name: item.name,
                       image: item.image,
-                      markedPrice: item.price,
-                      sellingPrice:
-                        item.price - item.discount - item.category.discount,
+                      markedPrice: item.markedPrice,
+                      sellingPrice: item.sellingPrice,
                       quantity: 1,
                       useStock: item.useStock,
                       stock: item.stock,
