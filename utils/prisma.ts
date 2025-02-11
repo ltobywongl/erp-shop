@@ -2,10 +2,10 @@ import { PrismaClient } from "@prisma/client";
 
 const prismaClientSingleton = () => {
   return new PrismaClient({
-    log: [{
-      emit: "stdout",
-      level: "query"
-    }],
+    // log: [{
+    //   emit: "stdout",
+    //   level: "query"
+    // }],
   });
 };
 

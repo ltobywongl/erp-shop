@@ -7,6 +7,7 @@ import { createId } from "@paralleldrive/cuid2";
 import { z } from "zod";
 import { PaymentStates } from "@/constants/payment";
 import { OrderStates } from "@/constants/order";
+import { getProductsByIds } from "@/utils/products/products";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 export async function POST(request: NextRequest) {
@@ -143,27 +144,7 @@ async function readData(request: NextRequest) {
 
     const cart: Item[] = JSON.parse(data.data.cart);
 
-    const products = await prisma.product.findMany({
-      select: {
-        id: true,
-        price: true,
-        useStock: true,
-        stock: true,
-        discount: true,
-        couponPoint: true,
-        category: {
-          select: {
-            id: true,
-            discount: true,
-          },
-        },
-      },
-      where: {
-        id: {
-          in: cart.map((product) => product.id),
-        },
-      },
-    });
+    const products = await getProductsByIds(cart.map((product) => product.id));
 
     let totalPrice = 0;
     let totalPoint = 0;

@@ -35,6 +35,10 @@ export async function getProductById(
         },
       ],
       deletedAt: null,
+      category: {
+        suspend: false,
+        deletedAt: null,
+      },
     },
   });
 
@@ -64,6 +68,36 @@ export async function getProductById(
     useStock: product.useStock,
     stock: product.stock,
   };
+}
+
+export async function getProductsByIds(ids: string[]) {
+  const products = await prisma.product.findMany({
+    select: {
+      id: true,
+      price: true,
+      useStock: true,
+      stock: true,
+      discount: true,
+      couponPoint: true,
+      category: {
+        select: {
+          id: true,
+          discount: true,
+        },
+      },
+    },
+    where: {
+      id: {
+        in: ids,
+      },
+      category: {
+        suspend: false,
+        deletedAt: null,
+      },
+    },
+  });
+
+  return products;
 }
 
 export async function getProducts(
@@ -100,6 +134,10 @@ export async function getProducts(
         },
       ],
       deletedAt: null,
+      category: {
+        suspend: false,
+        deletedAt: null,
+      },
     },
     orderBy: orderBy,
     take: take,
@@ -145,6 +183,8 @@ export async function searchProducts(
     FROM products AS Product
     LEFT JOIN categories AS Category ON Product.categories_id = Category.id
     WHERE Product.deleted_at IS NULL
+    AND Category.deleted_at IS NULL
+    AND Category.suspend = 0
     AND LOWER(JSON_UNQUOTE(JSON_EXTRACT(Product.name, \'$.${Prisma.raw(lang)}\'))) LIKE LOWER(\'%${Prisma.raw(keyword)}%\')
     AND (Product.use_stock = 0 OR Product.stock > 0)
     ORDER BY Product.created_at DESC
@@ -158,6 +198,8 @@ export async function searchProducts(
     SELECT COUNT(*) as count
     FROM products AS Product
     WHERE Product.deleted_at IS NULL
+    AND Category.deleted_at IS NULL
+    AND Category.suspend = 0
     AND LOWER(JSON_UNQUOTE(JSON_EXTRACT(Product.name, \'$.${Prisma.raw(lang)}\'))) LIKE LOWER(\'%${Prisma.raw(keyword)}%\')
     AND (Product.use_stock = 0 OR Product.stock > 0)
   `;

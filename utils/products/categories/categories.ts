@@ -16,6 +16,7 @@ export async function getCategories(
     },
     where: where ?? {
       deletedAt: null,
+      suspend: false,
     },
     orderBy: orderBy,
     take: take,

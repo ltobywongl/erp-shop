@@ -30,72 +30,114 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   useEffect(() => {
+    const checkAndUpdateCart = async () => {
+      const nextCheckTime = localStorage.getItem("nextCheckTime");
+      const currentTime = new Date().getTime();
+
+      if (!nextCheckTime || currentTime > Number(nextCheckTime)) {
+        try {
+          const validatedCart = await validateCart(cart);
+          setCart(validatedCart);
+          localStorage.setItem(
+            "nextCheckTime",
+            String(currentTime + 10 * 60 * 1000) // 10 mins
+          );
+        } catch (error) {
+          console.error("Failed to validate cart:", error);
+        }
+      }
+    };
+    if (typeof window !== "undefined" && loaded) {
+      checkAndUpdateCart();
+    }
+  }, [loaded, cart]);
+
+  useEffect(() => {
     if (typeof window !== "undefined" && loaded) {
       localStorage.setItem("cart", JSON.stringify(cart));
     }
   }, [cart, loaded]);
 
-  const addQuantity = (item: Item) => {
-    setCart((c) => {
-      const existingItem = c.find((i) => i.id === item.id);
-      if (existingItem) {
-        return c.map((i) => {
-          if (i.id === item.id) {
-            if (i.useStock && i.quantity + 1 > i.stock) {
-              toast({
-                title: "庫存不足",
-                variant: "destructive",
-              });
-              return i;
-            }
-            toast({
-              title: "已添加至購物車",
-            });
-            return { ...i, quantity: (i.quantity || 1) + 1 };
-          } else return i;
-        });
-      } else {
-        item.image = item.image ? item.image : "/images/fallback.png";
-        toast({
-          title: "已添加至購物車",
-        });
-        return [...c, { ...item, quantity: 1 }];
-      }
+  const validateCart = async (cart: Item[]) => {
+    const response = await fetch("/api/validate-cart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cart),
     });
-  };
 
-  const reduceQuantity = (item: Item) => {
-    const c = [...cart];
-    const existingItem = c.find((i) => i.id === item.id);
-    if (existingItem) {
-      if (existingItem.quantity === 1) {
-        showModal("Remove Item?", "", true, () =>
-          setCart([...c].filter((i) => i.id !== item.id))
-        );
-      } else {
-        setCart(
-          c.map((i) =>
-            i.id === item.id ? { ...i, quantity: (i.quantity || 1) - 1 } : i
-          )
-        );
-      }
+    if (response.ok) {
+      const validatedCart = await response.json();
+      return validatedCart.body;
     } else {
-      return c;
+      throw new Error("Failed to validate cart");
     }
   };
 
-  return (
-    <cartContext.Provider
-      value={{
-        cart: cart,
-        setcart: setCart,
-        addQuantity: addQuantity,
-        reduceQuantity: reduceQuantity,
-      }}
-    >
-      {children}
-    </cartContext.Provider>
+  const addQuantity = React.useCallback(
+    (item: Item) => {
+      let added = false;
+      setCart((c) => {
+        const existingItem = c.find((i) => i.id === item.id);
+        if (existingItem) {
+          return c.map((i) => {
+            if (i.id === item.id) {
+              if (i.useStock && i.quantity + 1 > i.stock) {
+                return i;
+              }
+              added = true;
+              return { ...i, quantity: (i.quantity || 1) + 1 };
+            } else return i;
+          });
+        } else {
+          item.image = item.image ? item.image : "/images/fallback.png";
+          added = true;
+          return [...c, { ...item, quantity: 1 }];
+        }
+      });
+      toast({
+        title: added ? "已添加至購物車" : "無法添加商品",
+        variant: added ? "default" : "destructive",
+      });
+    },
+    [toast]
   );
+
+  const reduceQuantity = React.useCallback(
+    (item: Item) => {
+      const c = [...cart];
+      const existingItem = c.find((i) => i.id === item.id);
+      if (existingItem) {
+        if (existingItem.quantity === 1) {
+          showModal("Remove Item?", "", true, () =>
+            setCart([...c].filter((i) => i.id !== item.id))
+          );
+        } else {
+          setCart(
+            c.map((i) =>
+              i.id === item.id ? { ...i, quantity: (i.quantity || 1) - 1 } : i
+            )
+          );
+        }
+      } else {
+        return c;
+      }
+    },
+    [cart, showModal]
+  );
+
+  const value = React.useMemo(
+    () => ({
+      cart: cart,
+      setcart: setCart,
+      addQuantity: addQuantity,
+      reduceQuantity: reduceQuantity,
+    }),
+    [addQuantity, cart, reduceQuantity]
+  );
+
+  return <cartContext.Provider value={value}>{children}</cartContext.Provider>;
 };
 
 export default CartProvider;

@@ -18,6 +18,8 @@ export async function GET(request: NextRequest) {
     deletedAt: null,
     category: {
       id,
+      suspend: false,
+      deletedAt: null,
     },
     OR: [
       {
