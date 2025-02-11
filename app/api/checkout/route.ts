@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
       timeout: 20000,
     });
 
-    return successResponse(checkoutSession.client_secret ?? "", 200);
+    return successResponse(checkoutSession.client_secret ?? "");
   } catch (error: any) {
     console.error(error);
     return errorResponse("Internal Server Error", 500);

@@ -22,7 +22,7 @@ export const successResponse = (
       body,
     },
     {
-      status: statusCode,
+      status: statusCode ?? 200,
     }
   );
 };

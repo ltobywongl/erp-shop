@@ -19,6 +19,7 @@ type Item = {
 
 type Order = {
   id: string;
+  paymentId: string;
   totalPrice: number;
   receiverName: string;
   receiverAddress: string;

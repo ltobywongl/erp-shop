@@ -4,9 +4,9 @@ import Link from "next/link";
 import { translation } from "@/i18n";
 import { getProducts } from "@/utils/products/products";
 
-export default async function Home(props: {
+export default async function Home(props: Readonly<{
   params: Promise<{ lang: string }>;
-}) {
+}>) {
   const params = await props.params;
   const { t } = await translation(params.lang, "home");
   const items = await getProducts(

@@ -61,9 +61,6 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const validateCart = async (cart: Item[]) => {
     const response = await fetch("/api/validate-cart", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify(cart),
     });
 

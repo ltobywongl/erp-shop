@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
 
     await prisma.order.updateMany({
       data: {
-        state: OrderStates.CONFIRM,
+        state: OrderStates.PAYMENT_CONFIRM,
       },
       where: {
         paymentId: data.id,
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     });
 
     // database update here
-    return successResponse("Success", 200);
+    return successResponse("Success");
   } catch (error) {
     return errorResponse("Internal Server Error", 500);
   }

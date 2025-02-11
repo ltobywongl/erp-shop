@@ -1,3 +1,4 @@
+import OrderHistoryOrder from "@/components/order/orderHistory";
 import { BreadcrumbItemType, Breadcrumbs } from "@/components/ui/breadcrumb";
 import { getOrdersByUserId } from "@/utils/orders/orders";
 import { loadSessionUser } from "@/utils/user";
@@ -34,29 +35,7 @@ async function Page(props: Readonly<{ params: Promise<{ lang: string }> }>) {
         <div>
           {!orders || (orders.length == 0 && <div>沒有訂單</div>)}
           {orders?.map((order) => {
-            return (
-              <div className="p-3 border rounded-lg" key={order.id}>
-                <div className="font-bold flex justify-between">
-                  <div>下單日期 {order.createdAt.toLocaleDateString()}</div>
-                  <div>訂單狀態: {order.state}</div>
-                </div>
-                <div>價格: ${order.totalPrice}</div>
-                <div>
-                  送往 {order.receiverName}, {order.receiverAddress}
-                </div>
-                <hr className="my-1" />
-                <div>
-                  <div className="font-bold">明細</div>
-                  {order.products.map((item) => {
-                    return (
-                      <div key={item.id}>
-                        {item.quantity}件 {item.name}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
+            return <OrderHistoryOrder key={order.id} order={order} />;
           })}
         </div>
       </div>

@@ -9,6 +9,7 @@ export async function getOrdersByUserId(lang: string, userId: string) {
       receiverAddress: true,
       state: true,
       createdAt: true,
+      paymentId: true,
       orderItem: {
         select: {
           product: {
@@ -43,6 +44,7 @@ export async function getOrdersByUserId(lang: string, userId: string) {
 
     return {
       id: order.id,
+      paymentId: order.paymentId,
       totalPrice: order.totalPrice,
       receiverName: order.receiverName,
       receiverAddress: order.receiverAddress,

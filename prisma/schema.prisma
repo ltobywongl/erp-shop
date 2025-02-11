@@ -116,17 +116,16 @@ model Order {
   createdAt       DateTime    @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt       DateTime    @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
   deletedAt       DateTime?   @map("deleted_at") @db.DateTime(0)
-  topupId         String?     @db.VarChar(36)
   orderItem       OrderItem[]
   coupon          Coupon?     @relation(fields: [couponId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_coupons_FK")
   payment         Payment?    @relation(fields: [paymentId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_payments_FK")
-  Topup           Topup?      @relation(fields: [topupId], references: [id])
   user            User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_users_FK")
+  Topup           Topup?      @relation(fields: [topupId], references: [id])
+  topupId         String?     @db.VarChar(36)
 
   @@index([userId], map: "orders_users_FK")
   @@index([couponId], map: "orders_coupons_FK")
   @@index([paymentId], map: "orders_payments_FK")
-  @@index([topupId], map: "orders_topupId_fkey")
   @@map("orders")
 }
 
