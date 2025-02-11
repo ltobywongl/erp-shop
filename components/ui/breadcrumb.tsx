@@ -115,22 +115,25 @@ interface BreadcrumbsProps {
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
   return (
-    <Breadcrumb>
-      <BreadcrumbList>
-        {items.map((item, index) => (
-          <React.Fragment key={`Breadcrumb-${index}`}>
-            <BreadcrumbItem>
-              {item.href ? (
-                <BreadcrumbLink href={item.href}>{item.title}</BreadcrumbLink>
-              ) : (
-                <span>{item.title}</span>
-              )}
-            </BreadcrumbItem>
-            {index < items.length - 1 && <BreadcrumbSeparator />}
-          </React.Fragment>
-        ))}
-      </BreadcrumbList>
-    </Breadcrumb>
+    <div>
+      <Breadcrumb>
+        <BreadcrumbList>
+          {items.map((item, index) => (
+            <React.Fragment key={`Breadcrumb-${index}`}>
+              <BreadcrumbItem>
+                {item.href ? (
+                  <BreadcrumbLink href={item.href}>{item.title}</BreadcrumbLink>
+                ) : (
+                  <span>{item.title}</span>
+                )}
+              </BreadcrumbItem>
+              {index < items.length - 1 && <BreadcrumbSeparator />}
+            </React.Fragment>
+          ))}
+        </BreadcrumbList>
+      </Breadcrumb>
+      <hr className="mt-1" />
+    </div>
   );
 };
 

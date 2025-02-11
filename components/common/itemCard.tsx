@@ -213,4 +213,33 @@ function ItemCardPoint(props: Readonly<{ item: Partial<CouponCategory> }>) {
   );
 }
 
-export { SmallItemCard, ItemCardVertical, ItemCardPoint };
+function ItemCardPointReadOnly(props: Readonly<{ item: Partial<CouponCategory> }>) {
+  const item = props.item;
+
+  return (
+    <div className="flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
+      {item.imagePath ? (
+        <MyImage
+          className="w-[25%] md:w-full"
+          src={item.imagePath}
+          width={500}
+          height={500}
+          alt={`coupon-${item.id}`}
+          externalUrl={true}
+        />
+      ) : (
+        <div className="w-[25%] md:w-full border-4 border-double text-xl md:text-2xl text-center font-semibold md:font-bold bg-gradient-radial from-yellow-200 to-yellow-500 p-1 md:p-5 shadow-sm">
+          ${item.value}
+        </div>
+      )}
+      <div className="flex flex-col items-center justify-center ml-4 md:ml-0">
+        <div className="w-full md:text-center text-red-400">
+          <span className="font-bold ml-1 md:ml-0">{item.point}</span>
+          <span>積分</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export { SmallItemCard, ItemCardVertical, ItemCardPoint, ItemCardPointReadOnly };

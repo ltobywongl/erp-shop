@@ -16,3 +16,17 @@ type Item = {
   useStock: boolean;
   stock: number;
 };
+
+type Order = {
+  id: string;
+  totalPrice: number;
+  receiverName: string;
+  receiverAddress: string;
+  state: string;
+  createdAt: Date;
+  products: {
+    id: string;
+    name: string;
+    quantity: number;
+  }[];
+};

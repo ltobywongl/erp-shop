@@ -14,7 +14,7 @@ export const confirmEmail = (order: Partial<Order>) => {
       <Text>我們已經收到你的訂單, 我們會盡快處理並完成你的訂單</Text>
 
       <Text>
-        詳情: <Link href="https://erp-shop.com/order-history">點擊這裡</Link>
+        詳情: <Link href="https://tom-shop.vercel.app/account/order-history">點擊這裡</Link>
       </Text>
     </Html>
   );

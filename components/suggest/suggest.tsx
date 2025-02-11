@@ -35,7 +35,6 @@ async function SuggestPage(params: Readonly<{ lang: string }>) {
         </div>
         <div className="col-start-4 col-span-6 px-1">
           <Breadcrumbs items={breadItems} />
-          <hr className="mt-1" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
             {items?.map((item, index) => (
               <ItemCardVertical

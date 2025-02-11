@@ -48,7 +48,7 @@ function SearchPage({
     };
 
     fetchData();
-  }, [keyword, pagination]);
+  }, [keyword, lang, pagination]);
 
   return (
     <main className="flex flex-col md:mt-4">
