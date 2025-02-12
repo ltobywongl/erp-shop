@@ -4,9 +4,11 @@ import Link from "next/link";
 import { translation } from "@/i18n";
 import { getProducts } from "@/utils/products/products";
 
-export default async function Home(props: Readonly<{
-  params: Promise<{ lang: string }>;
-}>) {
+export default async function Home(
+  props: Readonly<{
+    params: Promise<{ lang: string }>;
+  }>
+) {
   const params = await props.params;
   const { t } = await translation(params.lang, "home");
   const items = await getProducts(
@@ -34,11 +36,13 @@ export default async function Home(props: Readonly<{
         </Link>
       </div>
       <div className="flex flex-col items-center mt-2">
-        <div className="text-xl font-bold">最新商品</div>
+        <div className="text-xl font-bold">{t("latestProducts")}</div>
         <hr className="my-1 w-full md:w-4/5" />
         <div className="md:w-[80%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
           {items?.map((item, index) => (
             <ItemCardVertical
+              key={`item${index}-${item.id}`}
+              lang={params.lang}
               item={{
                 id: item.id,
                 name: item.name,
@@ -50,7 +54,6 @@ export default async function Home(props: Readonly<{
                 stock: item.stock,
                 couponPoint: item.couponPoint,
               }}
-              key={`item${index}-${item.id}`}
             />
           ))}
         </div>

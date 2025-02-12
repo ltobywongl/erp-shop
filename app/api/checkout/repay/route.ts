@@ -25,6 +25,11 @@ export async function POST(request: NextRequest) {
         id: orderId,
         userId: user.id,
         state: OrderStates.PAYMENT_PENDING,
+        payment: {
+            state: {
+                in: [PaymentStates.PENDING, PaymentStates.FAILED]
+            }
+        }
       },
       include: {
         payment: true,

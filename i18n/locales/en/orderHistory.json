@@ -1,0 +1,15 @@
+{
+  "PAYMENT_PENDING": "Payment Pending",
+  "PAYMENT_CONFIRM": "Confirmed Payment",
+  "CONFIRM": "Confirmed Order",
+  "SHIPMENT": "Shipping",
+  "SUCCESS": "Done",
+  "CANCEL": "Cancelled",
+  "REFUND": "Refunded",
+  "orderDate": "Date",
+  "status": "Status",
+  "price": "Price",
+  "repay": "Click here to repay",
+  "details": "Details",
+  "to": "To"
+}

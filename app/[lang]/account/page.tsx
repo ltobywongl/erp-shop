@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { loadUser } from "@/utils/user";
 import SignOutButton from "@/components/common/signOutButton";
@@ -11,8 +10,15 @@ import {
 } from "lucide-react";
 import { BreadcrumbItemType, Breadcrumbs } from "@/components/ui/breadcrumb";
 import { LinkButton } from "@/components/ui/link-button";
+import { translation } from "@/i18n";
 
-async function Page() {
+async function Page(
+  props: Readonly<{
+    params: Promise<{ lang: string }>;
+  }>
+) {
+  const params = await props.params;
+  const { t } = await translation(params.lang, "account");
   const user = await loadUser();
   if (!user) {
     return redirect("/login");
@@ -24,7 +30,7 @@ async function Page() {
       title: <HomeIcon />,
     },
     {
-      title: "帳號",
+      title: t("account"),
     },
   ];
 
@@ -40,7 +46,7 @@ async function Page() {
             href="/account/order-history"
           >
             <TimerIcon style={{ color: "black" }} />
-            <div>歷史訂單</div>
+            <div>{t("orderHistory")}</div>
           </LinkButton>
           <LinkButton
             variant={"ghost"}
@@ -48,7 +54,7 @@ async function Page() {
             href="/account/coupons"
           >
             <CircleDollarSignIcon style={{ color: "black" }} />
-            <div>優惠卷</div>
+            <div>{t("coupon")}</div>
           </LinkButton>
           <LinkButton
             variant={"ghost"}
@@ -56,11 +62,11 @@ async function Page() {
             href="/account/change-password"
           >
             <KeyIcon style={{ color: "black" }} />
-            <div>更改密碼</div>
+            <div>{t("changePassword")}</div>
           </LinkButton>
           <SignOutButton className="w-full" variant="ghost">
             <UserIcon style={{ color: "black" }} />
-            <div>登出</div>
+            <div>{t("logout")}</div>
           </SignOutButton>
         </div>
       </div>

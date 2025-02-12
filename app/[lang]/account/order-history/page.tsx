@@ -35,7 +35,7 @@ async function Page(props: Readonly<{ params: Promise<{ lang: string }> }>) {
         <div>
           {!orders || (orders.length == 0 && <div>沒有訂單</div>)}
           {orders?.map((order) => {
-            return <OrderHistoryOrder key={order.id} order={order} />;
+            return <OrderHistoryOrder key={order.id} order={order} lang={params.lang} />;
           })}
         </div>
       </div>

@@ -73,6 +73,8 @@ function SearchPage({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                 {data.map((item, index) => (
                   <ItemCardVertical
+                    key={`item${index}-${item.id}`}
+                    lang={lang}
                     item={{
                       id: item.id,
                       name: item.name,
@@ -84,7 +86,6 @@ function SearchPage({
                       stock: item.stock,
                       couponPoint: item.couponPoint,
                     }}
-                    key={`item${index}-${item.id}`}
                   />
                 ))}
               </div>

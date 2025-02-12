@@ -15,7 +15,7 @@ function MyImage(props: ImageProps & { externalUrl?: boolean }) {
       {...imageProps}
       src={src}
       loader={myImageLoader}
-      alt={props.alt ?? "image"}
+      alt={imageProps.alt ?? "image"}
     />
   );
 }

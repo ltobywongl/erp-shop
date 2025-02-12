@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     const body = await request.text();
     const endpointSecret = process.env.STRIPE_SECRET_WEBHOOK_KEY!;
     const sig = (await headers()).get("stripe-signature") as string;
-    
+
     let event: Stripe.Event;
     event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
 
@@ -37,24 +37,33 @@ export async function POST(request: NextRequest) {
     const metadata = data.metadata as METADATA;
     const userId = metadata.userId;
 
-    await prisma.payment.update({
-      data: {
-        state: success ? PaymentStates.SUCCESS : PaymentStates.FAILED,
-      },
-      where: {
-        id: data.id,
-        userId: userId,
-      },
-    });
-
-    await prisma.order.updateMany({
-      data: {
-        state: OrderStates.PAYMENT_CONFIRM,
-      },
-      where: {
-        paymentId: data.id,
-      }
-    });
+    await prisma.$transaction([
+      prisma.payment.update({
+        data: {
+          state: success ? PaymentStates.SUCCESS : PaymentStates.FAILED,
+        },
+        where: {
+          id: data.id,
+          userId: userId,
+        },
+      }),
+      ...(success
+        ? [
+            prisma.order.updateMany({
+              data: {
+                state: OrderStates.PAYMENT_CONFIRM,
+              },
+              where: {
+                paymentId: data.id,
+                state: OrderStates.PAYMENT_PENDING,
+                payment: {
+                  state: PaymentStates.PENDING,
+                },
+              },
+            }),
+          ]
+        : []),
+    ]);
 
     // database update here
     return successResponse("Success");

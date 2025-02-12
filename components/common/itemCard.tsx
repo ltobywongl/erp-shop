@@ -8,12 +8,13 @@ import { useCart } from "@/utils/cartProvider";
 import { useRouter } from "next/navigation";
 import MyImage from "@/components/image/customImage";
 import { Badge } from "@/components/ui/badge";
+import { useTranslation } from "@/i18n/client";
 
-function SmallItemCard(props: Readonly<{ item: Item; className?: string }>) {
+function SmallItemCard(params: Readonly<{ item: Item; className?: string }>) {
   const { addQuantity, reduceQuantity } = useCart();
-  const item = props.item;
+  const item = params.item;
   return (
-    <div className={`flex gap-2 ${props.className}`}>
+    <div className={`flex gap-2 ${params.className}`}>
       {item.image ? (
         <MyImage
           src={item.image}
@@ -77,9 +78,10 @@ function SmallItemCard(props: Readonly<{ item: Item; className?: string }>) {
   );
 }
 
-function ItemCardVertical(props: Readonly<{ item: Item }>) {
+function ItemCardVertical(params: Readonly<{ item: Item; lang: string }>) {
+  const { t } = useTranslation(params.lang, "itemCard");
   const { addQuantity } = useCart();
-  const item = props.item;
+  const item = params.item;
   let percentageDiff = 0;
   if (item.markedPrice !== undefined) {
     percentageDiff = Math.round(
@@ -94,7 +96,7 @@ function ItemCardVertical(props: Readonly<{ item: Item }>) {
         {item.image ? (
           <MyImage
             src={item.image}
-            alt={`product-${item.id}`}
+            alt={item.name}
             height={400}
             width={400}
             className="aspect-square object-contain !max-h-20 md:!max-h-52 mx-auto"
@@ -103,7 +105,7 @@ function ItemCardVertical(props: Readonly<{ item: Item }>) {
         ) : (
           <MyImage
             src={"/images/fallback.png"}
-            alt={`product-${item.id}`}
+            alt={item.name}
             height={400}
             width={400}
             className="aspect-square object-contain !max-h-20 md:!max-h-52 mx-auto"
@@ -132,15 +134,16 @@ function ItemCardVertical(props: Readonly<{ item: Item }>) {
         </div>
         {item.useStock && (
           <div className="w-full md:text-center text-xs text-zinc-500">
-            剩餘{item.stock}件商品
+            {t("inStock")}: {item.stock}
           </div>
         )}
         <div className="w-full md:text-center">
           <button
             className="bg-green-500 text-white text-sm rounded-md font-medium py-1 px-2"
             onClick={() => addQuantity(item)}
+            disabled={item.useStock && item.stock == 0}
           >
-            加至購物車
+            {t("addToCart")}
           </button>
         </div>
       </div>
@@ -148,10 +151,10 @@ function ItemCardVertical(props: Readonly<{ item: Item }>) {
   );
 }
 
-function ItemCardPoint(props: Readonly<{ item: Partial<CouponCategory> }>) {
+function ItemCardPoint(params: Readonly<{ item: Partial<CouponCategory> }>) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const item = props.item;
+  const item = params.item;
 
   async function handleRedeem() {
     setIsLoading(true);
@@ -213,8 +216,10 @@ function ItemCardPoint(props: Readonly<{ item: Partial<CouponCategory> }>) {
   );
 }
 
-function ItemCardPointReadOnly(props: Readonly<{ item: Partial<CouponCategory> }>) {
-  const item = props.item;
+function ItemCardPointReadOnly(
+  params: Readonly<{ item: Partial<CouponCategory> }>
+) {
+  const item = params.item;
 
   return (
     <div className="flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
@@ -242,4 +247,9 @@ function ItemCardPointReadOnly(props: Readonly<{ item: Partial<CouponCategory> }
   );
 }
 
-export { SmallItemCard, ItemCardVertical, ItemCardPoint, ItemCardPointReadOnly };
+export {
+  SmallItemCard,
+  ItemCardVertical,
+  ItemCardPoint,
+  ItemCardPointReadOnly,
+};

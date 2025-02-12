@@ -116,6 +116,7 @@ export default function CheckoutForm({
           >
             {isLoading ? <LoadingSpinner /> : "提交訂單"}
           </button>
+          <p className="text-sm text-primary">你可以隨時在訂單記錄頁面繼續此賬單</p>
         </form>
       </div>
     </div>

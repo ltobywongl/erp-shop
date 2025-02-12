@@ -66,6 +66,8 @@ function CategoryListPage(params: Readonly<{ id: string; lang: string }>) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                 {data.map((item, index) => (
                   <ItemCardVertical
+                    key={`item${index}-${item.id}`}
+                    lang={params.lang}
                     item={{
                       id: item.id,
                       name: item.name,
@@ -77,7 +79,6 @@ function CategoryListPage(params: Readonly<{ id: string; lang: string }>) {
                       stock: item.stock,
                       couponPoint: item.couponPoint,
                     }}
-                    key={`item${index}-${item.id}`}
                   />
                 ))}
               </div>
