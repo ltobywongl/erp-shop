@@ -44,13 +44,13 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
   return (
     <div
       className={cn(
-        "z-50 sticky h-20 w-full gap-8 px-[5%] md:px-[10%] flex items-center justify-between transition-colors bg-transparent",
+        "z-50 sticky h-20 w-full gap-2 md:gap-6 px-[3%] md:px-[8%] flex items-center justify-between transition-colors bg-transparent",
         pathName === "/"
           ? "absolute hover:bg-white transition-colors duration-500"
           : ""
       )}
     >
-      <div className="flex gap-4">
+      <div className="flex gap-2 md:gap-4">
         <NavSheet t={t} />
         <Button
           variant={"ghost"}
@@ -71,7 +71,7 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
         externalUrl={true}
       />
 
-      <div className="flex gap-4">
+      <div className="flex gap-2 md:gap-4">
         <Button
           variant={"ghost"}
           size={"icon"}
@@ -178,7 +178,7 @@ function NavSheet({ t }: Readonly<{ t: TFunction<string, undefined> }>) {
         </div>
         <SheetFooter>
           <div className="p-2 flex gap-2 text-sm">
-            <LanguageSwitcher className="text-black" lang="zh-HK" />
+            <LanguageSwitcher className="text-black" lang="zh-Hk" />
             <LanguageSwitcher className="text-black" lang="en" />
           </div>
         </SheetFooter>

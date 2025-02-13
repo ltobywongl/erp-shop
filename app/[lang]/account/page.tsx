@@ -35,14 +35,14 @@ async function Page(
   ];
 
   return (
-    <div className="flex justify-center py-2">
+    <div className="flex justify-center py-2 px-2 md:px-0">
       <div className="w-full md:w-4/5">
         <Breadcrumbs items={breadItems} />
         <hr />
         <div>
           <LinkButton
             variant={"ghost"}
-            className="w-full"
+              className="w-full border-b flex gap-2"
             href="/account/order-history"
           >
             <TimerIcon style={{ color: "black" }} />
@@ -50,7 +50,7 @@ async function Page(
           </LinkButton>
           <LinkButton
             variant={"ghost"}
-            className="w-full"
+              className="w-full border-b flex gap-2"
             href="/account/coupons"
           >
             <CircleDollarSignIcon style={{ color: "black" }} />
@@ -58,13 +58,13 @@ async function Page(
           </LinkButton>
           <LinkButton
             variant={"ghost"}
-            className="w-full"
+              className="w-full border-b flex gap-2"
             href="/account/change-password"
           >
             <KeyIcon style={{ color: "black" }} />
             <div>{t("changePassword")}</div>
           </LinkButton>
-          <SignOutButton className="w-full" variant="ghost">
+          <SignOutButton className="w-full border-b flex gap-2" variant="ghost">
             <UserIcon style={{ color: "black" }} />
             <div>{t("logout")}</div>
           </SignOutButton>

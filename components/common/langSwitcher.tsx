@@ -1,7 +1,7 @@
 "use client"
 
 const langKey = {
-    "zh-HK": "繁",
+    "zh-Hk": "繁",
     "en": "English"
 }
 

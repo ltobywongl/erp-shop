@@ -5,7 +5,7 @@ import LoadingSpinner from "@/components/common/spinner";
 import Menu, { MenuItem } from "@/components/ui/menu";
 import { StarIcon } from "lucide-react";
 
-function SideMenu() {
+function SideMenu(params: Readonly<{ lang: string }>) {
   const [categories, setCategories] = useState<{ id: string; name: string }[]>(
     []
   );
@@ -14,7 +14,10 @@ function SideMenu() {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const response = await fetch("/api/suggest-categories");
+        const queryParams = new URLSearchParams({
+          lang: params.lang,
+        });
+        const response = await fetch(`/api/suggest-categories?${queryParams}`);
         const res = await response.json();
         setCategories(res.body.data);
       } catch (error) {
@@ -25,7 +28,7 @@ function SideMenu() {
     }
 
     fetchCategories();
-  }, []);
+  }, [params.lang]);
 
   function getItem(
     key: React.Key,
@@ -42,18 +45,12 @@ function SideMenu() {
   }
 
   const items: MenuItem[] = [
-    getItem(
-      "MenuItem0",
-      "推薦商品種類",
-      undefined,
-      <StarIcon style={{ color: "orange" }} />
-    ),
-
     ...(categories.map((category) => {
       return getItem(
         "MenuItem" + category.id,
         category.name,
-        `/category/${category.id}`
+        `/category/${category.id}`,
+        <StarIcon style={{ color: "orange" }} />
       );
     }) || []),
   ];

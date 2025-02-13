@@ -51,15 +51,15 @@ function SearchPage({
   }, [keyword, lang, pagination]);
 
   return (
-    <main className="flex flex-col md:mt-4">
+    <main className="flex flex-col md:mt-4 px-2 md:px-0">
       <div className="md:grid md:grid-cols-10 gap-2">
         <div className="col-start-2 col-span-8">
           <SearchBar lang={lang} keyword={keyword} />
         </div>
         <div className="hidden md:block col-start-2 col-span-2">
-          <SideMenu />
+          <SideMenu lang={lang} />
         </div>
-        <div className="col-start-4 col-span-6 px-1">
+        <div className="col-start-4 col-span-6 mt-2">
           <Breadcrumbs items={breadItems} />
           <hr className="mt-1" />
           <PaginationClient

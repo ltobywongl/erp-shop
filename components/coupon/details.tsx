@@ -36,7 +36,7 @@ function CouponDetails({ item }: Readonly<{ item: Partial<CouponCategory> }>) {
         {item.imagePath ? (
           <MyImage
             src={item.imagePath}
-            alt={`product-${item.id}`}
+            alt={item.name || "Coupon"}
             height={400}
             width={400}
             className="aspect-square object-contain !max-h-32 md:!max-h-64 w-full"

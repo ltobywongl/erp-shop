@@ -45,16 +45,17 @@ export async function getProductById(
   if (!product) return null;
 
   const productName = (product.name as Record<string, string>)[lang];
-  const productDescriptionId = (
-    product.descriptionTranslationId as Record<string, string>
-  )[lang];
-  const productDescriptions = bGetDescription
-    ? await prisma.productDescription.findUnique({
-        where: {
-          id: productDescriptionId,
-        },
-      })
+  const productDescriptionId = product.descriptionTranslationId
+    ? (product.descriptionTranslationId as Record<string, string>)[lang]
     : null;
+  const productDescriptions =
+    bGetDescription && productDescriptionId
+      ? await prisma.productDescription.findUnique({
+          where: {
+            id: productDescriptionId,
+          },
+        })
+      : null;
 
   return {
     id: product.id,
@@ -197,6 +198,7 @@ export async function searchProducts(
   }[] = await prisma.$queryRaw`
     SELECT COUNT(*) as count
     FROM products AS Product
+    LEFT JOIN categories AS Category ON Product.categories_id = Category.id
     WHERE Product.deleted_at IS NULL
     AND Category.deleted_at IS NULL
     AND Category.suspend = 0

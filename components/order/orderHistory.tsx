@@ -41,7 +41,7 @@ export default function OrderHistoryOrder(
 
   return (
     <div className="p-3 border rounded-lg" key={params.order.id}>
-      <div className="flex gap-2 justify-between">
+      <div className="flex flex-col md:flex-row gap-2 justify-between">
         <div>
           {t("orderDate")}: {params.order.createdAt.toLocaleDateString()}
         </div>
@@ -49,7 +49,7 @@ export default function OrderHistoryOrder(
           {t("status")}: {t(params.order.state)}
         </div>
       </div>
-      <div className="flex gap-2 justify-between">
+      <div className="flex flex-col md:flex-row gap-2 justify-between">
         <div>
           {t("price")}: ${params.order.totalPrice}
         </div>

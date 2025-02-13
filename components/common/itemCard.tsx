@@ -9,6 +9,9 @@ import { useRouter } from "next/navigation";
 import MyImage from "@/components/image/customImage";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "@/i18n/client";
+import { Button } from "@/components/ui/button";
+import { ShoppingCartIcon } from "lucide-react";
+import { cn } from "@/utils/utils";
 
 function SmallItemCard(params: Readonly<{ item: Item; className?: string }>) {
   const { addQuantity, reduceQuantity } = useCart();
@@ -18,7 +21,7 @@ function SmallItemCard(params: Readonly<{ item: Item; className?: string }>) {
       {item.image ? (
         <MyImage
           src={item.image}
-          alt={`product-${item.id}`}
+          alt={item.name}
           height={80}
           width={80}
           className="object-contain !max-h-20 md:!max-h-52 hidden md:block"
@@ -27,7 +30,7 @@ function SmallItemCard(params: Readonly<{ item: Item; className?: string }>) {
       ) : (
         <MyImage
           src={"/images/fallback.png"}
-          alt={`product-${item.id}`}
+          alt={item.name}
           height={80}
           width={80}
           className="object-contain !max-h-20 md:!max-h-52 hidden md:block"
@@ -57,21 +60,15 @@ function SmallItemCard(params: Readonly<{ item: Item; className?: string }>) {
           <div className="text-xs text-zinc-500">剩餘{item.stock}件商品</div>
         )}
         <div className="flex flex-row">
-          <button
-            className="border bg-red-500 text-white text-lg font-medium px-2 py-1 rounded"
-            onClick={() => reduceQuantity(item)}
-          >
+          <Button variant={"secondary"} onClick={() => reduceQuantity(item)}>
             -
-          </button>
-          <span className="border px-2 py-1 w-10 text-center content-center hide-arrow">
+          </Button>
+          <span className="border px-2 md:px-3 py-1 min-w-10 text-center content-center hide-arrow">
             {item.quantity}
           </span>
-          <button
-            className="border bg-green-500 text-white text-lg font-medium px-2 py-1 rounded"
-            onClick={() => addQuantity(item)}
-          >
+          <Button variant={"secondary"} onClick={() => addQuantity(item)}>
             +
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -247,9 +244,56 @@ function ItemCardPointReadOnly(
   );
 }
 
+function AddToCartElement(
+  params: Readonly<{
+    item: Readonly<Item>;
+    direction?: "vertical" | "horizontal";
+  }>
+) {
+  const { addQuantity } = useCart();
+  const [count, setCount] = useState(1);
+
+  return (
+    <div
+      className={cn(
+        "flex gap-2",
+        params.direction != "horizontal" ? "flex-col" : ""
+      )}
+    >
+      <div className="flex flex-row">
+        <Button
+          variant={"secondary"}
+          onClick={() => setCount(Math.max(1, count - 1))}
+        >
+          -
+        </Button>
+        <span className="border px-2 md:px-3 py-1 min-w-10 text-center content-center hide-arrow">
+          {count}
+        </span>
+        <Button
+          variant={"secondary"}
+          onClick={() =>
+            setCount(
+              params.item.useStock
+                ? Math.min(params.item.stock, count + 1)
+                : count + 1
+            )
+          }
+        >
+          +
+        </Button>
+      </div>
+      <Button onClick={() => addQuantity(params.item)}>
+        <ShoppingCartIcon />
+      </Button>
+    </div>
+  );
+}
+
 export {
   SmallItemCard,
   ItemCardVertical,
   ItemCardPoint,
   ItemCardPointReadOnly,
+  AddToCartElement,
 };
