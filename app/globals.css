@@ -65,20 +65,33 @@ input.hide-arrow[type="number"] {
   -moz-appearance: textfield;
 }
 
+.text-header {
+  font-weight: bold;
+  color: transparent;
+  background-image: repeating-radial-gradient(
+    circle closest-corner at 100px 100px,
+    hsl(var(--primary-light)),
+    hsl(var(--primary) / 0.6) 10%,
+    hsl(var(--primary-light) / 0.9) 20%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
 .custom-scrollbar::-webkit-scrollbar {
   width: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 @keyframes lds-ring {
@@ -98,10 +111,11 @@ input.hide-arrow[type="number"] {
     --card-foreground: 20 14.3% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 20 14.3% 4.1%;
-    --primary: 120 61% 34%; /* Health green color as primary */
+    --primary: 120 61% 36%;
     --primary-foreground: 60 9.1% 97.8%;
-    --secondary: 60 4.8% 95.9%;
-    --secondary-foreground: 24 9.8% 10%;
+    --primary-light: 120 76% 50%;
+    --secondary: 80 4.8% 95.9%;
+    --secondary-foreground: 24 29.8% 10%;
     --muted: 60 4.8% 95.9%;
     --muted-foreground: 25 5.3% 44.7%;
     --accent: 60 4.8% 95.9%;

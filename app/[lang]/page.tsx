@@ -1,8 +1,8 @@
 import { ItemCardVertical } from "@/components/common/itemCard";
 import { pathToS3Url } from "@/utils/string";
-import Link from "next/link";
 import { translation } from "@/i18n";
 import { getProducts } from "@/utils/products/products";
+import { LinkButton } from "@/components/ui/link-button";
 
 export default async function Home(
   props: Readonly<{
@@ -22,18 +22,20 @@ export default async function Home(
   return (
     <main className="flex flex-col">
       <div
-        className="min-h-[max(100dvh,100vh,300px)] w-full flex flex-col gap-2 items-center justify-center bg-cover py-4 md:py-8"
+        className="min-h-80 w-full flex flex-col gap-2 items-center justify-center bg-cover py-4 md:py-8"
         style={{ backgroundImage: `url(${pathToS3Url("images/banner.jpg")})` }}
       >
-        <div className="text-3xl font-semibold text-white drop-shadow-lg">
+        <div className="text-3xl md:text-4xl lg:text-5xl text-header drop-shadow-lg shadow-white">
           {t("brand")}
         </div>
-        <Link
+        <LinkButton
           href={"/categories"}
-          className="bg-white border px-4 md:px-6 py-2 md:py-4 rounded"
+          size={"lg"}
+          variant={"secondary"}
+          className="font-bold"
         >
           {t("shopNow")}
-        </Link>
+        </LinkButton>
       </div>
       <div className="flex flex-col items-center mt-2">
         <div className="text-xl font-bold">{t("latestProducts")}</div>

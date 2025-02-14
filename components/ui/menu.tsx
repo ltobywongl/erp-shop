@@ -27,6 +27,7 @@ function Menu(
           key={item.key}
           className="w-full"
           variant={"ghost"}
+          size={"lg"}
           onClick={() => item.toUrl && router.push(item.toUrl)}
         >
           {item.icon}

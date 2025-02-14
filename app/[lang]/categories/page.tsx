@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { HomeIcon, StarIcon } from "lucide-react";
 import { BreadcrumbItemType, Breadcrumbs } from "@/components/ui/breadcrumb";
 import { getCategories } from "@/utils/products/categories/categories";
@@ -29,6 +28,7 @@ async function Page(props: Readonly<{ params: Promise<{ lang: string }> }>) {
             <LinkButton
               href={`/category/${category.id}`}
               variant={"ghost"}
+              size={"lg"}
               className="w-full border-b flex gap-2"
               key={category.id}
             >

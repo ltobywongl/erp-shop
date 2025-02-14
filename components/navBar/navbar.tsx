@@ -46,17 +46,19 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
     <div
       className={cn(
         "z-50 sticky w-full p-0.5 gap-2 md:gap-6 px-[3%] md:px-[8%] flex items-center justify-between transition-colors duration-500 bg-transparent",
-        isHomePage ? "absolute pointer-events-none [&>*]:pointer-events-auto" : ""
+        isHomePage
+          ? "absolute pointer-events-none [&>*]:pointer-events-auto"
+          : ""
       )}
     >
       <div className="flex gap-2 md:gap-4">
-        <NavSheet t={t} />
+        <NavSheet t={t} isHomePage={isHomePage} />
         <Button
-          variant={"semiGhost"}
+          variant={isHomePage ? "semiGhost" : "ghost"}
           size={"icon"}
           onClick={() => router.push("/search")}
         >
-          <SearchIcon />
+          <SearchIcon color="white" />
         </Button>
       </div>
 
@@ -72,13 +74,13 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
 
       <div className="flex gap-2 md:gap-4">
         <Button
-          variant={"semiGhost"}
+          variant={isHomePage ? "semiGhost" : "ghost"}
           size={"icon"}
           onClick={() => router.push("/account")}
         >
           <UserRoundIcon />
         </Button>
-        <ShoppingCart t={t} cartContext={cartContext} />
+        <ShoppingCart t={t} cartContext={cartContext} isHomePage={isHomePage} />
       </div>
     </div>
   );
@@ -87,13 +89,22 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
 function ShoppingCart({
   t,
   cartContext,
-}: Readonly<{ t: TFunction<string, undefined>; cartContext: CartContext }>) {
+  isHomePage,
+}: Readonly<{
+  t: TFunction<string, undefined>;
+  cartContext: CartContext;
+  isHomePage: boolean;
+}>) {
   const [sheetOpen, setSheetOpen] = useState(false);
 
   return (
     <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
       <SheetTrigger asChild>
-        <Button variant={"semiGhost"} size={"icon"} className="relative">
+        <Button
+          variant={isHomePage ? "semiGhost" : "ghost"}
+          size={"icon"}
+          className="relative"
+        >
           <ShoppingCartIcon />
           {cartContext.cart.length > 0 && (
             <Badge size={"sm"} className="animate-pulse duration-1000" />
@@ -127,14 +138,17 @@ function ShoppingCart({
   );
 }
 
-function NavSheet({ t }: Readonly<{ t: TFunction<string, undefined> }>) {
+function NavSheet({
+  t,
+  isHomePage,
+}: Readonly<{ t: TFunction<string, undefined>; isHomePage: boolean }>) {
   const [sheetOpen, setSheetOpen] = useState(false);
   const router = useRouter();
 
   return (
     <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
       <SheetTrigger asChild>
-        <Button variant={"semiGhost"} size={"icon"}>
+        <Button variant={isHomePage ? "semiGhost" : "ghost"} size={"icon"}>
           <MenuIcon />
         </Button>
       </SheetTrigger>

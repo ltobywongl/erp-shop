@@ -42,7 +42,8 @@ async function Page(
         <div>
           <LinkButton
             variant={"ghost"}
-              className="w-full border-b flex gap-2"
+            size={"lg"}
+            className="w-full border-b flex gap-2"
             href="/account/order-history"
           >
             <TimerIcon style={{ color: "black" }} />
@@ -50,7 +51,8 @@ async function Page(
           </LinkButton>
           <LinkButton
             variant={"ghost"}
-              className="w-full border-b flex gap-2"
+            size={"lg"}
+            className="w-full border-b flex gap-2"
             href="/account/coupons"
           >
             <CircleDollarSignIcon style={{ color: "black" }} />
@@ -58,13 +60,18 @@ async function Page(
           </LinkButton>
           <LinkButton
             variant={"ghost"}
-              className="w-full border-b flex gap-2"
+            size={"lg"}
+            className="w-full border-b flex gap-2"
             href="/account/change-password"
           >
             <KeyIcon style={{ color: "black" }} />
             <div>{t("changePassword")}</div>
           </LinkButton>
-          <SignOutButton className="w-full border-b flex gap-2" variant="ghost">
+          <SignOutButton
+            className="w-full border-b flex gap-2"
+            variant="ghost"
+            size={"lg"}
+          >
             <UserIcon style={{ color: "black" }} />
             <div>{t("logout")}</div>
           </SignOutButton>
