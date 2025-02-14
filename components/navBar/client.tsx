@@ -153,7 +153,7 @@ function NavSheet({ t }: Readonly<{ t: TFunction<string, undefined> }>) {
             </Link>
           </SheetTitle>
         </SheetHeader>
-        <div className="h-full flex flex-col justify-between [&>div>a>div]:text-md md:[&>div>a>div]:text-lg [&>div>a]:flex [&>div>a]:p-4 [&>div>a]:items-center [&>div>a]:justify-between [&>div>a]:text-black [&>div>a]:font-bold [&>div>a>span>svg]:text-sm">
+        <div className="flex flex-col justify-between [&>div>a>div]:text-md md:[&>div>a>div]:text-lg [&>div>a]:flex [&>div>a]:p-4 [&>div>a]:items-center [&>div>a]:justify-between [&>div>a]:text-black [&>div>a]:font-bold [&>div>a>span>svg]:text-sm">
           <div>
             <Link href="/search" onClick={() => setSheetOpen(false)}>
               <div>{t("search")}</div>
@@ -178,7 +178,7 @@ function NavSheet({ t }: Readonly<{ t: TFunction<string, undefined> }>) {
         </div>
         <SheetFooter>
           <div className="p-2 flex gap-2 text-sm">
-            <LanguageSwitcher className="text-black" lang="zh-Hk" />
+            <LanguageSwitcher className="text-black" lang="zh" />
             <LanguageSwitcher className="text-black" lang="en" />
           </div>
         </SheetFooter>
