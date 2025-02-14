@@ -40,24 +40,23 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
   const cartContext = useCart();
   const router = useRouter();
   const pathName = usePathname();
+  const isHomePage = pathName.split("/").length == 2;
 
   return (
     <div
       className={cn(
-        "z-50 sticky h-20 w-full gap-2 md:gap-6 px-[3%] md:px-[8%] flex items-center justify-between transition-colors bg-transparent",
-        pathName === "/"
-          ? "absolute hover:bg-white transition-colors duration-500"
-          : ""
+        "z-50 sticky w-full p-0.5 gap-2 md:gap-6 px-[3%] md:px-[8%] flex items-center justify-between transition-colors duration-500 bg-transparent",
+        isHomePage ? "absolute pointer-events-none [&>*]:pointer-events-auto" : ""
       )}
     >
       <div className="flex gap-2 md:gap-4">
         <NavSheet t={t} />
         <Button
-          variant={"ghost"}
+          variant={"semiGhost"}
           size={"icon"}
           onClick={() => router.push("/search")}
         >
-          <SearchIcon color="black" />
+          <SearchIcon />
         </Button>
       </div>
 
@@ -73,11 +72,11 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
 
       <div className="flex gap-2 md:gap-4">
         <Button
-          variant={"ghost"}
+          variant={"semiGhost"}
           size={"icon"}
           onClick={() => router.push("/account")}
         >
-          <UserRoundIcon color="black" />
+          <UserRoundIcon />
         </Button>
         <ShoppingCart t={t} cartContext={cartContext} />
       </div>
@@ -94,9 +93,11 @@ function ShoppingCart({
   return (
     <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
       <SheetTrigger asChild>
-        <Button variant={"ghost"} size={"icon"} className="relative">
-          <ShoppingCartIcon color="black" />
-          <Badge size={"sm"} className="animate-pulse duration-1000" />
+        <Button variant={"semiGhost"} size={"icon"} className="relative">
+          <ShoppingCartIcon />
+          {cartContext.cart.length > 0 && (
+            <Badge size={"sm"} className="animate-pulse duration-1000" />
+          )}
         </Button>
       </SheetTrigger>
       <SheetContent side="right">
@@ -133,8 +134,8 @@ function NavSheet({ t }: Readonly<{ t: TFunction<string, undefined> }>) {
   return (
     <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
       <SheetTrigger asChild>
-        <Button variant={"ghost"} size={"icon"}>
-          <MenuIcon color="black" />
+        <Button variant={"semiGhost"} size={"icon"}>
+          <MenuIcon />
         </Button>
       </SheetTrigger>
       <SheetContent side={"left"}>
@@ -157,22 +158,22 @@ function NavSheet({ t }: Readonly<{ t: TFunction<string, undefined> }>) {
           <div>
             <Link href="/search" onClick={() => setSheetOpen(false)}>
               <div>{t("search")}</div>
-              <PlusIcon color="black" />
+              <PlusIcon />
             </Link>
             <hr />
             <Link href="/categories" onClick={() => setSheetOpen(false)}>
               <div>{t("category")}</div>
-              <PlusIcon color="black" />
+              <PlusIcon />
             </Link>
             <hr />
             <Link href="/point-shop" onClick={() => setSheetOpen(false)}>
               <div>{t("pointShop")}</div>
-              <PlusIcon color="black" />
+              <PlusIcon />
             </Link>
             <hr />
             <Link href="/about" onClick={() => setSheetOpen(false)}>
               <div>{t("about")}</div>
-              <PlusIcon color="black" />
+              <PlusIcon />
             </Link>
           </div>
         </div>

@@ -22,17 +22,17 @@ export default async function Home(
   return (
     <main className="flex flex-col">
       <div
-        className="min-h-dvh w-full flex flex-col gap-2 items-center justify-center bg-cover p-2"
+        className="min-h-[max(100dvh,100vh,300px)] w-full flex flex-col gap-2 items-center justify-center bg-cover py-4 md:py-8"
         style={{ backgroundImage: `url(${pathToS3Url("images/banner.jpg")})` }}
       >
-        <div className="text-3xl font-medium text-white drop-shadow-lg">
+        <div className="text-3xl font-semibold text-white drop-shadow-lg">
           {t("brand")}
         </div>
         <Link
           href={"/categories"}
           className="bg-white border px-4 md:px-6 py-2 md:py-4 rounded"
         >
-          SHOP NOW
+          {t("shopNow")}
         </Link>
       </div>
       <div className="flex flex-col items-center mt-2">

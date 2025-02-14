@@ -1,4 +1,3 @@
-import NavBar from "@/components/navBar/server";
 import type { Metadata } from "next";
 import { Playfair } from "next/font/google";
 import "@/app/globals.css";
@@ -6,6 +5,7 @@ import CartProvider from "@/utils/cartProvider";
 import { ModalProvider } from "@/utils/modalProvider";
 import { cn } from "@/utils/utils";
 import { Toaster } from "@/components/ui/toaster";
+import NavBarClient from "@/components/navBar/navbar";
 
 const playfair = Playfair({ subsets: ["latin"] });
 
@@ -32,8 +32,8 @@ export default async function Layout(
     <ModalProvider>
       <CartProvider>
         <html lang={lang}>
-          <body className={cn(playfair.className, "flex flex-col")}>
-            <NavBar lang={lang} />
+          <body className={cn(playfair.className, "flex flex-col relative")}>
+            <NavBarClient lang={lang} />
             {children}
             <div className="mt-4 flex-1 flex flex-col justify-end">
               <div className="h-4 bg-primary" />
