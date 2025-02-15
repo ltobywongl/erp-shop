@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { SmallItemCard } from "@/components/common/itemCard";
 import { useCart } from "@/utils/cartProvider";
@@ -8,6 +8,17 @@ import { cn } from "@/utils/utils";
 import LanguageSwitcher from "@/components/common/langSwitcher";
 import { useTranslation } from "@/i18n/client";
 import MyImage from "@/components/image/customImage";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { TFunction } from "i18next";
+import { LinkButton } from "../ui/link-button";
+import {
+  MenuIcon,
+  PlusIcon,
+  SearchIcon,
+  ShoppingCartIcon,
+  UserRoundIcon,
+} from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -16,17 +27,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  MenuIcon,
-  PlusIcon,
-  SearchIcon,
-  ShoppingCartIcon,
-  UserRoundIcon,
-} from "lucide-react";
-import { TFunction } from "i18next";
-import { LinkButton } from "../ui/link-button";
 
 type CartContext = {
   cart: Item[];
@@ -42,13 +42,26 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
   const pathName = usePathname();
   const isHomePage = pathName.split("/").length == 2;
 
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const handleScroll = () => {
+    const position = document.body.scrollTop || document.documentElement.scrollTop;
+    setScrollPosition(position);
+  };
+
+  useEffect(() => {
+    document.body.addEventListener('scroll', handleScroll);
+    return () => {
+      document.body.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <div
       className={cn(
-        "z-50 sticky w-full p-0.5 gap-2 md:gap-6 px-[3%] md:px-[8%] flex items-center justify-between transition-colors duration-500 bg-transparent",
+        "z-50 w-full p-0.5 gap-2 md:gap-6 px-[3%] md:px-[8%] flex items-center justify-between transition-colors duration-500 bg-transparent py-4",
         isHomePage
-          ? "absolute pointer-events-none [&>*]:pointer-events-auto"
-          : ""
+          ? scrollPosition == 0 ? "fixed hover:bg-white group" : "fixed bg-white [&>div>button>svg]:text-black border-b"
+          : "sticky bg-white border-b"
       )}
     >
       <div className="flex gap-2 md:gap-4">
@@ -58,7 +71,7 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
           size={"icon"}
           onClick={() => router.push("/search")}
         >
-          <SearchIcon color="white" />
+          <SearchIcon className={isHomePage ? "text-white group-hover:text-black transition-colors" : ""} />
         </Button>
       </div>
 
@@ -78,7 +91,7 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
           size={"icon"}
           onClick={() => router.push("/account")}
         >
-          <UserRoundIcon />
+          <UserRoundIcon className={isHomePage ? "text-white group-hover:text-black transition-colors" : ""} />
         </Button>
         <ShoppingCart t={t} cartContext={cartContext} isHomePage={isHomePage} />
       </div>
@@ -105,7 +118,7 @@ function ShoppingCart({
           size={"icon"}
           className="relative"
         >
-          <ShoppingCartIcon />
+          <ShoppingCartIcon className={isHomePage ? "text-white group-hover:text-black transition-colors" : ""} />
           {cartContext.cart.length > 0 && (
             <Badge size={"sm"} className="animate-pulse duration-1000" />
           )}
@@ -128,7 +141,7 @@ function ShoppingCart({
           <LinkButton
             href={"/checkout"}
             className="w-full mt-2 font-bold"
-            onClick={() => setSheetOpen(false)}
+
           >
             {t("checkout")}
           </LinkButton>
@@ -149,7 +162,7 @@ function NavSheet({
     <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
       <SheetTrigger asChild>
         <Button variant={isHomePage ? "semiGhost" : "ghost"} size={"icon"}>
-          <MenuIcon />
+          <MenuIcon className={isHomePage ? "text-white group-hover:text-black transition-colors" : ""} />
         </Button>
       </SheetTrigger>
       <SheetContent side={"left"}>
@@ -170,22 +183,22 @@ function NavSheet({
         </SheetHeader>
         <div className="flex flex-col justify-between [&>div>a>div]:text-md md:[&>div>a>div]:text-lg [&>div>a]:flex [&>div>a]:p-4 [&>div>a]:items-center [&>div>a]:justify-between [&>div>a]:text-black [&>div>a]:font-bold [&>div>a>span>svg]:text-sm">
           <div>
-            <Link href="/search" onClick={() => setSheetOpen(false)}>
+            <Link href="/search">
               <div>{t("search")}</div>
               <PlusIcon />
             </Link>
             <hr />
-            <Link href="/categories" onClick={() => setSheetOpen(false)}>
+            <Link href="/categories">
               <div>{t("category")}</div>
               <PlusIcon />
             </Link>
             <hr />
-            <Link href="/point-shop" onClick={() => setSheetOpen(false)}>
+            <Link href="/point-shop">
               <div>{t("pointShop")}</div>
               <PlusIcon />
             </Link>
             <hr />
-            <Link href="/about" onClick={() => setSheetOpen(false)}>
+            <Link href="/about">
               <div>{t("about")}</div>
               <PlusIcon />
             </Link>

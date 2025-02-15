@@ -13,6 +13,15 @@ body {
   overflow-x: hidden;
 }
 
+body,.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+body,.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 .min-h-dvh {
   min-height: 100vh;
   min-height: 100dvh;
@@ -112,7 +121,7 @@ input.hide-arrow[type="number"] {
     --popover: 0 0% 100%;
     --popover-foreground: 20 14.3% 4.1%;
     --primary: 120 61% 36%;
-    --primary-foreground: 60 9.1% 97.8%;
+    --primary-foreground: 60 9% 92.8%;
     --primary-light: 120 76% 50%;
     --secondary: 80 4.8% 95.9%;
     --secondary-foreground: 24 29.8% 10%;
