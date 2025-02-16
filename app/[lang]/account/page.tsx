@@ -38,7 +38,6 @@ async function Page(
     <div className="flex justify-center py-2 px-2 md:px-0">
       <div className="w-full md:w-4/5">
         <Breadcrumbs items={breadItems} />
-        <hr />
         <div>
           <LinkButton
             variant={"ghost"}

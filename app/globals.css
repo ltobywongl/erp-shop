@@ -7,12 +7,6 @@
   }
 }
 
-html,
-body {
-  height: 100%;
-  overflow-x: hidden;
-}
-
 body,.no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -72,6 +66,19 @@ input.hide-arrow::-webkit-inner-spin-button {
 
 input.hide-arrow[type="number"] {
   -moz-appearance: textfield;
+}
+
+.hover-zb {
+  overflow: hidden;
+}
+
+.hover-zb img {
+  transition: transform 1s ease-in-out;
+  transform: scale(1);
+}
+
+.hover-zb:hover img {
+  transform: scale(1.2);
 }
 
 .text-header {
@@ -173,7 +180,7 @@ input.hide-arrow[type="number"] {
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground;
+  body, html {
+    @apply h-full overflow-x-hidden bg-background text-foreground;
   }
 }

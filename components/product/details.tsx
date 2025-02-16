@@ -1,20 +1,15 @@
 "use client";
 import { toPrice } from "@/utils/string";
-import { useCart } from "@/utils/cartProvider";
 import MyImage from "@/components/image/customImage";
 import "@/styles/snow.css";
-import { Button } from "@/components/ui/button";
-import { ShoppingCartIcon } from "lucide-react";
 import { AddToCartElement } from "../common/itemCard";
 
 function ProductDetails({
   lang,
   item,
 }: Readonly<{ lang: string; item: Item }>) {
-  const { addQuantity } = useCart();
-
   return (
-    <div className="flex flex-col gap-2 px-2 md:px-0">
+    <div className="flex flex-col gap-2 py-2 px-2 md:px-0">
       <div className="w-full">
         {item.image ? (
           <MyImage

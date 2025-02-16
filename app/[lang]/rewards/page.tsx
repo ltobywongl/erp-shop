@@ -1,5 +1,5 @@
 import { RedirectType, redirect } from "next/navigation";
-import PointShopPage from "@/components/point-shop/page";
+import RewardsPage from "@/components/rewards/page";
 import prisma from "@/utils/prisma";
 import { CouponCategory } from "@prisma/client";
 import { loadUser } from "@/utils/user";
@@ -24,7 +24,7 @@ async function Page() {
       },
     })) as Partial<CouponCategory>[];
 
-    return <PointShopPage point={user.couponPoints} items={items} />;
+    return <RewardsPage point={user.couponPoints} items={items} />;
   } else {
     return redirect("/login", RedirectType.push);
   }

@@ -132,7 +132,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
           ))}
         </BreadcrumbList>
       </Breadcrumb>
-      <hr className="mt-1" />
+      <hr className="h-1 my-0.5 border-[2px]" />
     </div>
   );
 };

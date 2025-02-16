@@ -23,7 +23,7 @@ async function Page(props: Readonly<{ params: Promise<{ lang: string }> }>) {
     <div className="flex justify-center py-2 px-2 md:px-0">
       <div className="w-full md:w-4/5">
         <Breadcrumbs items={breadItems} />
-        <div className="md:grid md:grid-cols-2 gap-2">
+        <div>
           {categories?.map((category) => (
             <LinkButton
               href={`/category/${category.id}`}

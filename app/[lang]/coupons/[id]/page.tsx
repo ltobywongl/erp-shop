@@ -34,7 +34,7 @@ async function Page(props: { params: Promise<{ id: string }> }) {
   };
 
   return (
-    <div className="flex justify-center py-2">
+    <div className="flex justify-center gap-2 py-2 px-2 md:px-0">
       <div className="w-full md:w-4/5">
         <CouponDetails item={item} />
       </div>

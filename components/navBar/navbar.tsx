@@ -193,8 +193,8 @@ function NavSheet({
               <PlusIcon />
             </Link>
             <hr />
-            <Link href="/point-shop">
-              <div>{t("pointShop")}</div>
+            <Link href="/rewards">
+              <div>{t("rewards")}</div>
               <PlusIcon />
             </Link>
             <hr />

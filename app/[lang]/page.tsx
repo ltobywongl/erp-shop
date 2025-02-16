@@ -21,7 +21,7 @@ export default async function Home(
   );
 
   return (
-    <main className="flex flex-col gap-16">
+    <main className="flex flex-col gap-16 md:gap-20">
       <div
         className="min-h-80 max-h-[800px] h-dvh w-full flex flex-col gap-4 items-center justify-center bg-cover py-4 md:py-8 bg-center"
         style={{ backgroundImage: `url(${pathToS3Url("images/banner.jpg")})` }}
@@ -100,7 +100,7 @@ export default async function Home(
         </div>
       </div>
       <div className="flex flex-col items-center gap-4 mt-2 px-2">
-        <div className="text-xl font-bold">{t("latestProducts")}</div>
+        <h3 className="text-primary font-bold text-2xl md:text-3xl lg:text-4xl">{t("latestProducts")}</h3>
         <div className="md:w-[80%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
           {items?.map((item, index) => (
             <ItemCardVertical

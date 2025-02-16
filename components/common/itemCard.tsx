@@ -87,27 +87,29 @@ function ItemCardVertical(params: Readonly<{ item: Item; lang: string }>) {
   }
 
   return (
-    <div className="relative flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
+    <div className="relative flex md:flex-col gap-2 p-2">
       {percentageDiff !== 0 && <Badge>{percentageDiff}%</Badge>}
       <Link href={`/product/${item.id}`} className="w-[20%] md:w-full">
-        {item.image ? (
-          <MyImage
-            src={item.image}
-            alt={item.name}
-            height={400}
-            width={400}
-            className="aspect-square object-contain !max-h-20 md:!max-h-52 mx-auto"
-            externalUrl={true}
-          />
-        ) : (
-          <MyImage
-            src={"/images/fallback.png"}
-            alt={item.name}
-            height={400}
-            width={400}
-            className="aspect-square object-contain !max-h-20 md:!max-h-52 mx-auto"
-          />
-        )}
+        <div className="hover-zb rounded-lg group">
+          {item.image ? (
+            <MyImage
+              src={item.image}
+              alt={item.name}
+              height={400}
+              width={400}
+              className="aspect-square object-cover !max-h-20 md:!max-h-52"
+              externalUrl={true}
+            />
+          ) : (
+            <MyImage
+              src={"/images/fallback.png"}
+              alt={item.name}
+              height={400}
+              width={400}
+              className="aspect-square object-cover !max-h-20 md:!max-h-52"
+            />
+          )}
+        </div>
       </Link>
       <div className="flex flex-col items-center justify-center ml-4 md:ml-0">
         <Link
@@ -123,7 +125,7 @@ function ItemCardVertical(params: Readonly<{ item: Item; lang: string }>) {
             {toPrice(item.sellingPrice)}
           </span>
           {item.markedPrice !== undefined &&
-          item.sellingPrice !== item.markedPrice ? (
+            item.sellingPrice !== item.markedPrice ? (
             <span className="hidden md:inline text-zinc-500 line-through ml-1 text-xs">
               ${toPrice(item.markedPrice)}
             </span>
@@ -135,13 +137,12 @@ function ItemCardVertical(params: Readonly<{ item: Item; lang: string }>) {
           </div>
         )}
         <div className="w-full md:text-center">
-          <button
-            className="bg-green-500 text-white text-sm rounded-md font-medium py-1 px-2"
+          <Button
             onClick={() => addQuantity(item)}
             disabled={item.useStock && item.stock == 0}
           >
             {t("addToCart")}
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -190,6 +191,7 @@ function ItemCardPoint(params: Readonly<{ item: Partial<CouponCategory> }>) {
         )}
       </Link>
       <div className="flex flex-col items-center justify-center ml-4 md:ml-0">
+        <div className="font-bold">{item.name}</div>
         <div className="w-full md:text-center text-red-400">
           <Link href={`/coupons/${item.id}`}>
             <span className="font-bold ml-1 md:ml-0">{item.point}</span>
