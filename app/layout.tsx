@@ -3,9 +3,10 @@ import type { Metadata } from "next";
 import "@/app/globals.css";
 import CartProvider from "@/utils/cartProvider";
 import { ModalProvider } from "@/utils/modalProvider";
-import { cn } from "@/utils/utils";
 import { Toaster } from "@/components/ui/toaster";
 import NavBarClient from "@/components/navBar/navbar";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export const metadata: Metadata = {
   title: "Shop",
@@ -33,8 +34,10 @@ export default async function Layout(
           <HeadElement />
           <body className={"font-playfair flex flex-col relative"}>
             <NavBarClient lang={lang} />
-            <main className="[&>*]:!px-4 md:[&>*]:!px-[10%]">{children}</main>
-            <div className="mt-4 flex-1 flex flex-col justify-end">
+            <main className="[&>*]:px-4 md:[&>*]:px-[10%] flex-1">
+              <Suspense fallback={<Loading />}>{children}</Suspense>
+            </main>
+            <div className="mt-4">
               <div className="h-4 bg-primary" />
             </div>
             <Toaster />

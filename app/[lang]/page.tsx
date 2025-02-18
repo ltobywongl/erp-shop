@@ -4,24 +4,19 @@ import { translation } from "@/i18n";
 import { getProducts } from "@/utils/products/products";
 import { LinkButton } from "@/components/ui/link-button";
 import MyImage from "@/components/image/customImage";
+import { Suspense } from "react";
+import LoadingSpinner from "@/components/common/spinner";
 
-export default async function Home(
+export default async function Page(
   props: Readonly<{
     params: Promise<{ lang: string }>;
   }>
 ) {
   const params = await props.params;
   const { t } = await translation(params.lang, "home");
-  const items = await getProducts(
-    params.lang,
-    {
-      createdAt: "desc",
-    },
-    10
-  );
 
   return (
-    <div className="flex flex-col gap-16 md:gap-20">
+    <div className="flex flex-col gap-16 md:gap-20 !px-0">
       <div
         className="min-h-80 max-h-[800px] h-dvh w-full flex flex-col gap-4 items-center justify-center bg-cover py-4 md:py-8 bg-center"
         style={{ backgroundImage: `url(${pathToS3Url("images/banner.jpg")})` }}
@@ -38,7 +33,7 @@ export default async function Home(
           {t("shopNow")}
         </LinkButton>
       </div>
-      <div className="flex flex-col gap-6 items-center px-[10%]">
+      <div className="flex flex-col gap-6 items-center px-4 md:px-[10%]">
         <h2 className="text-primary font-bold text-2xl md:text-3xl lg:text-4xl">
           {t("naturesFeast")}
         </h2>
@@ -51,7 +46,7 @@ export default async function Home(
           <p>{t("deliveringPureDeliciousnessForYourWellbeing")}</p>
         </div>
       </div>
-      <div className="flex gap-6 overflow-x-scroll no-scrollbar px-4 lg:[&>*]:w-1/5 [&>*]:min-w-40 [&>div>img]:object-cover">
+      <div className="flex gap-6 overflow-x-scroll no-scrollbar lg:[&>*]:w-1/5 [&>*]:min-w-40 [&>div>img]:object-cover px-4 md:px-[10%]">
         <div className={"flex flex-col items-center gap-4"}>
           <MyImage
             src={"/images/home/D2.jpg"}
@@ -113,30 +108,45 @@ export default async function Home(
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center gap-4 mt-2 px-2">
+      <div className="flex flex-col items-center gap-4 mt-2 px-4 md:px-[10%]">
         <h3 className="text-primary font-bold text-2xl md:text-3xl lg:text-4xl">
           {t("latestProducts")}
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
-          {items?.map((item, index) => (
-            <ItemCardVertical
-              key={`item${index}-${item.id}`}
-              lang={params.lang}
-              item={{
-                id: item.id,
-                name: item.name,
-                image: item.image ?? "",
-                markedPrice: item.markedPrice,
-                sellingPrice: item.sellingPrice,
-                quantity: 1,
-                useStock: item.useStock,
-                stock: item.stock,
-                couponPoint: item.couponPoint,
-              }}
-            />
-          ))}
-        </div>
+        <Suspense fallback={<LoadingSpinner />}>
+          <LatestItemsListing lang={params.lang} />
+        </Suspense>
       </div>
+    </div>
+  );
+}
+
+async function LatestItemsListing(params: { lang: string }) {
+  const items = await getProducts(
+    params.lang,
+    {
+      createdAt: "desc",
+    },
+    10
+  );
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
+      {items?.map((item, index) => (
+        <ItemCardVertical
+          key={`item${index}-${item.id}`}
+          lang={params.lang}
+          item={{
+            id: item.id,
+            name: item.name,
+            image: item.image ?? "",
+            markedPrice: item.markedPrice,
+            sellingPrice: item.sellingPrice,
+            quantity: 1,
+            useStock: item.useStock,
+            stock: item.stock,
+            couponPoint: item.couponPoint,
+          }}
+        />
+      ))}
     </div>
   );
 }
