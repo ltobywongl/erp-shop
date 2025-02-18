@@ -2,14 +2,14 @@
 import { toPrice } from "@/utils/string";
 import MyImage from "@/components/image/customImage";
 import "@/styles/snow.css";
-import { AddToCartElement } from "../common/itemCard";
+import { AddToCartElement } from "@/components/common/itemCard";
 
 function ProductDetails({
   lang,
   item,
 }: Readonly<{ lang: string; item: Item }>) {
   return (
-    <div className="flex flex-col gap-2 py-2 px-2 md:px-0">
+    <div className="flex flex-col gap-4 py-2 px-2">
       <div className="w-full">
         {item.image ? (
           <MyImage
@@ -51,7 +51,7 @@ function ProductDetails({
             ) : null}
           </div>
           {item.useStock && (
-            <div className="w-full text-zinc-500">剩餘{item.stock}件商品</div>
+            <div className="text-zinc-500">剩餘{item.stock}件商品</div>
           )}
         </div>
         <AddToCartElement item={item} direction="horizontal" />

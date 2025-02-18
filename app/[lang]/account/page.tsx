@@ -35,8 +35,8 @@ async function Page(
   ];
 
   return (
-    <div className="flex justify-center py-2 px-2 md:px-0">
-      <div className="w-full md:w-4/5">
+    <div className="flex justify-center py-2 px-2">
+      <div className="w-full">
         <Breadcrumbs items={breadItems} />
         <div>
           <LinkButton
@@ -52,7 +52,7 @@ async function Page(
             variant={"ghost"}
             size={"lg"}
             className="w-full border-b flex gap-2"
-            href="/account/coupons"
+            href="/account/rewards"
           >
             <CircleDollarSignIcon style={{ color: "black" }} />
             <div>{t("coupon")}</div>

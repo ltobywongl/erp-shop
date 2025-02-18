@@ -1,7 +1,6 @@
 "use client";
 import { toPrice } from "@/utils/string";
 import Link from "next/link";
-import { CouponCategory } from "@prisma/client";
 import { useState } from "react";
 import LoadingSpinner from "@/components/common/spinner";
 import { useCart } from "@/utils/cartProvider";
@@ -12,6 +11,8 @@ import { useTranslation } from "@/i18n/client";
 import { Button } from "@/components/ui/button";
 import { ShoppingCartIcon } from "lucide-react";
 import { cn } from "@/utils/utils";
+import { useModal } from "@/utils/modalProvider";
+import { useToast } from "@/hooks/use-toast";
 
 function SmallItemCard(params: Readonly<{ item: Item; className?: string }>) {
   const { addQuantity, reduceQuantity } = useCart();
@@ -125,7 +126,7 @@ function ItemCardVertical(params: Readonly<{ item: Item; lang: string }>) {
             {toPrice(item.sellingPrice)}
           </span>
           {item.markedPrice !== undefined &&
-            item.sellingPrice !== item.markedPrice ? (
+          item.sellingPrice !== item.markedPrice ? (
             <span className="hidden md:inline text-zinc-500 line-through ml-1 text-xs">
               ${toPrice(item.markedPrice)}
             </span>
@@ -149,32 +150,39 @@ function ItemCardVertical(params: Readonly<{ item: Item; lang: string }>) {
   );
 }
 
-function ItemCardPoint(params: Readonly<{ item: Partial<CouponCategory> }>) {
+function ItemCardPoint(
+  params: Readonly<{ lang: string; item: CouponCategory }>
+) {
+  const { t } = useTranslation(params.lang, "itemCard");
   const router = useRouter();
+  const { showModal } = useModal();
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const item = params.item;
 
   async function handleRedeem() {
-    setIsLoading(true);
-    const res = await fetch("/api/coupons/redeem", {
-      method: "POST",
-      body: JSON.stringify({
-        id: item.id,
-      }),
-    });
-    setIsLoading(false);
+    showModal(`${t("redeem")}?`, "", true, async () => {
+      setIsLoading(true);
+      const res = await fetch("/api/rewards/redeem", {
+        method: "POST",
+        body: JSON.stringify({
+          id: item.id,
+        }),
+      });
+      setIsLoading(false);
 
-    if (res.ok) {
-      alert("已換領禮卷");
-    } else {
-      alert("換領失敗,請確定你的積分足夠並重試");
-    }
-    router.refresh();
+      if (res.ok) {
+        toast({ title: t("rewardsRedeemed") });
+      } else {
+        toast({ title: t("redeemFailed"), variant: "destructive" });
+      }
+      router.refresh();
+    });
   }
 
   return (
     <div className="flex md:flex-col justify-between gap-2 p-2 md:border md:border-zinc-200">
-      <Link className="w-[25%] md:w-full" href={`/coupons/${item.id}`}>
+      <Link className="w-[25%] md:w-full" href={`/rewards/${item.id}`}>
         {item.imagePath ? (
           <MyImage
             className="w-full !max-h-20 md:!max-h-52 object-contain mx-auto"
@@ -191,16 +199,16 @@ function ItemCardPoint(params: Readonly<{ item: Partial<CouponCategory> }>) {
         )}
       </Link>
       <div className="flex flex-col items-center justify-center ml-4 md:ml-0">
-        <div className="font-bold">{item.name}</div>
+        <Link href={`/rewards/${item.id}`}>
+          <div className="font-bold">{item.name}</div>
+        </Link>
         <div className="w-full md:text-center text-red-400">
-          <Link href={`/coupons/${item.id}`}>
-            <span className="font-bold ml-1 md:ml-0">{item.point}</span>
-            <span>積分</span>
-          </Link>
+          <span className="font-bold ml-1 md:ml-0">{item.point}</span>
+          <span>{t("points")}</span>
         </div>
         {item.useStock && (
           <div className="w-full md:text-center text-zinc-500">
-            剩餘{item.stock}件
+            {t("inStock")}: {item.stock}
           </div>
         )}
         <button
@@ -208,23 +216,21 @@ function ItemCardPoint(params: Readonly<{ item: Partial<CouponCategory> }>) {
           onClick={() => handleRedeem()}
           disabled={isLoading || (item.useStock && item.stock === 0)}
         >
-          {isLoading ? <LoadingSpinner /> : "兌換"}
+          {isLoading ? <LoadingSpinner /> : t("redeem")}
         </button>
       </div>
     </div>
   );
 }
 
-function ItemCardPointReadOnly(
-  params: Readonly<{ item: Partial<CouponCategory> }>
-) {
+function ItemCardPointReadOnly(params: Readonly<{ item: Coupon }>) {
   const item = params.item;
 
   return (
-    <div className="flex md:flex-col gap-2 p-2 md:border md:border-zinc-200">
+    <div className="w-full flex md:flex-col justify-between gap-2 p-2 md:border md:border-zinc-200">
       {item.imagePath ? (
         <MyImage
-          className="w-[25%] md:w-full"
+          className="w-full !max-h-20 md:!max-h-52 object-contain mx-auto"
           src={item.imagePath}
           width={500}
           height={500}
@@ -232,16 +238,11 @@ function ItemCardPointReadOnly(
           externalUrl={true}
         />
       ) : (
-        <div className="w-[25%] md:w-full border-4 border-double text-xl md:text-2xl text-center font-semibold md:font-bold bg-gradient-radial from-yellow-200 to-yellow-500 p-1 md:p-5 shadow-sm">
+        <div className="border-4 border-double text-xl md:text-2xl text-center font-semibold md:font-bold bg-gradient-radial from-yellow-200 to-yellow-500 p-1 md:p-5 shadow-sm">
           ${item.value}
         </div>
       )}
-      <div className="flex flex-col items-center justify-center ml-4 md:ml-0">
-        <div className="w-full md:text-center text-red-400">
-          <span className="font-bold ml-1 md:ml-0">{item.point}</span>
-          <span>積分</span>
-        </div>
-      </div>
+      <div className="md:text-center font-bold ml-4 md:ml-0">{item.name}</div>
     </div>
   );
 }

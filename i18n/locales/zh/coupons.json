@@ -1,0 +1,12 @@
+{
+  "coupon": "獎賞",
+  "yourRewardPoints": "您的獎賞積分",
+  "inStock": "庫存",
+  "points": "積分",
+  "exchange": "兌換",
+  "minimumCharge": "最低消費金額",
+  "redeemed": "獎賞兌換",
+  "failedToRedeem": "未能兌換獎賞。請檢查您的餘額，然後重試",
+  "noRewards": "沒有獎賞",
+  "account": "帳號"
+}

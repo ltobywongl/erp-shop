@@ -29,8 +29,8 @@ async function Page(props: Readonly<{ params: Promise<{ lang: string }> }>) {
   ];
 
   return (
-    <div className="flex justify-center py-2 px-2 md:px-0">
-      <div className="w-full md:w-4/5 flex flex-col gap-4">
+    <div className="flex justify-center py-2 px-2">
+      <div className="w-full flex flex-col gap-4">
         <Breadcrumbs items={breadItems} />
         <div>
           {!orders || (orders.length == 0 && <div>沒有訂單</div>)}

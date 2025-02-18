@@ -20,8 +20,8 @@ async function Page(props: Readonly<{ params: Promise<{ lang: string }> }>) {
   ];
 
   return (
-    <div className="flex justify-center py-2 px-2 md:px-0">
-      <div className="w-full md:w-4/5">
+    <div className="flex justify-center py-2 px-2">
+      <div className="w-full">
         <Breadcrumbs items={breadItems} />
         <div>
           {categories?.map((category) => (

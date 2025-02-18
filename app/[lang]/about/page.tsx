@@ -18,7 +18,7 @@ async function Page() {
   });
 
   return (
-    <div className="flex justify-center py-2 px-2 md:px-0">
+    <div className="flex justify-center py-2 px-2">
       <div className="flex flex-col gap-8 w-4/5">
         <div>
           <div className="text-lg font-bold">關於我們</div>

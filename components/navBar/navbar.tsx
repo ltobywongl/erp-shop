@@ -165,7 +165,7 @@ function NavSheet({
           <MenuIcon className={isHomePage ? "text-white group-hover:text-black transition-colors" : ""} />
         </Button>
       </SheetTrigger>
-      <SheetContent side={"left"}>
+      <SheetContent side={"left"} className="no-scrollbar overflow-y-scroll">
         <SheetHeader>
           <SheetTitle>
             <Link href="/">

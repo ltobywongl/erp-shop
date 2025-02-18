@@ -21,7 +21,7 @@ export default async function Home(
   );
 
   return (
-    <main className="flex flex-col gap-16 md:gap-20">
+    <div className="flex flex-col gap-16 md:gap-20">
       <div
         className="min-h-80 max-h-[800px] h-dvh w-full flex flex-col gap-4 items-center justify-center bg-cover py-4 md:py-8 bg-center"
         style={{ backgroundImage: `url(${pathToS3Url("images/banner.jpg")})` }}
@@ -39,8 +39,12 @@ export default async function Home(
         </LinkButton>
       </div>
       <div className="flex flex-col gap-6 items-center px-[10%]">
-        <h2 className="text-primary font-bold text-2xl md:text-3xl lg:text-4xl">{t("naturesFeast")}</h2>
-        <h3 className="text-primary font-bold text-lg md:text-xl lg:text-2xl">{t("everyBiteIsNaturesPreciousGift")}</h3>
+        <h2 className="text-primary font-bold text-2xl md:text-3xl lg:text-4xl">
+          {t("naturesFeast")}
+        </h2>
+        <h3 className="text-primary font-bold text-lg md:text-xl lg:text-2xl">
+          {t("everyBiteIsNaturesPreciousGift")}
+        </h3>
         <div className="[&>p]:text-center">
           <p>{t("selectedPremiumFruitsFromAroundTheWorld")}</p>
           <p>{t("100%Natural")}</p>
@@ -56,7 +60,9 @@ export default async function Home(
             width={"200"}
             className="rounded-lg"
           />
-          <div className="font-bold text-primary text-xl md:text-2xl">{t("heartsBestFriend")}</div>
+          <div className="font-bold text-primary text-xl md:text-2xl">
+            {t("heartsBestFriend")}
+          </div>
         </div>
         <div className={"flex flex-col items-center gap-4"}>
           <MyImage
@@ -66,7 +72,9 @@ export default async function Home(
             width={"200"}
             className="rounded-lg"
           />
-          <div className="font-bold text-primary text-xl md:text-2xl">{t("brainPowerUpgrade")}</div>
+          <div className="font-bold text-primary text-xl md:text-2xl">
+            {t("brainPowerUpgrade")}
+          </div>
         </div>
         <div className={"flex flex-col items-center gap-4"}>
           <MyImage
@@ -76,7 +84,9 @@ export default async function Home(
             width={"200"}
             className="rounded-lg"
           />
-          <div className="font-bold text-primary text-xl md:text-2xl">{t("naturalEnergyBoost")}</div>
+          <div className="font-bold text-primary text-xl md:text-2xl">
+            {t("naturalEnergyBoost")}
+          </div>
         </div>
         <div className={"flex flex-col items-center gap-4"}>
           <MyImage
@@ -86,7 +96,9 @@ export default async function Home(
             width={"200"}
             className="rounded-lg"
           />
-          <div className="font-bold text-primary text-xl md:text-2xl">{t("sweetWithoutGuilt")}</div>
+          <div className="font-bold text-primary text-xl md:text-2xl">
+            {t("sweetWithoutGuilt")}
+          </div>
         </div>
         <div className={"flex flex-col items-center gap-4"}>
           <MyImage
@@ -96,12 +108,16 @@ export default async function Home(
             width={"200"}
             className="rounded-lg"
           />
-          <div className="font-bold text-primary text-xl md:text-2xl">{t("instantEnergyFix")}</div>
+          <div className="font-bold text-primary text-xl md:text-2xl">
+            {t("instantEnergyFix")}
+          </div>
         </div>
       </div>
       <div className="flex flex-col items-center gap-4 mt-2 px-2">
-        <h3 className="text-primary font-bold text-2xl md:text-3xl lg:text-4xl">{t("latestProducts")}</h3>
-        <div className="md:w-[80%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
+        <h3 className="text-primary font-bold text-2xl md:text-3xl lg:text-4xl">
+          {t("latestProducts")}
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
           {items?.map((item, index) => (
             <ItemCardVertical
               key={`item${index}-${item.id}`}
@@ -121,6 +137,6 @@ export default async function Home(
           ))}
         </div>
       </div>
-    </main>
+    </div>
   );
 }

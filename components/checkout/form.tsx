@@ -5,12 +5,11 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { FormEvent, ChangeEvent, useState } from "react";
 import LoadingSpinner from "@/components/common/spinner";
-import { CouponCategory } from "@prisma/client";
 
 export default function CheckoutForm({
   coupons,
 }: Readonly<{
-  coupons: Partial<CouponCategory>[];
+  coupons: Coupon[];
 }>) {
   const router = useRouter();
   const cartContext = useCart();
@@ -60,7 +59,7 @@ export default function CheckoutForm({
   }
 
   return (
-    <div className="w-full md:w-4/5 flex flex-col md:flex-row gap-2 py-2">
+    <div className="flex flex-col md:flex-row gap-2 py-2">
       <div className="border-b md:border-r md:border-b-0 px-2 w-full md:w-1/2">
         <h1 className="text-xl md:text-2xl font-bold">購物車</h1>
         <hr className="my-1" />

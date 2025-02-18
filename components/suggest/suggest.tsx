@@ -25,7 +25,7 @@ async function SuggestPage(params: Readonly<{ lang: string }>) {
   );
 
   return (
-    <main className="flex flex-col md:mt-4 px-2 md:px-0">
+    <div className="flex flex-col p-2">
       <div className="md:grid md:grid-cols-10 gap-2">
         <div className="col-start-2 col-span-8">
           <SearchBar lang={params.lang} />
@@ -56,7 +56,7 @@ async function SuggestPage(params: Readonly<{ lang: string }>) {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 

@@ -59,8 +59,8 @@ model Category {
 
 model CouponCategory {
   id            String    @id @db.VarChar(36)
-  name          String?   @db.VarChar(20)
-  description   String?   @db.VarChar(255)
+  name          Json?
+  description   Json?
   imagePath     String?   @map("image_path") @db.VarChar(255)
   point         Int
   value         Float

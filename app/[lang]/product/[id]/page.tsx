@@ -10,7 +10,7 @@ async function Page(props: Readonly<{ params: Promise<{ id: string, lang: string
 
   return (
     <div className="flex justify-center py-2">
-      <div className="w-full md:w-4/5">
+      <div className="w-full">
         <ProductDetails item={product} lang={params.lang} />
       </div>
     </div>

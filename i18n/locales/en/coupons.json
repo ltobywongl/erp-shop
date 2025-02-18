@@ -1,0 +1,12 @@
+{
+  "coupon": "Rewards",
+  "yourRewardPoints": "Your Reward Points",
+  "inStock": "In stock",
+  "points": "points",
+  "exchange": "Exchange",
+  "minimumCharge": "Minimum spend",
+  "redeemed": "Reward Redeemed",
+  "failedToRedeem": "Failed to redeem reward. Please check your balance and try again.",
+  "noRewards": "No Rewards",
+  "account": "Account"
+}
