@@ -46,7 +46,7 @@ function ProductDetails({
             ) : null}
             {item.couponPoint && item.couponPoint > 0 ? (
               <span className="text-red-500 ml-1">
-                ({item.couponPoint}積分)
+                ({item.couponPoint}賞分)
               </span>
             ) : null}
           </div>

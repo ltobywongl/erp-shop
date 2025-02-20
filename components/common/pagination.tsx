@@ -61,13 +61,10 @@ function PaginationClient({
           {">>"}
         </button>
       </div>
-      <div className="w-full flex items-center gap-2 mt-2">
-        <span className="flex items-center gap-1">
-          <div>頁面</div>
-          <strong>
-            {pagination.pageIndex + 1}/{totalPages}
-          </strong>
-        </span>
+      <div className="w-full flex justify-center my-1 text-base">
+        <strong>
+          {pagination.pageIndex + 1}/{totalPages}
+        </strong>
       </div>
     </div>
   );

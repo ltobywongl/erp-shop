@@ -1,4 +1,5 @@
 "use client";
+
 import { Breadcrumbs, BreadcrumbItemType } from "@/components/ui/breadcrumb";
 import SideMenu from "@/components/common/sideMenu";
 import { ItemCardVertical } from "@/components/common/itemCard";
@@ -6,6 +7,7 @@ import { useEffect, useState } from "react";
 import Loading from "@/app/loading";
 import PaginationClient from "@/components/common/pagination";
 import { HomeIcon } from "lucide-react";
+import { useTranslation } from "@/i18n/client";
 
 function CategoryListPage(params: Readonly<{ id: string; lang: string }>) {
   const [data, setData] = useState<Item[]>([]);
@@ -15,6 +17,7 @@ function CategoryListPage(params: Readonly<{ id: string; lang: string }>) {
     pageIndex: 0,
     pageSize: 10,
   });
+  const { t } = useTranslation(params.lang, "search");
 
   const breadItems: BreadcrumbItemType[] = [
     {
@@ -22,7 +25,7 @@ function CategoryListPage(params: Readonly<{ id: string; lang: string }>) {
       title: <HomeIcon />,
     },
     {
-      title: "種類",
+      title: t("categories"),
     },
   ];
 
@@ -84,7 +87,7 @@ function CategoryListPage(params: Readonly<{ id: string; lang: string }>) {
               </div>
             ) : (
               <div className="mt-2 flex items-center justify-center text-2xl font-bold border-b h-24">
-                <div>查無商品</div>
+                <div>{t("noProductFound")}</div>
               </div>
             ))}
           <PaginationClient

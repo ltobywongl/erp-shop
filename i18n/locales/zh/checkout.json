@@ -1,0 +1,12 @@
+{
+  "shoppingCart": "購物車",
+  "shoppingCartIsEmpty": "購物車是空的",
+  "orderDetails": "訂單詳情",
+  "coupon": "優惠券",
+  "selectACoupon": "請選擇優惠券",
+  "pointsEarned": "賺取賞分",
+  "receiverName": "收件人姓名",
+  "receiverAddress": "收件人地址",
+  "send": "發送",
+  "youCanContinuePaymentAnytimeInOrderHistoryPage": "你可以隨時在訂單記錄頁面繼續支付此賬單"
+}

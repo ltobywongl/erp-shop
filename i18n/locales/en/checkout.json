@@ -1,0 +1,12 @@
+{
+  "shoppingCart": "Shopping Cart",
+  "shoppingCartIsEmpty": "Shopping Cart is empty",
+  "orderDetails": "Order Details",
+  "coupon": "Coupon",
+  "selectACoupon": "Select a coupon",
+  "pointsEarned": "Reward Points Earned",
+  "receiverName": "Receiver's name",
+  "receiverAddress": "Receiver's address",
+  "send": "Send",
+  "youCanContinuePaymentAnytimeInOrderHistoryPage": "You can continue payment anytime in order history page"
+}

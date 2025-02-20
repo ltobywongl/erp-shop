@@ -14,8 +14,9 @@ import { cn } from "@/utils/utils";
 import { useModal } from "@/utils/modalProvider";
 import { useToast } from "@/hooks/use-toast";
 
-function SmallItemCard(params: Readonly<{ item: Item; className?: string }>) {
+function SmallItemCard(params: Readonly<{ item: Item; lang: string, className?: string }>) {
   const { addQuantity, reduceQuantity } = useCart();
+  const { t } = useTranslation(params.lang, "itemCard");
   const item = params.item;
   return (
     <div className={`flex gap-2 ${params.className}`}>
@@ -53,12 +54,12 @@ function SmallItemCard(params: Readonly<{ item: Item; className?: string }>) {
           ) : null}
           {item.couponPoint !== undefined && item.couponPoint > 0 && (
             <span className="text-red-500 ml-1 text-xs">
-              ({item.couponPoint * item.quantity}積分)
+              ({item.couponPoint * item.quantity} {t("points")})
             </span>
           )}
         </div>
         {item.useStock && (
-          <div className="text-xs text-zinc-500">剩餘{item.stock}件商品</div>
+          <div className="text-xs text-zinc-500">{t("inStock")}: {item.stock}</div>
         )}
         <div className="flex flex-row">
           <Button variant={"secondary"} onClick={() => reduceQuantity(item)}>

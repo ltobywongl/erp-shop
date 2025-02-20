@@ -2,7 +2,7 @@
   "addToCart": "加至購物車",
   "inStock": "庫存",
   "redeem": "兌換",
-  "points": "積分",
+  "points": "賞分",
   "rewardsRedeemed": "已換領獎賞",
-  "redeemFailed": "換領失敗,請確定你的積分足夠並重試"
+  "redeemFailed": "換領失敗,請確定你的賞分足夠並重試"
 }

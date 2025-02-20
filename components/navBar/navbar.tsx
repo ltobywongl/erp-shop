@@ -44,14 +44,15 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const handleScroll = () => {
-    const position = document.body.scrollTop || document.documentElement.scrollTop;
+    const position =
+      document.body.scrollTop || document.documentElement.scrollTop;
     setScrollPosition(position);
   };
 
   useEffect(() => {
-    document.body.addEventListener('scroll', handleScroll);
+    document.body.addEventListener("scroll", handleScroll);
     return () => {
-      document.body.removeEventListener('scroll', handleScroll);
+      document.body.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -60,7 +61,9 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
       className={cn(
         "z-50 w-full p-0.5 gap-2 md:gap-6 px-[3%] md:px-[8%] flex items-center justify-between transition-colors duration-500 bg-transparent py-4",
         isHomePage
-          ? scrollPosition == 0 ? "fixed hover:bg-white group" : "fixed bg-white [&>div>button>svg]:text-black border-b"
+          ? scrollPosition == 0
+            ? "fixed hover:bg-white group"
+            : "fixed bg-white [&>div>button>svg]:text-black border-b"
           : "sticky bg-white border-b"
       )}
     >
@@ -71,7 +74,13 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
           size={"icon"}
           onClick={() => router.push("/search")}
         >
-          <SearchIcon className={isHomePage ? "text-white group-hover:text-black transition-colors" : ""} />
+          <SearchIcon
+            className={
+              isHomePage
+                ? "text-white group-hover:text-black transition-colors"
+                : ""
+            }
+          />
         </Button>
       </div>
 
@@ -91,9 +100,20 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
           size={"icon"}
           onClick={() => router.push("/account")}
         >
-          <UserRoundIcon className={isHomePage ? "text-white group-hover:text-black transition-colors" : ""} />
+          <UserRoundIcon
+            className={
+              isHomePage
+                ? "text-white group-hover:text-black transition-colors"
+                : ""
+            }
+          />
         </Button>
-        <ShoppingCart t={t} cartContext={cartContext} isHomePage={isHomePage} />
+        <ShoppingCart
+          t={t}
+          cartContext={cartContext}
+          isHomePage={isHomePage}
+          lang={params.lang}
+        />
       </div>
     </div>
   );
@@ -101,10 +121,12 @@ function NavBarClient(params: Readonly<{ lang: string }>) {
 
 function ShoppingCart({
   t,
+  lang,
   cartContext,
   isHomePage,
 }: Readonly<{
   t: TFunction<string, undefined>;
+  lang: string;
   cartContext: CartContext;
   isHomePage: boolean;
 }>) {
@@ -118,19 +140,26 @@ function ShoppingCart({
           size={"icon"}
           className="relative"
         >
-          <ShoppingCartIcon className={isHomePage ? "text-white group-hover:text-black transition-colors" : ""} />
+          <ShoppingCartIcon
+            className={
+              isHomePage
+                ? "text-white group-hover:text-black transition-colors"
+                : ""
+            }
+          />
           {cartContext.cart.length > 0 && (
             <Badge size={"sm"} className="animate-pulse duration-1000" />
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent side="right">
+      <SheetContent side="right" className="no-scrollbar overflow-y-scroll">
         <SheetHeader>
           <SheetTitle>{t("cart")}</SheetTitle>
         </SheetHeader>
-        <div className="h-5/6 overflow-y-scroll custom-scrollbar border-y">
+        <div className="border-y flex flex-col justify-between">
           {cartContext?.cart.map((item) => (
             <SmallItemCard
+              lang={lang}
               item={item}
               key={item.id}
               className="border-b py-2"
@@ -138,11 +167,7 @@ function ShoppingCart({
           ))}
         </div>
         <SheetFooter>
-          <LinkButton
-            href={"/checkout"}
-            className="w-full mt-2 font-bold"
-
-          >
+          <LinkButton href={"/checkout"} className="w-full mt-2 font-bold">
             {t("checkout")}
           </LinkButton>
         </SheetFooter>
@@ -162,7 +187,13 @@ function NavSheet({
     <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
       <SheetTrigger asChild>
         <Button variant={isHomePage ? "semiGhost" : "ghost"} size={"icon"}>
-          <MenuIcon className={isHomePage ? "text-white group-hover:text-black transition-colors" : ""} />
+          <MenuIcon
+            className={
+              isHomePage
+                ? "text-white group-hover:text-black transition-colors"
+                : ""
+            }
+          />
         </Button>
       </SheetTrigger>
       <SheetContent side={"left"} className="no-scrollbar overflow-y-scroll">

@@ -2,9 +2,11 @@ import { HomeIcon, StarIcon } from "lucide-react";
 import { BreadcrumbItemType, Breadcrumbs } from "@/components/ui/breadcrumb";
 import { getCategories } from "@/utils/products/categories/categories";
 import { LinkButton } from "@/components/ui/link-button";
+import { translation } from "@/i18n";
 
 async function Page(props: Readonly<{ params: Promise<{ lang: string }> }>) {
   const params = await props.params;
+  const { t } = await translation(params.lang, "search");
   const categories = await getCategories(params.lang, {
     createdAt: "desc",
   });
@@ -15,7 +17,7 @@ async function Page(props: Readonly<{ params: Promise<{ lang: string }> }>) {
       title: <HomeIcon />,
     },
     {
-      title: "所有商品種類",
+      title: t("categories"),
     },
   ];
 

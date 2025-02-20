@@ -32,7 +32,7 @@ export default async function Layout(
       <CartProvider>
         <html lang={lang}>
           <HeadElement />
-          <body className={"font-playfair flex flex-col relative"}>
+          <body className={"font-playfair flex flex-col relative overflow-y-scroll"}>
             <NavBarClient lang={lang} />
             <main className="[&>*]:px-4 md:[&>*]:px-[10%] flex-1">
               <Suspense fallback={<Loading />}>{children}</Suspense>

@@ -139,7 +139,7 @@ input.hide-arrow[type="number"] {
   * {
     @apply border-border;
   }
-  body, html {
-    @apply min-h-dvh overflow-x-hidden bg-background text-foreground;
+  html, body {
+    @apply h-full overflow-x-hidden bg-background text-foreground;
   }
 }

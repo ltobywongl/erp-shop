@@ -1,4 +1,7 @@
 {
+  "account": "帳號",
+  "orderHistory": "訂單記錄",
+  "noOrderHistory": "沒有訂單記錄",
   "PAYMENT_PENDING": "待付款",
   "PAYMENT_CONFIRM": "已付款",
   "CONFIRM": "已確認",

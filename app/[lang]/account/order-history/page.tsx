@@ -1,5 +1,6 @@
 import OrderHistoryOrder from "@/components/order/orderHistory";
 import { BreadcrumbItemType, Breadcrumbs } from "@/components/ui/breadcrumb";
+import { translation } from "@/i18n";
 import { getOrdersByUserId } from "@/utils/orders/orders";
 import { loadSessionUser } from "@/utils/user";
 import { HomeIcon } from "lucide-react";
@@ -11,6 +12,7 @@ async function Page(props: Readonly<{ params: Promise<{ lang: string }> }>) {
     return redirect("/login");
   }
   const params = await props.params;
+  const { t } = await translation(params.lang, "orderHistory");
 
   const orders = await getOrdersByUserId(params.lang, user.id);
 
@@ -21,10 +23,10 @@ async function Page(props: Readonly<{ params: Promise<{ lang: string }> }>) {
     },
     {
       href: "/account",
-      title: "帳號",
+      title: t("account"),
     },
     {
-      title: "訂單記錄",
+      title: t("orderHistory"),
     },
   ];
 
@@ -33,9 +35,15 @@ async function Page(props: Readonly<{ params: Promise<{ lang: string }> }>) {
       <div className="w-full flex flex-col gap-4">
         <Breadcrumbs items={breadItems} />
         <div>
-          {!orders || (orders.length == 0 && <div>沒有訂單</div>)}
+          {!orders || (orders.length == 0 && <div>{t("noOrderHistory")}</div>)}
           {orders?.map((order) => {
-            return <OrderHistoryOrder key={order.id} order={order} lang={params.lang} />;
+            return (
+              <OrderHistoryOrder
+                key={order.id}
+                order={order}
+                lang={params.lang}
+              />
+            );
           })}
         </div>
       </div>

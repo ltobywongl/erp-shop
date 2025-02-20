@@ -11,12 +11,11 @@ async function Page(props: Readonly<{ params: Promise<{ lang: string }> }>) {
   const params = await props.params;
 
   const coupons = await getRewardsByUserId(params.lang, user.id);
-
   const filteredCoupons = coupons.filter(
     (obj, index, self) => index === self.findIndex((t) => t.id === obj.id)
   );
 
-  return <CheckoutForm coupons={filteredCoupons} />;
+  return <CheckoutForm lang={params.lang} coupons={filteredCoupons} />;
 }
 
 export default Page;

@@ -4,15 +4,17 @@ import { ItemCardVertical } from "@/components/common/itemCard";
 import SearchBar from "@/components/common/searchBar";
 import { HomeIcon } from "lucide-react";
 import { getProducts } from "@/utils/products/products";
+import { translation } from "@/i18n";
 
 async function SuggestPage(params: Readonly<{ lang: string }>) {
+  const { t } = await translation(params.lang, "search");
   const breadItems: BreadcrumbItemType[] = [
     {
       href: "/",
       title: <HomeIcon />,
     },
     {
-      title: "搜索",
+      title: t("search"),
     },
   ];
 
