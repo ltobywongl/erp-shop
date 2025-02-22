@@ -1,4 +1,8 @@
 {
-    "addToCart": "Add to cart",
-    "inStock": "In stock"
+  "addToCart": "Add to cart",
+  "inStock": "In stock",
+  "redeem": "Redeem",
+  "points": "Reward Points",
+  "rewardsRedeemed": "Rewards Redeemed",
+  "redeemFailed": "Redeem failed, please make sure that your reward points are sufficient and try again"
 }

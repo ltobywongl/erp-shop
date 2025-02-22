@@ -1,4 +1,5 @@
 "use client";
+
 import { Breadcrumbs, BreadcrumbItemType } from "@/components/ui/breadcrumb";
 import SideMenu from "@/components/common/sideMenu";
 import { ItemCardVertical } from "@/components/common/itemCard";
@@ -7,6 +8,7 @@ import Loading from "@/app/loading";
 import PaginationClient from "@/components/common/pagination";
 import SearchBar from "@/components/common/searchBar";
 import { HomeIcon } from "lucide-react";
+import { useTranslation } from "@/i18n/client";
 
 function SearchPage({
   lang,
@@ -19,6 +21,7 @@ function SearchPage({
     pageIndex: 0,
     pageSize: 10,
   });
+  const { t } = useTranslation(lang, "search");
 
   const breadItems: BreadcrumbItemType[] = [
     {
@@ -26,7 +29,7 @@ function SearchPage({
       title: <HomeIcon />,
     },
     {
-      title: "搜索",
+      title: t("search"),
     },
   ];
 
@@ -51,7 +54,7 @@ function SearchPage({
   }, [keyword, lang, pagination]);
 
   return (
-    <main className="flex flex-col md:mt-4 px-2 md:px-0">
+    <div className="flex flex-col p-2">
       <div className="md:grid md:grid-cols-10 gap-2">
         <div className="col-start-2 col-span-8">
           <SearchBar lang={lang} keyword={keyword} />
@@ -91,7 +94,7 @@ function SearchPage({
               </div>
             ) : (
               <div className="mt-2 flex items-center justify-center text-2xl font-bold border-b h-24">
-                <div>查無商品</div>
+                <div>{t("noProductFound")}</div>
               </div>
             ))}
           <PaginationClient
@@ -101,7 +104,7 @@ function SearchPage({
           />
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 

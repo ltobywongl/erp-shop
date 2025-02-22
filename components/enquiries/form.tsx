@@ -1,11 +1,10 @@
 "use client";
 import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 function EnquiryForm({ userId }: Readonly<{ userId?: string }>) {
-  const router = useRouter();
   const { toast } = useToast();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -24,7 +23,8 @@ function EnquiryForm({ userId }: Readonly<{ userId?: string }>) {
       toast({
         title: "已發出",
       });
-      router.refresh();
+      (document.getElementById("email") as HTMLInputElement).value = "";
+      (document.getElementById("content") as HTMLInputElement).value = "";
     } else {
       toast({
         title: "發生錯誤",
@@ -44,8 +44,8 @@ function EnquiryForm({ userId }: Readonly<{ userId?: string }>) {
         name="email"
         placeholder="請輸入您的信箱"
       />
-      <textarea name="content" id="content" />
-      <button type="submit">提交</button>
+      <textarea name="content" id="content" rows={4} />
+      <Button type="submit">提交</Button>
     </form>
   );
 }

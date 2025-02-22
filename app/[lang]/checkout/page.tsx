@@ -1,46 +1,21 @@
 import CheckoutForm from "@/components/checkout/form";
-import prisma from "@/utils/prisma";
+import { getRewardsByUserId } from "@/utils/rewards/rewards";
 import { loadUser } from "@/utils/user";
 import { redirect } from "next/navigation";
 
-async function Page() {
+async function Page(props: Readonly<{ params: Promise<{ lang: string }> }>) {
   const user = await loadUser();
   if (!user) {
     return redirect("/login");
   }
+  const params = await props.params;
 
-  const coupons = await prisma.coupon.findMany({
-    select: {
-      id: true,
-      couponCategory: {
-        select: {
-          name: true,
-          value: true,
-        },
-      },
-    },
-    where: {
-      userId: user.id,
-    },
-  });
-
-  const filteredCoupons = coupons
-    .map((coupon) => {
-      return {
-        id: coupon.id,
-        name: coupon.couponCategory.name,
-        value: coupon.couponCategory.value,
-      };
-    })
-    .filter(
-      (obj, index, self) => index === self.findIndex((t) => t.id === obj.id)
-    );
-
-  return (
-    <main className="flex justify-center w-full md:mt-4">
-      <CheckoutForm coupons={filteredCoupons} />
-    </main>
+  const coupons = await getRewardsByUserId(params.lang, user.id);
+  const filteredCoupons = coupons.filter(
+    (obj, index, self) => index === self.findIndex((t) => t.id === obj.id)
   );
+
+  return <CheckoutForm lang={params.lang} coupons={filteredCoupons} />;
 }
 
 export default Page;

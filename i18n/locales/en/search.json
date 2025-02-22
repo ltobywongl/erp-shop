@@ -1,3 +1,5 @@
 {
-    "search": "Search..."
+    "search": "Search",
+    "categories": "Categories",
+    "noProductFound": "No matching product is found"
 }

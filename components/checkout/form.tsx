@@ -3,16 +3,21 @@ import { SmallItemCard } from "@/components/common/itemCard";
 import { useCart } from "@/utils/cartProvider";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { FormEvent, ChangeEvent, useState } from "react";
-import LoadingSpinner from "@/components/common/spinner";
-import { CouponCategory } from "@prisma/client";
+import { FormEvent, useState } from "react";
+import { useTranslation } from "@/i18n/client";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectTrigger } from "@/components/ui/select";
+import { SelectItem, SelectValue } from "@radix-ui/react-select";
 
 export default function CheckoutForm({
+  lang,
   coupons,
 }: Readonly<{
-  coupons: Partial<CouponCategory>[];
+  lang: string;
+  coupons: Coupon[];
 }>) {
   const router = useRouter();
+  const { t } = useTranslation(lang, "checkout");
   const cartContext = useCart();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -26,6 +31,9 @@ export default function CheckoutForm({
     },
     { totalPrice: 0, totalQuantity: 0, totalPoint: 0 }
   ) || { totalPrice: 0, totalQuantity: 0, totalPoint: 0 };
+  const filteredCoupons = coupons.filter(
+    (coupon) => !coupon.minCheckValue || coupon.minCheckValue <= totalPrice
+  );
   const [couponValue, setCouponValue] = useState(0);
   const finalPrice = totalPrice - couponValue;
 
@@ -33,11 +41,18 @@ export default function CheckoutForm({
     e.preventDefault();
     setIsLoading(true);
     const data: any = {};
-    data.coupon = (e.currentTarget.elements.namedItem("coupon") as HTMLInputElement).value;
-    data.name = (e.currentTarget.elements.namedItem("name") as HTMLInputElement).value;
-    data.address = (e.currentTarget.elements.namedItem("address") as HTMLInputElement).value;
+    data.coupon = (
+      e.currentTarget.elements.namedItem("coupon") as HTMLInputElement
+    ).value;
+    data.name = (
+      e.currentTarget.elements.namedItem("name") as HTMLInputElement
+    ).value;
+    data.address = (
+      e.currentTarget.elements.namedItem("address") as HTMLInputElement
+    ).value;
     data.price = finalPrice.toString();
     data.cart = JSON.stringify(cartContext?.cart);
+    data.locale = lang;
     const response = await fetch("/api/checkout", {
       method: "POST",
       body: JSON.stringify(data),
@@ -53,70 +68,74 @@ export default function CheckoutForm({
     setIsLoading(false);
   }
 
-  function handleCoupon(e: ChangeEvent<HTMLSelectElement>) {
-    const id = e.currentTarget.value;
+  function handleCoupon(id: string) {
     const coupon = coupons.find((coupon) => coupon.id === id);
     setCouponValue(coupon?.value ?? 0);
   }
 
   return (
-    <div className="w-full md:w-4/5 flex flex-col md:flex-row gap-2 py-2">
+    <div className="flex flex-col md:flex-row gap-2 py-2">
       <div className="border-b md:border-r md:border-b-0 px-2 w-full md:w-1/2">
-        <h1 className="text-xl md:text-2xl font-bold">購物車</h1>
+        <h1 className="text-xl md:text-2xl font-bold">{t("shoppingCart")}</h1>
         <hr className="my-1" />
         {totalQuantity === 0 ? (
-          <div>購物車是空的</div>
+          <div>{t("shoppingCartIsEmpty")}</div>
         ) : (
           cartContext?.cart.map((item) => (
-            <SmallItemCard item={item} key={item.id} className="py-2" />
+            <SmallItemCard
+              item={item}
+              key={item.id}
+              className="py-2"
+              lang={lang}
+            />
           ))
         )}
       </div>
       <div className="px-2 w-full md:w-1/3">
-        <div className="font-bold">訂單摘要</div>
+        <div className="font-bold">{t("orderDetails")}</div>
         <form className="flex flex-col gap-1" onSubmit={(e) => handleSubmit(e)}>
           <hr className="my-1" />
           <div>
-            <label htmlFor="coupon">優惠卷</label>
-            <select
-              id="coupon"
-              name="coupon"
-              className="block w-full border border-[#d9d9d9] px-3 py-1 rounded"
-              onChange={(e) => handleCoupon(e)}
-            >
-              <option value="">不使用優惠卷</option>
-              {coupons?.map((coupon) => {
-                return (
-                  <option value={coupon.id} key={`coupon-${coupon.id}`}>
-                    {coupon.name}
-                  </option>
-                );
-              })}
-            </select>
+            <label htmlFor="coupon">{t("coupon")}</label>
+            <Select onValueChange={(value) => handleCoupon(value)}>
+              <SelectTrigger id="coupon" name="coupon">
+                <SelectValue placeholder={t("selectACoupon")} />
+              </SelectTrigger>
+              <SelectContent>
+                {filteredCoupons?.map((coupon) => {
+                  return (
+                    <SelectItem value={coupon.id} key={`coupon-${coupon.id}`}>
+                      {coupon.name}
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
           </div>
           <hr className="my-1" />
-          <div>小計 ({totalQuantity}件商品):</div>
           <div className="text-xl md:text-2xl">HKD ${finalPrice}</div>
           {totalPoint > 0 && (
             <div>
-              <span>獲得積分</span>
+              <span>{t("pointsEarned")}</span>
               <span className="text-red-500 ml-1">{totalPoint}</span>
-              <span className="ml-1">點</span>
             </div>
           )}
           <hr className="my-1" />
-          <label htmlFor="name">收件人姓名</label>
+          <label htmlFor="name">{t("receiverName")}</label>
           <Input type="text" id="name" name="name" required />
-          <label htmlFor="address">收件人地址</label>
+          <label htmlFor="address">{t("receiverAddress")}</label>
           <Input type="text" id="address" name="address" required />
           <p className="text-sm text-red-500">{error}</p>
-          <button
+          <Button
             type="submit"
-            className="w-full px-3 py-1 rounded bg-blue-500 hover:bg-blue-400 text-white font-bold"
+            loading={isLoading}
+            disabled={totalQuantity === 0}
           >
-            {isLoading ? <LoadingSpinner /> : "提交訂單"}
-          </button>
-          <p className="text-sm text-primary">你可以隨時在訂單記錄頁面繼續此賬單</p>
+            {t("send")}
+          </Button>
+          <p className="text-sm text-primary">
+            {t("youCanContinuePaymentAnytimeInOrderHistoryPage")}
+          </p>
         </form>
       </div>
     </div>

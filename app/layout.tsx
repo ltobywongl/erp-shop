@@ -1,13 +1,12 @@
+/* eslint-disable @next/next/no-page-custom-font */
 import type { Metadata } from "next";
-import { Playfair } from "next/font/google";
 import "@/app/globals.css";
 import CartProvider from "@/utils/cartProvider";
 import { ModalProvider } from "@/utils/modalProvider";
-import { cn } from "@/utils/utils";
 import { Toaster } from "@/components/ui/toaster";
 import NavBarClient from "@/components/navBar/navbar";
-
-const playfair = Playfair({ subsets: ["latin"] });
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export const metadata: Metadata = {
   title: "Shop",
@@ -32,10 +31,13 @@ export default async function Layout(
     <ModalProvider>
       <CartProvider>
         <html lang={lang}>
-          <body className={cn(playfair.className, "flex flex-col relative")}>
+          <HeadElement />
+          <body className={"font-playfair flex flex-col relative overflow-y-scroll"}>
             <NavBarClient lang={lang} />
-            {children}
-            <div className="mt-4 flex-1 flex flex-col justify-end">
+            <main className="[&>*]:px-4 md:[&>*]:px-[10%] flex-1">
+              <Suspense fallback={<Loading />}>{children}</Suspense>
+            </main>
+            <div className="mt-4">
               <div className="h-4 bg-primary" />
             </div>
             <Toaster />
@@ -43,5 +45,22 @@ export default async function Layout(
         </html>
       </CartProvider>
     </ModalProvider>
+  );
+}
+
+function HeadElement() {
+  return (
+    <head>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossOrigin="anonymous"
+      />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&display=swap"
+        rel="stylesheet"
+      />
+    </head>
   );
 }

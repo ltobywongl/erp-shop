@@ -25,7 +25,7 @@ function Menu(
       {props.items.map((item) => (
         <Button
           key={item.key}
-          className="w-full"
+          className="w-full justify-start"
           variant={"ghost"}
           size={"lg"}
           onClick={() => item.toUrl && router.push(item.toUrl)}

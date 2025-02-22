@@ -1,3 +1,5 @@
+export type Locale = "zh" | "en";
+
 export const fallbackLang = "zh";
 export const languages = [fallbackLang, "en"];
 export const defaultNS = "translation";

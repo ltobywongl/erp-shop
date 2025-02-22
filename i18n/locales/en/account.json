@@ -3,5 +3,14 @@
     "orderHistory": "Order History",
     "coupon": "Coupon",
     "changePassword": "Change Password",
-    "logout": "Logout"
+    "logout": "Logout",
+    "signInWithGoogle": "Sign in with Google",
+    "email": "Email",
+    "password": "Password",
+    "newPassword": "New Password",
+    "register": "Register",
+    "forgetPassword": "Forget Password",
+    "resetPassword": "Reset Password",
+    "send": "Send",
+    "invalidEmailPassword": "Invalid email/password"
 }

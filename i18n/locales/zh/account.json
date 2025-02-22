@@ -1,7 +1,16 @@
 {
-    "account": "帳戶信息",
-    "orderHistory": "訂單記錄",
-    "coupon": "優惠券",
-    "changePassword": "更改密碼",
-    "logout": "登出"
+  "account": "帳號",
+  "orderHistory": "訂單記錄",
+  "coupon": "優惠券",
+  "changePassword": "更改密碼",
+  "logout": "登出",
+  "signInWithGoogle": "Google登入",
+  "email": "電郵地址",
+  "password": "密碼",
+  "newPassword": "新密碼",
+  "register": "註冊帳號",
+  "forgetPassword": "忘記密碼",
+  "resetPassword": "重設密碼",
+  "send": "送出",
+  "invalidEmailPassword": "帳號/密碼不正確"
 }

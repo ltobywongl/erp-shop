@@ -24,7 +24,7 @@ export default function SearchBar(params: Readonly<{
     router.push(`/search/${data}`);
   };
   return (
-    <span
+    <div
       className={cn(
         params.className ?? "",
         "w-full z-50 flex outline outline-1 outline-slate-300"
@@ -35,7 +35,7 @@ export default function SearchBar(params: Readonly<{
         type="text"
         className="flex-1 py-2 px-3 rounded-none !ring-0"
         defaultValue={defaultValue}
-        placeholder={t("search")}
+        placeholder={`${t("search")}...`}
         onKeyUp={(e) => {
           if (e.key === "Enter") {
             onSearch(inputRef.current?.value);
@@ -43,11 +43,11 @@ export default function SearchBar(params: Readonly<{
         }}
       />
       <button
-        className="bg-blue-500 text-white py-2 px-3"
+        className="bg-primary text-white py-2 px-3"
         onClick={() => onSearch(inputRef.current?.value)}
       >
         <SearchIcon />
       </button>
-    </span>
+    </div>
   );
 }

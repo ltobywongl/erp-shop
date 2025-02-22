@@ -1,4 +1,7 @@
 {
+  "account": "Account",
+  "orderHistory": "Order History",
+  "noOrderHistory": "No history order",
   "PAYMENT_PENDING": "Payment Pending",
   "PAYMENT_CONFIRM": "Confirmed Payment",
   "CONFIRM": "Confirmed Order",
