@@ -35,7 +35,7 @@ export default function OrderHistoryOrder(
     if (response.ok && resData.success) {
       router.push(`/payment/${resData.body}`);
     } else {
-      toast(resData.error);
+      toast({ title: resData.error, variant: "destructive" });
     }
   }
 

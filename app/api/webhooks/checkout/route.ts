@@ -34,8 +34,6 @@ export async function POST(request: NextRequest) {
     }
 
     const data = event.data.object;
-    const metadata = data.metadata as METADATA;
-    const userId = metadata.userId;
 
     await prisma.$transaction([
       prisma.payment.update({
@@ -44,7 +42,6 @@ export async function POST(request: NextRequest) {
         },
         where: {
           id: data.id,
-          userId: userId,
         },
       }),
       ...(success
@@ -56,9 +53,6 @@ export async function POST(request: NextRequest) {
               where: {
                 paymentId: data.id,
                 state: OrderStates.PAYMENT_PENDING,
-                payment: {
-                  state: PaymentStates.PENDING,
-                },
               },
             }),
           ]
