@@ -1,30 +1,9 @@
-This is a [Next.js](https://nextjs.org/) + Prisma project
+# ERP Shop
 
-This project uses aws and sendgrid services
+A e-commerce platform built with Next.js, featuring a responsive design, secure payments, and multilingual support.
 
-## Getting Started
-
-Install required dependencies
-```bash
-npm install
-```
-
-Generate prisma client
-
-```bash
-npx prisma generate
-```
-
-Run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
+- **Frontend**: Next.js 15, Tailwind CSS
+- **Backend**: Next.js API routes, Prisma ORM, MySQL
+- **Payments**: Stripe
+- **Internationalization**: i18n for multi-language support
